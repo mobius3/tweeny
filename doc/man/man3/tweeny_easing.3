@@ -1,0 +1,246 @@
+.TH "easing" 3 "Mon Jul 18 2016" "Version 1.0.0" "Tweeny" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+easing \- 
+.SH "Detailed Description"
+.PP 
+The easing class holds all the bundled easings\&. 
+
+You should pass the easing function to the \fC\fBtweeny::tween::via\fP\fP method, to set the easing function that will be used to interpolate values in a tween currentPoint\&.
+.PP
+\fBExample\fP:
+.PP
+.PP
+.nf
+auto tween = tweeny::from(0)\&.to(100)\&.via(tweeny::easing::linear);
+.fi
+.PP
+ 
+.PP
+\fC#include <easing\&.h>\fP
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBlinear\fP"
+.br
+.RI "\fIValues change with constant speed\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquadraticIn\fP"
+.br
+.RI "\fIAccelerate initial values with a quadratic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquadraticOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a quadratic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquadraticInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a quadratic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBcubicIn\fP"
+.br
+.RI "\fIAaccelerate initial values with a cubic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBcubicOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a cubic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBcubicInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a cubic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquarticIn\fP"
+.br
+.RI "\fIAcceelerate initial values with a quartic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquarticOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a quartic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquarticInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a quartic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquinticIn\fP"
+.br
+.RI "\fIAcceelerate initial values with a quintic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquinticOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a quintic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBquinticInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a quintic equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBsinusoidalIn\fP"
+.br
+.RI "\fIAcceelerate initial values with a sinusoidal equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBsinusoidalOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a sinusoidal equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBsinusoidalInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a sinusoidal equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBexponentialIn\fP"
+.br
+.RI "\fIAcceelerate initial values with an exponential equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBexponentialOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with an exponential equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBexponentialInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with an exponential equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBcircularIn\fP"
+.br
+.RI "\fIAcceelerate initial values with a circular equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBcircularOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a circular equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBcircularInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a circular equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBbounceIn\fP"
+.br
+.RI "\fIAcceelerate initial values with a 'bounce' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBbounceOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a 'bounce' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBbounceInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a 'bounce' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBelasticIn\fP"
+.br
+.RI "\fIAcceelerate initial values with an 'elastic' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBelasticOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with an 'elastic' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBelasticInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with an 'elastic' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBbackIn\fP"
+.br
+.RI "\fIAcceelerate initial values with a 'back' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBbackOut\fP"
+.br
+.RI "\fIDeaccelerate ending values with a 'back' equation\&. \fP"
+.ti -1c
+.RI "struct {"
+.br
+.ti -1c
+.RI "} \fBbackInOut\fP"
+.br
+.RI "\fIAcceelerate initial and deaccelerate ending values with a 'back' equation\&. \fP"
+.in -1c
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Tweeny from the source code\&.

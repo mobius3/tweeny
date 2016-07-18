@@ -1,0 +1,256 @@
+.TH "tween< T >" 3 "Mon Jul 18 2016" "Version 1.0.0" "Tweeny" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tween< T > \- 
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T>class tweeny::tween< T >"
+Class specialization when a tween has a single value\&. 
+
+This class is preferred automatically by your compiler when your tween has only one value\&. It exists mainly so that you dont need to use std::get<0> to obtain a single value when using \fBtween::step\fP, \fBtween::seek\fP or any other value returning function\&. Other than that, you should look at the \fBtweeny::tween\fP documentation\&.
+.PP
+Except for this little detail, this class methods and behaviours are exactly the same\&. 
+.PP
+\fC#include <tween\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtween\fP ()"
+.br
+.ti -1c
+.RI "\fBtween\fP< T > & \fBto\fP (T t)"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. Fs> \fBtween\fP< T > & \fBvia\fP (Fs\&.\&.\&.fs)"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. Fs> \fBtween\fP< T > & \fBvia\fP (int index, Fs\&.\&.\&.fs)"
+.br
+.ti -1c
+.RI "template<typename\&.\&.\&. Ds> \fBtween\fP< T > & \fBduring\fP (Ds\&.\&.\&.ds)"
+.br
+.ti -1c
+.RI "const T & \fBstep\fP (int32_t dt, bool suppressCallbacks=false)"
+.br
+.ti -1c
+.RI "const T & \fBstep\fP (uint32_t dt, bool suppressCallbacks=false)"
+.br
+.ti -1c
+.RI "const T & \fBstep\fP (float dp, bool suppressCallbacks=false)"
+.br
+.ti -1c
+.RI "const T & \fBseek\fP (float p, bool suppressCallbacks=false)"
+.br
+.ti -1c
+.RI "const T & \fBseek\fP (int32_t d, bool suppressCallbacks=false)"
+.br
+.ti -1c
+.RI "const T & \fBseek\fP (uint32_t d, bool suppressCallbacks=false)"
+.br
+.ti -1c
+.RI "\fBtween\fP< T > & \fBonStep\fP (typename detail::tweentraits< T >::callbackType callback)"
+.br
+.ti -1c
+.RI "\fBtween\fP< T > & \fBonSeek\fP (typename detail::tweentraits< T >::callbackType callback)"
+.br
+.ti -1c
+.RI "uint32_t \fBduration\fP ()"
+.br
+.ti -1c
+.RI "float \fBprogress\fP ()"
+.br
+.ti -1c
+.RI "\fBtween\fP< T > & \fBforward\fP ()"
+.br
+.ti -1c
+.RI "\fBtween\fP< T > & \fBbackward\fP ()"
+.br
+.ti -1c
+.RI "const T & \fBjump\fP (int32_t \fBpoint\fP, bool suppressCallbacks=false)"
+.br
+.ti -1c
+.RI "uint16_t \fBpoint\fP ()"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "\fBtween\fP ()"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::tween\fP 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBtween\fP<T>& backward ()"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::backward\fP 
+.RE
+.PP
+
+.SS "uint32_t duration ()"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::duration\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T>& during (Ds\&.\&.\&. ds)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::during\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T>& forward ()"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::forward\fP 
+.RE
+.PP
+
+.SS "const T& jump (int32_t point, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::jump\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T>& onSeek (typename detail::tweentraits< T >::callbackType callback)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::onSeek\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T>& onStep (typename detail::tweentraits< T >::callbackType callback)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::onStep\fP 
+.RE
+.PP
+
+.SS "uint16_t point ()"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::point\fP 
+.RE
+.PP
+
+.SS "float progress ()"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::progress\fP 
+.RE
+.PP
+
+.SS "const T& seek (float p, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::seek(float p, bool suppressCallbacks)\fP 
+.RE
+.PP
+
+.SS "const T& seek (int32_t d, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::seek(int32_t d, bool suppressCallbacks)\fP 
+.RE
+.PP
+
+.SS "const T& seek (uint32_t d, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::seek(uint32_t d, bool suppressCallbacks)\fP 
+.RE
+.PP
+
+.SS "const T& step (int32_t dt, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::step(int32_t dt, bool suppressCallbacks)\fP 
+.RE
+.PP
+
+.SS "const T& step (uint32_t dt, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::step(uint32_t dt, bool suppressCallbacks)\fP 
+.RE
+.PP
+
+.SS "const T& step (float dp, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::step(float dp, bool suppressCallbacks)\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T>& to (T t)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::to\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T>& via (Fs\&.\&.\&. fs)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::via\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T>& via (int index, Fs\&.\&.\&. fs)"
+
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtween::via\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Tweeny from the source code\&.

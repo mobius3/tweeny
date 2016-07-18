@@ -1,0 +1,52 @@
+.TH "tweeny" 3 "Mon Jul 18 2016" "Version 1.0.0" "Tweeny" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tweeny \- The tweeny namespace contains all symbols and names for the Tweeny library\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SH "Detailed Description"
+.PP 
+The tweeny namespace contains all symbols and names for the Tweeny library\&. 
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBeasing\fP"
+.br
+.RI "\fIThe easing class holds all the bundled easings\&. \fP"
+.ti -1c
+.RI "class \fBtween\fP"
+.br
+.RI "\fIThe tween class is the core class of tweeny\&. It controls the interpolation steps, easings and durations\&. \fP"
+.ti -1c
+.RI "class \fBtween< T >\fP"
+.br
+.RI "\fIClass specialization when a tween has a single value\&. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename\&.\&.\&. Ts> \fBtween\fP< Ts\&.\&.\&. > \fBfrom\fP (Ts\&.\&.\&.vs)"
+.br
+.RI "\fICreates an tween starting from the values defined in the arguments\&. \fP"
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "\fBtween\fP<Ts\&.\&.\&.> tweeny::from (Ts\&.\&.\&. vs)"
+
+.PP
+Creates an tween starting from the values defined in the arguments\&. The starting values can have heterogeneous types, even user-defined types, provided they implement the four arithmetic operators (+, -, * and /)\&. The types used will also define the type of each next step, the type of the callback and the type of arguments the passed easing functions must have\&.
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtweeny::tween\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Tweeny from the source code\&.

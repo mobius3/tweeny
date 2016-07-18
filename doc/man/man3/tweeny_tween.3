@@ -1,0 +1,511 @@
+.TH "tween< T, Ts >" 3 "Mon Jul 18 2016" "Version 1.0.0" "Tweeny" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+tween< T, Ts > \- 
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename T, typename\&.\&.\&. Ts>class tweeny::tween< T, Ts >"
+The tween class is the core class of tweeny\&. It controls the interpolation steps, easings and durations\&. 
+
+It should not be constructed manually but rather from \fC\fBtweeny::from\fP\fP, to facilitate template argument deduction (and also to keep your code clean)\&. 
+.PP
+\fC#include <tween\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBtween\fP ()"
+.br
+.RI "\fIDefault constructor for a tween\&. \fP"
+.ti -1c
+.RI "\fBtween\fP< T, Ts\&.\&.\&. > & \fBto\fP (T t, Ts\&.\&.\&.vs)"
+.br
+.RI "\fIAdds a new currentPoint in this tweening\&. \fP"
+.ti -1c
+.RI "template<typename\&.\&.\&. Fs> \fBtween\fP< T, Ts\&.\&.\&. > & \fBvia\fP (Fs\&.\&.\&.fs)"
+.br
+.RI "\fISpecifies the easing function for the last added currentPoint\&. \fP"
+.ti -1c
+.RI "template<typename\&.\&.\&. Fs> \fBtween\fP< T, Ts\&.\&.\&. > & \fBvia\fP (int index, Fs\&.\&.\&.fs)"
+.br
+.RI "\fISpecifies the easing function for a specific currentPoint\&. \fP"
+.ti -1c
+.RI "template<typename\&.\&.\&. Ds> \fBtween\fP< T, Ts\&.\&.\&. > & \fBduring\fP (Ds\&.\&.\&.ds)"
+.br
+.RI "\fISpecifies the duration, typically in milliseconds, for the tweening of values in last currentPoint\&. \fP"
+.ti -1c
+.RI "const detail::tweentraits< T, Ts\&.\&.\&. >::valuesType & \fBstep\fP (int32_t dt, bool suppressCallbacks=false)"
+.br
+.RI "\fISteps the animation by the designated delta amount\&. \fP"
+.ti -1c
+.RI "const detail::tweentraits< T, Ts\&.\&.\&. >::valuesType & \fBstep\fP (uint32_t dt, bool suppressCallbacks=false)"
+.br
+.RI "\fISteps the animation by the designated delta amount\&. \fP"
+.ti -1c
+.RI "const detail::tweentraits< T, Ts\&.\&.\&. >::valuesType & \fBstep\fP (float dp, bool suppressCallbacks=false)"
+.br
+.RI "\fISteps the animation by the designated percentage amount\&. \fP"
+.ti -1c
+.RI "const detail::tweentraits< T, Ts\&.\&.\&. >::valuesType & \fBseek\fP (float p, bool suppressCallbacks=false)"
+.br
+.RI "\fISeeks to a specified currentPoint in time based on the currentProgress\&. \fP"
+.ti -1c
+.RI "const detail::tweentraits< T, Ts\&.\&.\&. >::valuesType & \fBseek\fP (int32_t d, bool suppressCallbacks=false)"
+.br
+.RI "\fISeeks to a specified currentPoint in time\&. \fP"
+.ti -1c
+.RI "const detail::tweentraits< T, Ts\&.\&.\&. >::valuesType & \fBseek\fP (uint32_t d, bool suppressCallbacks=false)"
+.br
+.RI "\fISeeks to a specified currentPoint in time\&. \fP"
+.ti -1c
+.RI "\fBtween\fP< T, Ts\&.\&.\&. > & \fBonStep\fP (typename detail::tweentraits< T, Ts\&.\&.\&. >::callbackType callback)"
+.br
+.RI "\fIAdds a callback for that will be called when stepping occurs\&. \fP"
+.ti -1c
+.RI "\fBtween\fP< T, Ts\&.\&.\&. > & \fBonSeek\fP (typename detail::tweentraits< T, Ts\&.\&.\&. >::callbackType callback)"
+.br
+.RI "\fIAdds a callback for that will be called when seeking occurs\&. \fP"
+.ti -1c
+.RI "uint32_t \fBduration\fP ()"
+.br
+.RI "\fIReturns the total duration of this tween\&. \fP"
+.ti -1c
+.RI "float \fBprogress\fP ()"
+.br
+.RI "\fIReturns the current currentProgress of the interpolation\&. \fP"
+.ti -1c
+.RI "\fBtween\fP< T, Ts\&.\&.\&. > & \fBforward\fP ()"
+.br
+.RI "\fISets the direction of this tween forward\&. \fP"
+.ti -1c
+.RI "\fBtween\fP< T, Ts\&.\&.\&. > & \fBbackward\fP ()"
+.br
+.RI "\fISets the direction of this tween backward\&. \fP"
+.ti -1c
+.RI "const detail::tweentraits< T, Ts\&.\&.\&. >::valuesType & \fBjump\fP (int32_t \fBpoint\fP, bool suppressCallbacks=false)"
+.br
+.RI "\fIJumps to a specific tween currentPoint\&. \fP"
+.ti -1c
+.RI "uint16_t \fBpoint\fP ()"
+.br
+.RI "\fIReturns the current tween point\&. \fP"
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBtween\fP< T, Ts\&.\&.\&. > \fBfrom\fP (T t, Ts\&.\&.\&.vs)"
+.br
+.RI "\fIInstantiates a tween from a starting currentPoint\&. \fP"
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "\fBtween\fP ()"
+
+.PP
+Default constructor for a tween\&. This constructor is provided to facilitate the usage of containers of tweens (e\&.g, std::vector)\&. It should not be used manually as the tweening created by it is invalid\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& backward ()"
+
+.PP
+Sets the direction of this tween backward\&. Note that this only affects \fBtween::step()\fP function\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBforward\fP 
+.RE
+.PP
+
+.SS "uint32_t duration ()"
+
+.PP
+Returns the total duration of this tween\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The duration of all the tween points\&. 
+.RE
+.PP
+
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& during (Ds\&.\&.\&. ds)"
+
+.PP
+Specifies the duration, typically in milliseconds, for the tweening of values in last currentPoint\&. You can either specify a single duration for all values or give every value its own duration\&. Value types must be convertible to the uint16_t type\&.
+.PP
+\fBExample\fP:
+.PP
+.PP
+.nf
+// Specify that the first currentPoint will be reached in 100 milliseconds and the first value in the second
+// currentPoint in 100, whereas the second value will be reached in 500\&.
+auto tween = tweeny::from(0, 0)\&.to(100, 200)\&.during(100)\&.to(200, 300)\&.during(100, 500);
+.fi
+.PP
+.PP
+\fBParameters:\fP
+.RS 4
+\fIds\fP Duration values 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& forward ()"
+
+.PP
+Sets the direction of this tween forward\&. Note that this only affects \fBtween::step()\fP function\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBbackward\fP 
+.RE
+.PP
+
+.SS "static \fBtween\fP<T, Ts\&.\&.\&.> from (T t, Ts\&.\&.\&. vs)\fC [static]\fP"
+
+.PP
+Instantiates a tween from a starting currentPoint\&. This is a static factory helper function to be used by \fC\fBtweeny::from\fP\fP\&. You should not use this directly\&. 
+.SS "const detail::tweentraits<T, Ts\&.\&.\&.>::valuesType& jump (int32_t point, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+Jumps to a specific tween currentPoint\&. This will seek the tween to a percentage matching the beginning of that step\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcurrentPoint\fP The currentPoint to seek to\&. 0 means the currentPoint passed in \fBtweeny::from\fP 
+.br
+\fIsuppressCallbacks\fP (optional) set to true to suppress \fBseek()\fP callbacks 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+current values 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBseek\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& onSeek (typename detail::tweentraits< T, Ts\&.\&.\&. >::callbackType callback)"
+
+.PP
+Adds a callback for that will be called when seeking occurs\&. You can add as many callbacks as you want\&. Its arguments types must be equal to the argument types of a tween instance, preceded by a variable of the tween typve\&. Callbacks can be of any callable type\&. It will be called via \fBtween::seek()\fP functions\&. For step callbacks, see \fBtween::onStep()\fP\&.
+.PP
+Keep in mind that the function will be \fIcopied\fP into an array, so any variable captured by value will also be copied again\&.
+.PP
+\fBExample\fP:
+.PP
+.PP
+.nf
+auto t = t:from(0)\&.to(100)\&.during(100);
+
+// pass a lambda
+t\&.onSeek([](tweeny::tween<int> & t, int v) { printf("%d ", v); });
+
+// pass a functor instance
+struct ftor { void operator()(tweeny::tween<int> & t, int x) { printf("%d ", v); } };
+t\&.onSeek(ftor());
+.fi
+.PP
+ 
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& onStep (typename detail::tweentraits< T, Ts\&.\&.\&. >::callbackType callback)"
+
+.PP
+Adds a callback for that will be called when stepping occurs\&. You can add as many callbacks as you want\&. Its arguments types must be equal to the argument types of a tween instance, preceded by a variable of the tween type\&. Callbacks can be of any callable type\&. It will only be called via \fBtween::step()\fP functions\&. For seek callbacks, see \fBtween::onSeek()\fP\&.
+.PP
+Keep in mind that the function will be \fIcopied\fP into an array, so any variable captured by value will also be copied with it\&.
+.PP
+\fBExample\fP:
+.PP
+.PP
+.nf
+auto t = tweeny:from(0)\&.to(100)\&.during(100);
+
+// pass a lambda
+t\&.onStep([](tweeny::tween<int> & t, int v) { printf("%d ", v); });
+
+// pass a functor instance
+struct ftor { void operator()(tweeny::tween<int> & t, int x) { printf("%d ", v); } };
+t\&.onStep(ftor());
+.fi
+.PP
+ 
+.PP
+\fBSee also:\fP
+.RS 4
+\fBstep\fP 
+.PP
+\fBseek\fP 
+.PP
+\fBonSeek\fP 
+.RE
+.PP
+
+.SS "uint16_t point ()"
+
+.PP
+Returns the current tween point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+Current tween point 
+.RE
+.PP
+
+.SS "float progress ()"
+
+.PP
+Returns the current currentProgress of the interpolation\&. 0 means its at the values passed in the construction, 1 means the last step\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+the current currentProgress between 0 and 1 (inclusive) 
+.RE
+.PP
+
+.SS "const detail::tweentraits<T, Ts\&.\&.\&.>::valuesType& seek (float p, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+Seeks to a specified currentPoint in time based on the currentProgress\&. This function sets the current animation time and currentProgress\&. Callbacks set by \fCcall\fP will be triggered\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp\fP The percentage to seek to, between 0\&.0f and 1\&.0f, inclusive\&. 
+.br
+\fIsuppressCallbacks\fP (Optional) Suppress callbacks registered with \fBtween::onSeek()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+std::tuple<Ts\&.\&.\&.> with the current tween values\&. 
+.RE
+.PP
+
+.SS "const detail::tweentraits<T, Ts\&.\&.\&.>::valuesType& seek (int32_t d, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+Seeks to a specified currentPoint in time\&. This function sets the current animation time and currentProgress\&. Callbacks set by \fCcall\fP will be triggered\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP The duration to seek to, between 0 and the total duration\&. 
+.br
+\fIsuppressCallbacks\fP (Optional) Suppress callbacks registered with \fBtween::onSeek()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+std::tuple<Ts\&.\&.\&.> with the current tween values\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBduration\fP 
+.RE
+.PP
+
+.SS "const detail::tweentraits<T, Ts\&.\&.\&.>::valuesType& seek (uint32_t d, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+Seeks to a specified currentPoint in time\&. This function sets the current animation time and currentProgress\&. Callbacks set by \fCcall\fP will be triggered\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fId\fP The duration to seek to, between 0 and the total duration\&. 
+.br
+\fIsuppressCallbacks\fP (Optional) Suppress callbacks registered with \fBtween::onSeek()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+std::tuple<Ts\&.\&.\&.> with the current tween values\&. 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBduration\fP 
+.RE
+.PP
+
+.SS "const detail::tweentraits<T, Ts\&.\&.\&.>::valuesType& step (int32_t dt, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+Steps the animation by the designated delta amount\&. You should call this every frame of your application, passing in the amount of delta time that you want to animate\&.
+.PP
+\fBExample\fP:
+.PP
+.PP
+.nf
+// tween duration is 100ms
+auto tween = tweeny::from(0)\&.to(100)\&.during(100);
+
+// steps for 16ms
+tween\&.step(16);
+.fi
+.PP
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdt\fP Delta duration 
+.br
+\fIsuppressCallbacks\fP (Optional) Suppress callbacks registered with \fBtween::onStep()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+std::tuple<Ts\&.\&.\&.> with the current tween values\&. 
+.RE
+.PP
+
+.SS "const detail::tweentraits<T, Ts\&.\&.\&.>::valuesType& step (uint32_t dt, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+Steps the animation by the designated delta amount\&. You should call this every frame of your application, passing in the amount of delta time that you want to animate\&. This overload exists to match unsigned int arguments\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdt\fP Delta duration 
+.br
+\fIsuppressCallbacks\fP (Optional) Suppress callbacks registered with \fBtween::onStep()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+std::tuple<Ts\&.\&.\&.> with the current tween values\&. 
+.RE
+.PP
+
+.SS "const detail::tweentraits<T, Ts\&.\&.\&.>::valuesType& step (float dp, bool suppressCallbacks = \fCfalse\fP)"
+
+.PP
+Steps the animation by the designated percentage amount\&. You can use this function to step the tweening by a specified percentage delta\&.
+.PP
+\fBExample\fP:
+.PP
+.PP
+.nf
+// tween duration is 100ms
+auto tween = tweeny::from(0)\&.to(100)\&.during(100);
+
+// steps for 16ms
+tween\&.step(0\&.001f);
+.fi
+.PP
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdp\fP Delta percentage, between \fC0\&.0f\fP and \fC1\&.0f\fP 
+.br
+\fIsuppressCallbacks\fP (Optional) Suppress callbacks registered with \fBtween::onStep()\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+std::tuple<Ts\&.\&.\&.> with the current tween values\&. 
+.RE
+.PP
+
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& to (T t, Ts\&.\&.\&. vs)"
+
+.PP
+Adds a new currentPoint in this tweening\&. This will add a new tweening currentPoint with the specified values\&. Next calls to \fCvia\fP and \fCduring\fP will refer to this currentPoint\&.
+.PP
+\fBExample\fP
+.PP
+.PP
+.nf
+auto t = tweeny::from(0)\&.to(100)\&.to(200);
+.fi
+.PP
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvs\fP Point values 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& via (Fs\&.\&.\&. fs)"
+
+.PP
+Specifies the easing function for the last added currentPoint\&. This will specify the easing between the last tween currentPoint added by \fCto\fP and its previous step\&. You can use any callable object\&. Additionally, you can use the easing objects specified in the class \fCeasing\fP\&.
+.PP
+If it is a multi-value currentPoint, you can either specify a single easing function that will be used for every value or you can specify an easing function for each value\&. You can mix and match callable objects, lambdas and bundled easing objects\&.
+.PP
+\fBExample\fP:
+.PP
+.PP
+.nf
+// use bundled linear easing
+auto tween1 = tweeny::from(0)\&.to(100)\&.via(tweeny::easing::linear);
+
+// use custom lambda easing
+auto tween2 = tweeny::from(0)\&.to(100)\&.via([](float p, int a, int b) { return (b-a) * p + a; });
+.fi
+.PP
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfs\fP The functions 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtweeny::easing\fP 
+.RE
+.PP
+
+.SS "\fBtween\fP<T, Ts\&.\&.\&.>& via (int index, Fs\&.\&.\&. fs)"
+
+.PP
+Specifies the easing function for a specific currentPoint\&. Points starts at index 0\&. The index 0 refers to the first \fCto\fP call\&. Using this function without adding a currentPoint with \fCto\fP leads to undefined behaviour\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIindex\fP The tween currentPoint index 
+.br
+\fIfs\fP The functions 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+*this 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBtweeny::easing\fP 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Tweeny from the source code\&.
