@@ -54,36 +54,62 @@ enum {
     SPRITE_LEFTDOWN = 7
 };
 
-struct walk {
-    int rx = 0, ry = 0, direction = SPRITE_LEFT;
-};
-
-walk process();
-
+/* The state represents the "game state": it contains sprites, tweens and other
+ * variables. It also has the run() function that is called in each frame */
 struct state {
-    ex::engine engine = ex::engine(800, 600);
-    ex::sprite zombie = engine.sprite(zombie_0_png, zombie_0_png_len, 36, 8);
-    ex::sprite text = engine.sprite(arrows_to_walk_png, arrows_to_walk_png_len, 1, 1);
-    tweeny::tween<float> idle = tweeny::from(0.0f).to(3.0f).during(1000).onStep(yoyo);
-    tweeny::tween<float> walking = tweeny::from(4.0f).to(11.0f).during(1000).onStep(loop);
-    walk w;
-    float x = 0, y = 0;
-    float frame = 0.0f;
+    ex::engine engine = ex::engine(800, 600); /* creates the window and initializes SDL */
+    ex::sprite text = engine.sprite(arrows_to_walk_png, arrows_to_walk_png_len, 1, 1); /* help text */
+    struct zombie {
+        float x = 0;
+        float y = 0;
+        int direction = SPRITE_RIGHT;
+        bool attack = false;
+        int frame = 0;
+        ex::sprite sprite;
+        tweeny::tween<int> idle = tweeny::from(0).to(3).during(1000).onStep(yoyo); /* idle animation */
+        tweeny::tween<int> walking = tweeny::from(4).to(11).during(1000).onStep(loop); /* walking animation */
+        tweeny::tween<int> attacking = tweeny::from(12).to(15).during(300).to(14).during(300).onStep([this](tweeny::tween<int> & t, int) {
+            /* attacking animation. when ended, stops the attack */
+            if (t.progress() >= 1.0f) { attack = false; }
+            return false;
+        });
+        zombie(ex::engine & engine) : sprite(engine.sprite(zombie_0_png, zombie_0_png_len, 36, 8)) { }
+    } z = zombie(engine);
+
+    /* Run a frame */
     void run() {
-        engine.clear();
-        if (ex::input::pressed()) {
-            w = process();
-            x += 0.6f * w.rx;
-            y += 0.6f * w.ry;
-            frame = walking.step(engine.dt);
-        } else {
-            frame = idle.step(engine.dt);
+        engine.clear(93, 77, 157); /* clear the screen */
+        process(); /* process all input */
+
+        /* decides which animation should be running */
+        if (z.attack) z.frame = z.attacking.step(engine.dt);
+        else {
+            if (ex::input::pressed()) z.frame = z.walking.step(engine.dt);
+            else z.frame = z.idle.step(engine.dt);
         }
-        text.render(0, 0);
-        zombie.render(roundf(frame), w.direction, x, y);
+
+        text.render(10, 10); /* render help text */
+        z.sprite.render(z.frame, z.direction, z.x, z.y); /* render zombie sprite */
         engine.delay(16);
         engine.flip();
     }
+
+    /* process the input state and sets attacking state */
+    void process() {
+        if (ex::input::up()) { z.direction = SPRITE_UP; if (!z.attack) z.y -= 1.0f; }
+        if (ex::input::down()) { z.direction = SPRITE_DOWN; if (!z.attack) z.y += 1.0f; }
+        if (ex::input::left()) { z.direction = SPRITE_LEFT; if (!z.attack) z.x -= 1.0f; }
+        if (ex::input::right()) { z.direction = SPRITE_RIGHT; if (!z.attack) z.x += 1.0f; }
+        if (ex::input::up() && ex::input::right()) z.direction = SPRITE_RIGHTUP;
+        if (ex::input::right() && ex::input::down()) z.direction = SPRITE_RIGHTDOWN;
+        if (ex::input::down() && ex::input::left()) z.direction = SPRITE_LEFTDOWN;
+        if (ex::input::up() && ex::input::left()) z.direction = SPRITE_LEFTUP;
+        if (ex::input::space()) {
+            z.attacking.seek(0);
+            z.attack = true;
+        }
+    }
+
     bool quit() { return engine.quit(); }
 };
 
@@ -91,26 +117,11 @@ void iterate(state * s) { s->run(); }
 
 int main(int argc, char ** argv) {
     state s;
-#ifdef EMSCRIPTEN
+    #ifdef EMSCRIPTEN
     emscripten_set_main_loop_arg((em_arg_callback_func)iterate, &s, 0, 1);
-#else
+    #else
     while (!s.quit()) iterate(&s);
-#endif
-
-}
-
-walk process() {
-    walk w;
-    w.direction = SPRITE_LEFT;
-    if (ex::input::up()) { w.direction = SPRITE_UP; w.ry = -1; }
-    if (ex::input::down()) { w.direction = SPRITE_DOWN; w.ry = 1; }
-    if (ex::input::left()) { w.direction = SPRITE_LEFT; w.rx = -1; }
-    if (ex::input::right()) { w.direction = SPRITE_RIGHT; w.rx = 1; }
-    if (ex::input::up() && ex::input::right()) w.direction = SPRITE_RIGHTUP;
-    if (ex::input::right() && ex::input::down()) w.direction = SPRITE_RIGHTDOWN;
-    if (ex::input::down() && ex::input::left()) w.direction = SPRITE_LEFTDOWN;
-    if (ex::input::up() && ex::input::left()) w.direction = SPRITE_LEFTUP;
-    return w;
+    #endif
 }
 
 /* yoyo's a tween */
