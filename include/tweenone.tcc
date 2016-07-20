@@ -72,7 +72,7 @@ namespace tweeny {
 
     template<typename T>
     inline const T & tween<T>::step(int32_t dt, bool suppress) {
-        return step(static_cast<float>(dt * direction)/static_cast<float>(total), suppress);
+        return step(static_cast<float>(dt * currentDirection)/static_cast<float>(total), suppress);
     }
 
     template<typename T>
@@ -166,14 +166,19 @@ namespace tweeny {
 
     template<typename T>
     tween<T> & tween<T>::forward() {
-        direction = 1;
+        currentDirection = 1;
         return *this;
     }
 
     template<typename T>
     tween<T> & tween<T>::backward() {
-        direction = -1;
+        currentDirection = -1;
         return *this;
+    }
+
+    template<typename T>
+    int tween<T>::direction() {
+        return currentDirection;
     }
 
     template<typename T>

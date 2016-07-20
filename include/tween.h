@@ -316,6 +316,13 @@ namespace tweeny {
             tween<T, Ts...> & backward();
 
             /**
+             * @brief Returns the current direction of this tween
+             *
+             * @returns -1 If it is mobin backwards in time, 1 if it is moving forward in time
+             */
+            int direction();
+
+            /**
              * @brief Jumps to a specific tween currentPoint
              *
              * This will seek the tween to a percentage matching the beginning of that step.
@@ -345,7 +352,7 @@ namespace tweeny {
             typename traits::valuesType current;
             std::vector<typename traits::callbackType> onStepCallbacks;
             std::vector<typename traits::callbackType> onSeekCallbacks;
-            int8_t direction = 1;
+            int8_t currentDirection = 1;
 
         private:
             /* member functions */
@@ -389,6 +396,7 @@ namespace tweeny {
             float progress(); ///< @sa tween::progress
             tween<T> & forward(); ///< @sa tween::forward
             tween<T> & backward(); ///< @sa tween::backward
+            int direction(); ///< @sa tween::direction
             const T & jump(int32_t point, bool suppressCallbacks = false); ///< @sa tween::jump
             uint16_t point(); ///< @sa tween::point
 
@@ -403,7 +411,7 @@ namespace tweeny {
             T current;
             std::vector<typename traits::callbackType> onStepCallbacks;
             std::vector<typename traits::callbackType> onSeekCallbacks;
-            int8_t direction = 1;
+            int8_t currentDirection = 1;
 
         private:
             /* member functions */
