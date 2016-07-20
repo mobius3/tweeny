@@ -35,7 +35,8 @@ using tweeny::easing;
 bool print(tweeny::tween<int> & t, int x);
 bool yoyo(tweeny::tween<int> & t, int);
 
-/* Functors can also be used, allowing you to implement complex looping*/
+/* Functors can also be used, allowing you to implement complex looping
+ * This functor allows you to specify how many loops a tween should do */
 template<typename... Ts>
 struct loop {
     int count;

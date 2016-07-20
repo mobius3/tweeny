@@ -1,3 +1,29 @@
+/*
+ This file is part of the Tweeny library.
+
+ Copyright (c) 2016 Leonardo G. Lucena de Freitas
+ Copyright (c) 2016 Guilherme R. Costa
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy of
+ this software and associated documentation files (the "Software"), to deal in
+ the Software without restriction, including without limitation the rights to
+ use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ the Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/* This example uses tweens to control the frames of a sprite */
+
 #include "tweeny.h"
 #include "sprite.h"
 #include "engine.h"
@@ -6,14 +32,17 @@
 #include <emscripten/emscripten.h>
 #endif
 
+/* References to resources in resources.c */
 extern const unsigned char zombie_0_png[];
 extern const unsigned int zombie_0_png_len;
 extern const unsigned char arrows_to_walk_png[];
 extern const unsigned int arrows_to_walk_png_len;
 
-bool loop(tweeny::tween<float> & t, float);
-bool yoyo(tweeny::tween<float> & t, float);
+/* Forward declaration of loop and yoyo functions */
+bool loop(tweeny::tween<int> & t, int);
+bool yoyo(tweeny::tween<int> & t, int);
 
+/* Enumerations representing which stripe should be used in the zombie sprite */
 enum {
     SPRITE_LEFT = 0,
     SPRITE_LEFTUP = 1,
@@ -84,13 +113,15 @@ walk process() {
     return w;
 }
 
-bool yoyo(tweeny::tween<float> & t, float) {
+/* yoyo's a tween */
+bool yoyo(tweeny::tween<int> & t, int) {
     if (t.progress() >= 1.0f) t.backward();
     if (t.progress() <= 0.0f) t.forward();
     return false;
 }
 
-bool loop(tweeny::tween<float> & t, float) {
+/* loop a tween */
+bool loop(tweeny::tween<int> & t, int) {
     if (t.progress() >= 1.0f) t.seek(0);
     return false;
 }
