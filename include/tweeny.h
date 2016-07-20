@@ -112,9 +112,9 @@
  */
 namespace tweeny {
   /**
-   * @brief Creates an tween starting from the values defined in the arguments.
+   * @brief Creates a tween starting from the values defined in the arguments.
    *
-   * The starting values can have heterogeneous types, even user-defined types, provided they implement the
+   * Starting values can have heterogeneous types, even user-defined types, provided they implement the
    * four arithmetic operators (+, -, * and /). The types used will also define the type of each next step, the type
    * of the callback and the type of arguments the passed easing functions must have.
    *
