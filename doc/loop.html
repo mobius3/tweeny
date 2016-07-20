@@ -123,7 +123,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><span class="keywordtype">bool</span> print(<a class="code" href="classtweeny_1_1tween.html">tweeny::tween&lt;int&gt;</a> &amp; t, <span class="keywordtype">int</span> x);</div>
 <div class="line"><span class="keywordtype">bool</span> yoyo(<a class="code" href="classtweeny_1_1tween.html">tweeny::tween&lt;int&gt;</a> &amp; t, <span class="keywordtype">int</span>);</div>
 <div class="line"></div>
-<div class="line"><span class="comment">/* Functors can also be used, allowing you to implement complex looping*/</span></div>
+<div class="line"><span class="comment">/* Functors can also be used, allowing you to implement complex looping</span></div>
+<div class="line"><span class="comment"> * This functor allows you to specify how many loops a tween should do */</span></div>
 <div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Ts&gt;</div>
 <div class="line"><span class="keyword">struct </span>loop {</div>
 <div class="line">    <span class="keywordtype">int</span> count;</div>
@@ -148,26 +149,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line">    <span class="keyword">auto</span> yoyotween = <a class="code" href="namespacetweeny_adba4b931599e6f576fcae11ee73a08e0.html#adba4b931599e6f576fcae11ee73a08e0">tweeny::from</a>(0).to(100).during(5).onStep(print).onStep(yoyo);</div>
 <div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= 60; i++) yoyotween.step(1);</div>
 <div class="line"></div>
-<div class="line">    printf(<span class="stringliteral">&quot;TRETA EXAMPLE\n&quot;</span>);</div>
-<div class="line">    <span class="keyword">auto</span> helloworld = <a class="code" href="namespacetweeny_adba4b931599e6f576fcae11ee73a08e0.html#adba4b931599e6f576fcae11ee73a08e0">tweeny::from</a>(<span class="charliteral">&#39;h&#39;</span>,<span class="charliteral">&#39;e&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;o&#39;</span>).to(<span class="charliteral">&#39;w&#39;</span>, <span class="charliteral">&#39;o&#39;</span>, <span class="charliteral">&#39;r&#39;</span>, <span class="charliteral">&#39;l&#39;</span>, <span class="charliteral">&#39;d&#39;</span>).during(50);</div>
-<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= 50; i++) {</div>
-<div class="line">        <span class="keyword">auto</span> values = helloworld.step(1);</div>
-<div class="line">        <span class="keywordflow">for</span> (<span class="keywordtype">char</span> c : values) { printf(<span class="stringliteral">&quot;%c&quot;</span>, c); }</div>
-<div class="line">    }</div>
-<div class="line"></div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="line"></div>
+<div class="line"><span class="comment">/* Simply print interpoalted values */</span></div>
 <div class="line"><span class="keywordtype">bool</span> print(<a class="code" href="classtweeny_1_1tween.html">tweeny::tween&lt;int&gt;</a> &amp;, <span class="keywordtype">int</span> x) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;%d\n&quot;</span>, x); <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line">}</div>
 <div class="line"></div>
+<div class="line"><span class="comment">/* If we reach the end, move backwards. Move forward if we reached the beginning */</span></div>
 <div class="line"><span class="keywordtype">bool</span> yoyo(<a class="code" href="classtweeny_1_1tween.html">tweeny::tween&lt;int&gt;</a> &amp; t, <span class="keywordtype">int</span>) {</div>
 <div class="line">    <span class="keywordflow">if</span> (t.<a class="code" href="classtweeny_1_1tween_a4f0aa3afbd6ac7dd9cb856b55e889141.html#a4f0aa3afbd6ac7dd9cb856b55e889141">progress</a>() &lt;= 0.001f) { t.<a class="code" href="classtweeny_1_1tween_a1d84868d35bf7e3d98769b3eb51d817a.html#a1d84868d35bf7e3d98769b3eb51d817a">forward</a>(); }</div>
 <div class="line">    <span class="keywordflow">if</span> (t.<a class="code" href="classtweeny_1_1tween_a4f0aa3afbd6ac7dd9cb856b55e889141.html#a4f0aa3afbd6ac7dd9cb856b55e889141">progress</a>() &gt;= 1.0f) { t.<a class="code" href="classtweeny_1_1tween_a98e8d3aa06df267349438095aec6f40d.html#a98e8d3aa06df267349438095aec6f40d">backward</a>(); }</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line">}</div>
 <div class="line"></div>
+<div class="line"><span class="comment">/* Looping function */</span></div>
 <div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Ts&gt;</div>
 <div class="line"><span class="keywordtype">bool</span> loop&lt;Ts...&gt;::operator()(<a class="code" href="classtweeny_1_1tween.html">tweeny::tween&lt;Ts...&gt;</a> &amp; t, Ts...) {</div>
 <div class="line">    <span class="keywordflow">if</span> (t.<a class="code" href="classtweeny_1_1tween_a4f0aa3afbd6ac7dd9cb856b55e889141.html#a4f0aa3afbd6ac7dd9cb856b55e889141">progress</a>() &lt; 1.0f) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
