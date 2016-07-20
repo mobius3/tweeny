@@ -51,6 +51,8 @@ namespace tweeny {
              * @brief Instantiates a tween from a starting currentPoint.
              *
              * This is a static factory helper function to be used by @p tweeny::from. You should not use this directly.
+             * @p t The first value in the point
+             * @p vs The remaining values
              */
             static tween<T, Ts...> from(T t, Ts... vs);
 
@@ -75,7 +77,7 @@ namespace tweeny {
              * auto t = tweeny::from(0).to(100).to(200);
              * @endcode
              *
-             * @param vs Point values
+             * @param t, vs Point values
              * @returns *this
              */
             tween<T, Ts...> & to(T t, Ts... vs);
@@ -327,7 +329,7 @@ namespace tweeny {
              *
              * This will seek the tween to a percentage matching the beginning of that step.
              *
-             * @param currentPoint The currentPoint to seek to. 0 means the currentPoint passed in tweeny::from
+             * @param point The currentPoint to seek to. 0 means the currentPoint passed in tweeny::from
              * @param suppressCallbacks (optional) set to true to suppress seek() callbacks
              * @returns current values
              * @sa seek

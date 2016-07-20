@@ -89,7 +89,7 @@
     *//**
     *   @defgroup elastic Elastic
     *   @{
-    *       @brief An elastic easing function. Values go a little past the maximum/minimum in a elastic effect.
+    *       @brief An elastic easing function. Values go a little past the maximum/minimum in an elastic effect.
     *   @}
     *//**
     *   @defgroup bounce Bounce

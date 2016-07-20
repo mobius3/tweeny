@@ -70,7 +70,7 @@
  *
  * * @ref easingsexample prints on the console the easing curve for each easing function.
  * * @ref loop provides an example on how to make a tween loop
- * * @ref zombieexample holds an sprite animation example using two tweens.
+ * * @ref zombieexample holds a sprite animation example using two tweens.
  *
  * **Useful links and references**
  * * <a href="http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm">Tim Groleau's easing function generator (requires flash)</a>
