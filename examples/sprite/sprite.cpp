@@ -38,7 +38,7 @@ namespace ex {
     }
 
     void sprite::render(int x, int y, double angle) {
-        render(0, x, y, angle);
+        render(0, 0, x, y, angle);
     }
 
     sprite::sprite(sprite && other)
