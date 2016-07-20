@@ -4,7 +4,7 @@ Tweeny is an inbetweening library designed for the creation of complex animation
 
 The goal of Tweeny is to provide means to create fluid interpolations when animating position, scale, rotation, frames or other values of screen objects, by setting their values as the tween starting point and then, after each tween step, plugging back the result.
 
-It features:
+**It features**:
 
 - A descriptive and (hopefully) intuitive API,
 - 30+ easing functions,
@@ -17,7 +17,7 @@ It features:
 - Steps forwards or backwards :)
 - Accepts lambdas, functors and functions as step and seek callbacks
 
-Obligatory hello world example:
+**Obligatory hello world example**:
 
 ```cpp
 auto helloworld = tweeny::from('h','e', 'l', 'l', 'o').to('w', 'o', 'r', 'l', 'd').during(50);
