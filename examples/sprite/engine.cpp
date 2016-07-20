@@ -28,11 +28,11 @@ namespace ex {
     }
 
     void engine::clear() {
-        start = SDL_GetTicks();
         clear(clearcolor.r, clearcolor.g, clearcolor.b, clearcolor.a);
     }
 
     void engine::clear(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+        start = SDL_GetTicks();
         SDL_SetRenderDrawColor(renderer, r, g, b, a);
         SDL_RenderClear(renderer);
     }
