@@ -61,13 +61,6 @@ int main() {
     auto yoyotween = tweeny::from(0).to(100).during(5).onStep(print).onStep(yoyo);
     for (int i = 0; i <= 60; i++) yoyotween.step(1);
 
-    printf("TRETA EXAMPLE\n");
-    auto helloworld = tweeny::from('h','e', 'l', 'l', 'o').to('w', 'o', 'r', 'l', 'd').during(50);
-    for (int i = 0; i <= 50; i++) {
-        auto values = helloworld.step(1);
-        for (char c : values) { printf("%c", c); }
-    }
-
     return 0;
 }
 
