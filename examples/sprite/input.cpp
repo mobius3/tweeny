@@ -28,6 +28,9 @@ namespace ex {
     bool input::down() {
         return ex::keydown(SDL_SCANCODE_DOWN);
     }
+    bool input::space() {
+        return ex::keydown(SDL_SCANCODE_SPACE);
+    }
 }
 
 

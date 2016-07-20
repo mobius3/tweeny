@@ -12,6 +12,7 @@ namespace ex {
         static bool right();
         static bool up();
         static bool down();
+        static bool space();
     };
 }
 
