@@ -64,16 +64,19 @@ int main() {
     return 0;
 }
 
+/* Simply print interpoalted values */
 bool print(tweeny::tween<int> &, int x) {
     printf("%d\n", x); return false;
 }
 
+/* If we reach the end, move backwards. Move forward if we reached the beginning */
 bool yoyo(tweeny::tween<int> & t, int) {
     if (t.progress() <= 0.001f) { t.forward(); }
     if (t.progress() >= 1.0f) { t.backward(); }
     return false;
 }
 
+/* Looping function */
 template<typename... Ts>
 bool loop<Ts...>::operator()(tweeny::tween<Ts...> & t, Ts...) {
     if (t.progress() < 1.0f) return false;
