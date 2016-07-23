@@ -23,7 +23,7 @@
 # This file setups CPack to generate packages for Tweeny
 
 # Setup CPack variables
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Tweeny - a C++11 header-only tweening library.")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Tweeny - a modern C++ tweening library.")
 set(CPACK_PACKAGE_VERSION_MAJOR "${TWEENY_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${TWEENY_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${TWEENY_VERSION_PATCH}")

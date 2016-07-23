@@ -23,9 +23,15 @@
 # This cmake file creates and builds doxygen documentation. It also sets it in the install list.
 
 find_package(Doxygen)
+option(TWEENY_GENERATE_DOC "Generate HTML documentation" OFF)
+option(TWEENY_INSTALL_EXAMPLES "Install examples with the doc" OFF)
+if (TWEENY_GENERATE_DOC)
+    set(DOC_ADD_TO_ALL ALL)
+else()
+    set(DOC_ADD_TO_ALL "")
+endif()
 
 if(DOXYGEN_FOUND)
-
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
     file(COPY
@@ -37,10 +43,19 @@ if(DOXYGEN_FOUND)
          DESTINATION
             ${CMAKE_CURRENT_BINARY_DIR}
     )
-    add_custom_target(doc
+    add_custom_target(doc ${DOC_ADD_TO_ALL}
             ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
-    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc/Tweeny)
+    if (TWEENY_GENERATE_DOC)
+        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc/Tweeny)
+    endif()
+
+    if (TWEENY_INSTALL_EXAMPLES)
+        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../examples/sprite DESTINATION share/doc/Tweeny/examples)
+        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../examples/loop DESTINATION share/doc/Tweeny/examples)
+        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../examples/easings DESTINATION share/doc/Tweeny/examples)
+    endif()
+
 endif(DOXYGEN_FOUND)
