@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tweeny</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+        <link rel="stylesheet" href="highlight/styles/tomorrow.css">
+        <script src="highlight/highlight.pack.js"></script>
+        <link rel="stylesheet" href="index.css">
+        <script>hljs.initHighlightingOnLoad();</script>
+    </head>
+    <body>
+        <header>
+            <h1>Tweeny</h1>
+            <h2>The modern C++ tweening library</h2>
+        </header>
+        <nav>
+            <a href="http://github.com/mobius3/tweeny">Source</a>
+            <a href="https://github.com/mobius3/tweeny/releases">Releases</a>
+            <a href="http://mobius3.github.io/tweeny/doc">API Doc</a>
+        </nav>
+        <section>
+            <p>Tweeny is an inbetweening library designed for the creation of complex animations for games and other beautiful interactive software. It leverages features of modern C++ to empower developers with an intuitive API for declaring tweenings of any type of value, as long as they support arithmetic operations.</p>
+            <p>The goal of Tweeny is to provide means to create fluid interpolations when animating position, scale, rotation, frames or other values of screen objects, by setting their values as the tween starting point and then, after each tween step, plugging back the result.</p>
+            <em>This is a basic example of how Tweeny's API looks like:</em>
+            <pre><code>auto tween = tweeny::from(0).to(100).during(1000).via(tweeny::easing::circularInOut);
+tween.onStep([](int v) { printf("%d\n", v); });
+for (int i = 0; i < 1000; i++) tween.step(1);</code></pre>
+        </section>
+    </body>
+</html>
+
