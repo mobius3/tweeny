@@ -31,10 +31,6 @@ There are more complex examples in the `examples` folder.
 
 ## Installation methods:
 
-**Release package**
-
-You must add Tweeny's `include` folder to your project's include path, and then `#include "tweeny.h"`. A special case, if you are using CMake, you can pass the `TWEENY_DIR` variable to help it find Tweeny, and then use `target_link_libraries` to link against it.
-
 **Copying the `include` folder:**
 
 Tweeny itself is a header only library. The easiest way to use it is to copy the `include/` folder (e.g, `tweeny/`) into your project folder and then include from it: `#include "tweeny/tweeny.h"`
