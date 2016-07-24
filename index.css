@@ -40,7 +40,6 @@ nav
 }
 
 nav a, a:visited{
-    font-size: 1.3em;
     margin: 0 5%;
     text-decoration: none;
     color: #8959ad;
@@ -51,10 +50,14 @@ nav a:hover {
 }
 
 pre {
-    padding: 0;
+    border: 1px solid #ddd;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
-code {
-    padding: 0 !important;
+
+pre, code {
+    font-family: monospace;
+    line-height: 1.8em;
 }
 
 pre code {
