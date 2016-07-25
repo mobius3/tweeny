@@ -31,9 +31,11 @@ There are more complex examples in the `examples` folder.
 
 ## Installation methods:
 
+You just need to adjust your include path to point to the `include/` folder.
+
 **Copying the `include` folder:**
 
-Tweeny itself is a header only library. The easiest way to use it is to copy the `include/` folder (e.g, `tweeny/`) into your project folder and then include from it: `#include "tweeny/tweeny.h"`
+Tweeny itself is a header only library. The easiest way to use it is to copy the `include/` folder into your project folder and then include from it: `#include "tweeny/tweeny.h"`
 
 **CMake subproject**
 
