@@ -149,6 +149,18 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
+    tween<T, Ts...> & tween<T, Ts...>::onStep(typename detail::tweentraits<T, Ts...>::noValuesCallbackType callback) {
+        onStepCallbacks.push_back([callback](tween<T, Ts...> & t, T, Ts...) { return callback(t); });
+        return *this;
+    }
+
+    template<typename T, typename... Ts>
+    tween<T, Ts...> & tween<T, Ts...>::onStep(typename detail::tweentraits<T, Ts...>::noTweenCallbackType callback) {
+        onStepCallbacks.push_back([callback](tween<T, Ts...> &, T t, Ts... vs) { return callback(t, vs...); });
+        return *this;
+    }
+
+    template<typename T, typename... Ts>
     tween<T, Ts...> & tween<T, Ts...>::onSeek(typename detail::tweentraits<T, Ts...>::callbackType callback) {
         onSeekCallbacks.push_back(callback);
         return *this;

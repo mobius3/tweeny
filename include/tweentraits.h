@@ -38,7 +38,7 @@ namespace tweeny {
 
     namespace detail {
 
-        template<typename... Ts> struct equal { };
+        template<typename... Ts> struct equal { enum { value = true }; };
         template<typename T> struct equal<T> { enum { value = true }; };
         template<typename T, typename... Ts> struct equal<T, T, Ts...>  { enum { value = true && equal<Ts...>::value }; };
         template<typename T, typename U, typename... Ts> struct equal<T, U, Ts...> { enum { value = false }; };
@@ -62,6 +62,8 @@ namespace tweeny {
         struct tweentraits {
             typedef std::tuple<std::function<Ts(float, Ts, Ts)>...> easingCollection;
             typedef std::function<bool(tween<Ts...> &, Ts...)> callbackType;
+            typedef std::function<bool(tween<Ts...> &)> noValuesCallbackType;
+            typedef std::function<bool(Ts...)> noTweenCallbackType;
             typedef typename valuetype<equal<Ts...>::value, Ts...>::type valuesType;
             typedef std::array<uint16_t, sizeof...(Ts)> durationsArrayType;
             typedef tween<Ts...> type;
