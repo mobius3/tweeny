@@ -283,7 +283,7 @@ namespace tweeny {
              * auto t = tweeny:from(0).to(100).during(100);
              *
              * // pass a lambda
-             * t.onStep([](tweeny::tween<int> & t) { printf("%d ", t.values()); return false; });
+             * t.onStep([](tweeny::tween<int> & t) { printf("%d ", t.value()); return false; });
              *
              * // pass a functor instance
              * struct ftor { void operator()(tweeny::tween<int> & t) { printf("%d ", t.values()); return false; } };
@@ -336,7 +336,10 @@ namespace tweeny {
              * via tween::seek() functions. For step callbacks, see tween::onStep().
              *
              * Keep in mind that the function will be *copied* into an array, so any variable captured by value
-             * will also be copied again.
+             * will also be copied with it.
+             *
+             * If the callback returns false, it will be called next time. If it returns true, it will be removed from
+             * the callback queue.
              *
              * **Example**:
              *
@@ -347,11 +350,70 @@ namespace tweeny {
              * t.onSeek([](tweeny::tween<int> & t, int v) { printf("%d ", v); });
              *
              * // pass a functor instance
-             * struct ftor { void operator()(tweeny::tween<int> & t, int x) { printf("%d ", v); } };
+             * struct ftor { void operator()(tweeny::tween<int> & t, int v) { printf("%d ", v); } };
              * t.onSeek(ftor());
              * @endcode
+             * @param callback A callback in with the prototype `bool callback(tween<Ts...> & t, Ts...)`
              */
             tween<T, Ts...> & onSeek(typename detail::tweentraits<T, Ts...>::callbackType callback);
+
+            /**
+             * @brief Adds a callback for that will be called when seeking occurs, accepting only the tween values.
+             *
+             * You can add as many callbacks as you want. It must receive the tween as an argument.
+             * Callbacks can be of any callable type. It will be called
+             * via tween::seek() functions. For step callbacks, see tween::onStep().
+             *
+             * Keep in mind that the function will be *copied* into an array, so any variable captured by value
+             * will also be copied again.
+             *
+             * If the callback returns false, it will be called next time. If it returns true, it will be removed from
+             * the callback queue.
+             *
+             * **Example**:
+             *
+             * @code
+             * auto t = t:from(0).to(100).during(100);
+             *
+             * // pass a lambda
+             * t.onSeek([](int v) { printf("%d ", v); });
+             *
+             * // pass a functor instance
+             * struct ftor { void operator()(int v) { printf("%d ", v); return false; } };
+             * t.onSeek(ftor());
+             * @endcode
+             * @param callback A callback in the form `bool f(Ts...)`
+             */
+            tween<T, Ts...> & onSeek(typename detail::tweentraits<T, Ts...>::noTweenCallbackType callback);
+
+            /**
+             * @brief Adds a callback for that will be called when seeking occurs, accepting only the tween.
+             *
+             * You can add as many callbacks as you want. It must receive the tween as an argument.
+             * Callbacks can be of any callable type. It will be called
+             * via tween::seek() functions. For step callbacks, see tween::onStep().
+             *
+             * Keep in mind that the function will be *copied* into an array, so any variable captured by value
+             * will also be copied again.
+             *
+             * If the callback returns false, it will be called next time. If it returns true, it will be removed from
+             * the callback queue.
+             *
+             * **Example**:
+             *
+             * @code
+             * auto t = t:from(0).to(100).during(100);
+             *
+             * // pass a lambda
+             * t.onSeek([](tweeny::tween<int> & t) { printf("%d ", t.value()); return false; });
+             *
+             * // pass a functor instance
+             * struct ftor { void operator()(tweeny::tween<int> & t) { printf("%d ",  t.value()); return false; } };
+             * t.onSeek(ftor());
+             * @endcode
+             * @param callback A callback in the form `bool f(tween<Ts...> & t)`
+             */
+            tween<T, Ts...> & onSeek(typename detail::tweentraits<T, Ts...>::noValuesCallbackType callback);
 
             /**
              * @brief Returns the total duration of this tween
@@ -465,6 +527,8 @@ namespace tweeny {
             tween<T> & onStep(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onStep
             tween<T> & onStep(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onStep
             tween<T> & onSeek(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onSeek
+            tween<T> & onSeek(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onSeek
+            tween<T> & onSeek(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onSeek
             uint32_t duration(); ///< @sa tween::duration
             float progress(); ///< @sa tween::progress
             tween<T> & forward(); ///< @sa tween::forward

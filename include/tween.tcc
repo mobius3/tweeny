@@ -167,6 +167,18 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
+    tween<T, Ts...> & tween<T, Ts...>::onSeek(typename detail::tweentraits<T, Ts...>::noValuesCallbackType callback) {
+        onSeekCallbacks.push_back([callback](tween<T, Ts...> & t, T, Ts...) { return callback(t); });
+        return *this;
+    }
+
+    template<typename T, typename... Ts>
+    tween<T, Ts...> & tween<T, Ts...>::onSeek(typename detail::tweentraits<T, Ts...>::noTweenCallbackType callback) {
+        onSeekCallbacks.push_back([callback](tween<T, Ts...> &, T t, Ts... vs) { return callback(t, vs...); });
+        return *this;
+    }
+
+    template<typename T, typename... Ts>
     void tween<T, Ts...>::dispatch(std::vector<typename traits::callbackType> & cbVector) {
         std::vector<size_t> dismissed;
         for (size_t i = 0; i < cbVector.size(); ++i) {
