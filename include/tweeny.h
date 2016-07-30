@@ -100,6 +100,13 @@
  * @include sprite/main.cpp
  */
 
+/**
+ * @page multitypeexample Multi type example
+ * @details Example of a tween having multiple value types.
+ *
+ * @include multitype/multitype.cpp
+ */
+
 #ifndef TWEENY_H
 #define TWEENY_H
 
