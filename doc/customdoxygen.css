@@ -1,5 +1,13 @@
 h1, .h1, h2, .h2, h3, .h3{
-    font-weight: 200 !important;
+    font-weight: 100 !important;
+}
+
+h1 {
+    font-size: 24px !important;
+}
+
+h2 {
+    font-size: 20px !important;
 }
 
 h3 {
@@ -358,4 +366,9 @@ span.SRScope {
 }
 .page-header .label {
   font-size: 50%;
+}
+
+div.line {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
