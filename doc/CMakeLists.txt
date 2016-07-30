@@ -40,6 +40,7 @@ if(DOXYGEN_FOUND)
             ${CMAKE_CURRENT_SOURCE_DIR}/footer.html
             ${CMAKE_CURRENT_SOURCE_DIR}/header.html
             ${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml
+            ${CMAKE_CURRENT_SOURCE_DIR}/MANUAL.dox
          DESTINATION
             ${CMAKE_CURRENT_BINARY_DIR}
     )
