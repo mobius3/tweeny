@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <!-- For Mobile Devices -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
@@ -129,7 +130,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">namespace </span>detail {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Ts&gt; <span class="keyword">struct </span>equal { };</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span>... Ts&gt; <span class="keyword">struct </span>equal { <span class="keyword">enum</span> { value = <span class="keyword">true</span> }; };</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">struct </span>equal&lt;T&gt; { <span class="keyword">enum</span> { value = <span class="keyword">true</span> }; };</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span>... Ts&gt; <span class="keyword">struct </span>equal&lt;T, T, Ts...&gt;  { <span class="keyword">enum</span> { value = <span class="keyword">true</span> &amp;&amp; equal&lt;Ts...&gt;::value }; };</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> U, <span class="keyword">typename</span>... Ts&gt; <span class="keyword">struct </span>equal&lt;T, U, Ts...&gt; { <span class="keyword">enum</span> { value = <span class="keyword">false</span> }; };</div>
@@ -153,15 +154,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keyword">struct </span>tweentraits {</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keyword">typedef</span> std::tuple&lt;std::function&lt;Ts(float, Ts, Ts)&gt;...&gt; easingCollection;</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keyword">typedef</span> std::function&lt;bool(tween&lt;Ts...&gt; &amp;, Ts...)&gt; callbackType;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keyword">typedef</span> <span class="keyword">typename</span> valuetype&lt;equal&lt;Ts...&gt;::value, Ts...&gt;::type valuesType;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keyword">typedef</span> std::array&lt;uint16_t, <span class="keyword">sizeof</span>...(Ts)&gt; durationsArrayType;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">typedef</span> tween&lt;Ts...&gt; type;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        };</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#endif //TWEENY_TWEENTRAITS_H</span></div>
-<div class="ttc" id="namespacetweeny_html"><div class="ttname"><a href="namespacetweeny.html">tweeny</a></div><div class="ttdoc">The tweeny namespace contains all symbols and names for the Tweeny library. </div><div class="ttdef"><b>Definition:</b> dispatcher.h:33</div></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keyword">typedef</span> std::function&lt;bool(tween&lt;Ts...&gt; &amp;)&gt; noValuesCallbackType;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keyword">typedef</span> std::function&lt;bool(Ts...)&gt; noTweenCallbackType;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keyword">typedef</span> <span class="keyword">typename</span> valuetype&lt;equal&lt;Ts...&gt;::value, Ts...&gt;::type valuesType;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keyword">typedef</span> std::array&lt;uint16_t, <span class="keyword">sizeof</span>...(Ts)&gt; durationsArrayType;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keyword">typedef</span> tween&lt;Ts...&gt; type;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        };</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif //TWEENY_TWEENTRAITS_H</span></div>
+<div class="ttc" id="namespacetweeny_html"><div class="ttname"><a href="namespacetweeny.html">tweeny</a></div><div class="ttdoc">The tweeny namespace contains all symbols and names for the Tweeny library. </div><div class="ttdef"><b>Definition:</b> MANUAL.dox:1</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
