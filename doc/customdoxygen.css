@@ -2,15 +2,16 @@ h1, .h1, h2, .h2, h3, .h3{
     font-weight: 100 !important;
 }
 
-h1 {
+h1, .h1 {
     font-size: 24px !important;
 }
 
-h2 {
-    font-size: 20px !important;
+h2, .h2 {
+    font-size: 10pt !important;
 }
 
-h3 {
+h3, .h3 {
+    font-size: 12pt !important;
     font-family: monospace, fixed !important;
 }
 
@@ -30,6 +31,15 @@ div.navtab {
     padding: 10pt;
 }
 
+.nav-pills>li>a {
+    border-radius: 0 !important;
+}
+
+.panel {
+    box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 0 !important;
+}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -37,6 +47,16 @@ html,
 body {
     height: 100%;
     /* The html and body elements cannot have any padding or margin. */
+    border-radius: 0 !important;
+    line-height: 2em !important;
+}
+
+li {
+    line-height: 1.5em;
+}
+
+.form-control {
+    border-radius: 0 !important;
 }
 
 /* Wrapper for page content to push down footer */
@@ -49,11 +69,20 @@ body {
     padding: 0 0 60px;
 }
 
+td {
+    vertical-align: middle !important;
+}
+
 /* Set the fixed height of the footer here */
 #footer {
     font-size: 0.9em;
     padding: 8px 0px;
     background-color: #f5f5f5;
+}
+
+p {
+    line-height: 1.5em !important;
+    text-align: justify;
 }
 
 .footer-row {
@@ -108,6 +137,11 @@ body {
 /* DOXYGEN Code Styles
 ----------------------------------- */
 
+code {
+    font-family: monospace !important;
+    display: inline-block;
+    background-color: inherit !important;
+}
 
 a.qindex {
     font-weight: bold;
@@ -155,11 +189,19 @@ div.fragment {
     padding: 4px 6px;
     margin: 4px 8px 4px 2px;
     border: 1px solid #C4CFE5;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+.btn, .btn-default {
+    border-radius: 0px !important;
+    border: 0 !important;
 }
 
 div.line {
     font-family: monospace, fixed;
-    font-size: 13px;
+    font-size: 12px;
     min-height: 13px;
     line-height: 1.4;
     text-wrap: unrestricted;
