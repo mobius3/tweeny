@@ -51,8 +51,8 @@ This will add the `include/` folder to your search path, and you can `#include "
 
 Tweeny is open-source, meaning that it is open to modifications and contrubutions from the community (you are very much encouraged to do so!). However, we'd appreciate if you follow these guidelines:
 
-- Don't use `CamelCase` nor `_` (underline) in names
-- Use `snakeCase`, but try to avoid multi word names as hard as possible
+- Don't use `PascalCase` nor `_` (underline) in names
+- Use `camelCase`, but try to avoid multi word names as hard as possible
 - Document code using Doxygen
 - Implementation details should go inside `tweeny::detail` namespace.
 - Template implementations should go into a `.tcc` file
