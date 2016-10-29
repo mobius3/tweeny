@@ -420,7 +420,16 @@ namespace tweeny {
              *
              * @returns The duration of all the tween points.
              */
-            uint32_t duration();
+            uint32_t duration() const;
+
+            /**
+             * @brief Returns the current tween values
+             *
+             * This returns the current tween value as returned by the
+             * tween::step() function, except that it does not perform a step.
+             * @returns std::tuple<Ts...> with the current tween values.
+             */
+            const typename detail::tweentraits<T, Ts...>::valuesType & peek() const;
 
             /**
              * @brief Returns the current currentProgress of the interpolation.
@@ -428,7 +437,7 @@ namespace tweeny {
              * 0 means its at the values passed in the construction, 1 means the last step.
              * @returns the current currentProgress between 0 and 1 (inclusive)
              */
-            float progress();
+            float progress() const;
 
             /**
              * @brief Sets the direction of this tween forward.
@@ -453,7 +462,7 @@ namespace tweeny {
              *
              * @returns -1 If it is mobin backwards in time, 1 if it is moving forward in time
              */
-            int direction();
+            int direction() const;
 
             /**
              * @brief Jumps to a specific tween currentPoint
@@ -472,7 +481,7 @@ namespace tweeny {
              *
              * @returns Current tween point
              */
-            uint16_t point();
+            uint16_t point() const;
 
         private /* member types */:
             using traits = detail::tweentraits<T, Ts...>;
@@ -529,13 +538,14 @@ namespace tweeny {
             tween<T> & onSeek(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onSeek
             tween<T> & onSeek(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onSeek
             tween<T> & onSeek(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onSeek
-            uint32_t duration(); ///< @sa tween::duration
-            float progress(); ///< @sa tween::progress
+            const T & peek() const; ///< @sa tween::peek
+            uint32_t duration() const; ///< @sa tween::duration
+            float progress() const; ///< @sa tween::progress
             tween<T> & forward(); ///< @sa tween::forward
             tween<T> & backward(); ///< @sa tween::backward
-            int direction(); ///< @sa tween::direction
+            int direction() const; ///< @sa tween::direction
             const T & jump(int32_t point, bool suppressCallbacks = false); ///< @sa tween::jump
-            uint16_t point(); ///< @sa tween::point
+            uint16_t point() const; ///< @sa tween::point
 
         private /* member types */:
             using traits = detail::tweentraits<T>;
