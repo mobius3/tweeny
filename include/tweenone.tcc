@@ -107,7 +107,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline uint32_t tween<T>::duration() {
+    inline uint32_t tween<T>::duration() const {
         return total;
     }
 
@@ -184,7 +184,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    float tween<T>::progress() {
+    float tween<T>::progress() const {
         return currentProgress;
     }
 
@@ -201,7 +201,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    int tween<T>::direction() {
+    int tween<T>::direction() const {
         return currentDirection;
     }
 
@@ -211,6 +211,8 @@ namespace tweeny {
         return seek(points.at(p).stacked, suppress);
     }
 
-    template<typename T> inline uint16_t tween<T>::point() { return currentPoint; }
+    template<typename T> inline uint16_t tween<T>::point() const {
+        return currentPoint;
+    }
 }
 #endif //TWEENY_TWEENONE_TCC
