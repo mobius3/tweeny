@@ -197,6 +197,11 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
+    const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::peek() const {
+      return current;
+    }
+
+    template<typename T, typename... Ts>
     float tween<T, Ts...>::progress() const {
         return currentProgress;
     }
