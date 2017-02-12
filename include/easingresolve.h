@@ -55,10 +55,10 @@ namespace tweeny {
         };
 
         template<int I, typename TypeTuple, typename FunctionTuple, typename... Fs>
-        struct easingresolve<I, TypeTuple, FunctionTuple, decltype(easing::linear), Fs...> {
+        struct easingresolve<I, TypeTuple, FunctionTuple, easing::linearEasing, Fs...> {
             typedef typename std::tuple_element<I, TypeTuple>::type ArgType;
 
-            static void impl(FunctionTuple &b, decltype(easing::linear), Fs... fs) {
+            static void impl(FunctionTuple &b, easing::linearEasing, Fs... fs) {
                 get<I>(b) = easing::linear.run<ArgType>;
                 easingresolve<I + 1, TypeTuple, FunctionTuple, Fs...>::impl(b, fs...);
             }
@@ -66,7 +66,7 @@ namespace tweeny {
 
         #define DECLARE_EASING_RESOLVE(__EASING_TYPE__) \
         template <int I, typename TypeTuple, typename FunctionTuple, typename... Fs> \
-        struct easingresolve<I, TypeTuple, FunctionTuple, decltype(easing::__EASING_TYPE__ ## In), Fs...> { \
+        struct easingresolve<I, TypeTuple, FunctionTuple, easing::__EASING_TYPE__ ## InEasing, Fs...> { \
           typedef typename std::tuple_element<I, TypeTuple>::type ArgType; \
           static void impl(FunctionTuple & b, decltype(easing::__EASING_TYPE__ ## In), Fs... fs) { \
             get<I>(b) = easing::__EASING_TYPE__ ## In.run<ArgType>; \
@@ -75,7 +75,7 @@ namespace tweeny {
         }; \
         \
         template <int I, typename TypeTuple, typename FunctionTuple, typename... Fs> \
-          struct easingresolve<I, TypeTuple, FunctionTuple, decltype(easing::__EASING_TYPE__ ## Out), Fs...> { \
+          struct easingresolve<I, TypeTuple, FunctionTuple, easing::__EASING_TYPE__ ## OutEasing, Fs...> { \
           typedef typename std::tuple_element<I, TypeTuple>::type ArgType; \
           static void impl(FunctionTuple & b, decltype(easing::__EASING_TYPE__ ## Out), Fs... fs) { \
             get<I>(b) = easing::__EASING_TYPE__ ## Out.run<ArgType>; \
@@ -84,7 +84,7 @@ namespace tweeny {
         }; \
         \
         template <int I, typename TypeTuple, typename FunctionTuple, typename... Fs> \
-          struct easingresolve<I, TypeTuple, FunctionTuple, decltype(easing::__EASING_TYPE__ ## InOut), Fs...> { \
+          struct easingresolve<I, TypeTuple, FunctionTuple, easing::__EASING_TYPE__ ## InOutEasing, Fs...> { \
           typedef typename std::tuple_element<I, TypeTuple>::type ArgType; \
           static void impl(FunctionTuple & b, decltype(easing::__EASING_TYPE__ ## InOut), Fs... fs) { \
             get<I>(b) = easing::__EASING_TYPE__ ## InOut.run<ArgType>; \

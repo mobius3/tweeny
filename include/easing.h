@@ -34,6 +34,10 @@
 #include <cmath>
 #include <type_traits>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 /**
     * @defgroup easings Easings
     * @brief Bundled easing functions based on
@@ -119,7 +123,7 @@ namespace tweeny {
              * @ingroup linear
              * @brief Values change with constant speed.
              */
-            static struct {
+            static constexpr struct linearEasing {
                 template<typename T>
                 static typename std::enable_if<std::is_integral<T>::value, T>::type run(float position, T start, T end) {
                     return static_cast<T>(roundf((end - start) * position + start));
@@ -129,35 +133,35 @@ namespace tweeny {
                 static typename std::enable_if<!std::is_integral<T>::value, T>::type run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position + start);
                 }
-            } linear;
+            } linear = linearEasing{};
 
              /**
               * @ingroup quadratic
               * @brief Accelerate initial values with a quadratic equation.
               */
-            static struct {
+            static constexpr struct quadraticInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position * position + start);
                 }
-            } quadraticIn;
+            } quadraticIn = quadraticInEasing{};
 
             /**
               * @ingroup quadratic
               * @brief Deaccelerate ending values with a quadratic equation.
               */
-            static struct {
+            static constexpr struct quadraticOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((-(end - start)) * position * (position - 2) + start);
                 }
-            } quadraticOut;
+            } quadraticOut = quadraticOutEasing{};
 
             /**
               * @ingroup quadratic
               * @brief Acceelerate initial and deaccelerate ending values with a quadratic equation.
               */
-            static struct {
+            static constexpr struct quadraticInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     position *= 2;
@@ -168,36 +172,36 @@ namespace tweeny {
                     --position;
                     return static_cast<T>((-(end - start) / 2) * (position * (position - 2) - 1) + start);
                 }
-            } quadraticInOut;
+            } quadraticInOut = quadraticInOutEasing{};
 
             /**
               * @ingroup cubic
               * @brief Aaccelerate initial values with a cubic equation.
               */
-            static struct {
+            static constexpr struct cubicInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position * position * position + start);
                 }
-            } cubicIn;
+            } cubicIn = cubicInEasing{};
 
             /**
               * @ingroup cubic
               * @brief Deaccelerate ending values with a cubic equation.
               */
-            static struct {
+            static constexpr struct cubicOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     --position;
                     return static_cast<T>((end - start) * (position * position * position + 1) + start);
                 }
-            } cubicOut;
+            } cubicOut = cubicOutEasing{};
 
             /**
               * @ingroup cubic
               * @brief Acceelerate initial and deaccelerate ending values with a cubic equation.
               */
-            static struct {
+            static constexpr struct cubicInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     position *= 2;
@@ -207,36 +211,36 @@ namespace tweeny {
                     position -= 2;
                     return static_cast<T>(((end - start) / 2) * (position * position * position + 2) + start);
                 }
-            } cubicInOut;
+            } cubicInOut = cubicInOutEasing{};
 
             /**
               * @ingroup quartic
               * @brief Acceelerate initial values with a quartic equation.
               */
-            static struct {
+            static constexpr struct quarticInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position * position * position * position + start);
                 }
-            } quarticIn;
+            } quarticIn = quarticInEasing{};
 
             /**
               * @ingroup quartic
               * @brief Deaccelerate ending values with a quartic equation.
               */
-            static struct {
+            static constexpr struct quarticOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     --position;
                     return static_cast<T>( -(end - start) * (position * position * position * position - 1) + start);
                 }
-            } quarticOut;
+            } quarticOut = quarticOutEasing{};
 
             /**
               * @ingroup quartic
               * @brief Acceelerate initial and deaccelerate ending values with a quartic equation.
               */
-            static struct {
+            static constexpr struct quarticInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     position *= 2;
@@ -248,37 +252,37 @@ namespace tweeny {
                     return static_cast<T>((-(end - start) / 2) * (position * position * position * position - 2) +
                                           start);
                 }
-            } quarticInOut;
+            } quarticInOut = quarticInOutEasing{};
 
             /**
               * @ingroup quintic
               * @brief Acceelerate initial values with a quintic equation.
               */
-            static struct {
+            static constexpr struct quinticInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position * position * position * position * position + start);
                 }
-            } quinticIn;
+            } quinticIn = quinticInEasing{};
 
             /**
               * @ingroup quintic
               * @brief Deaccelerate ending values with a quintic equation.
               */
-            static struct {
+            static constexpr struct quinticOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     position--;
                     return static_cast<T>((end - start) * (position * position * position * position * position + 1) +
                                           start);
                 }
-            } quinticOut;
+            } quinticOut = quinticOutEasing{};
 
             /**
               * @ingroup quintic
               * @brief Acceelerate initial and deaccelerate ending values with a quintic equation.
               */
-            static struct {
+            static constexpr struct quinticInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     position *= 2;
@@ -292,68 +296,68 @@ namespace tweeny {
                         ((end - start) / 2) * (position * position * position * position * position + 2) +
                         start);
                 }
-            } quinticInOut;
+            } quinticInOut = quinticInOutEasing{};
 
             /**
               * @ingroup sinusoidal
               * @brief Acceelerate initial values with a sinusoidal equation.
               */
-            static struct {
+            static constexpr struct sinusoidalInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>(-(end - start) * cosf(position * static_cast<float>(M_PI) / 2) + (end - start) + start);
                 }
-            } sinusoidalIn;
+            } sinusoidalIn = sinusoidalInEasing{};
 
             /**
               * @ingroup sinusoidal
               * @brief Deaccelerate ending values with a sinusoidal equation.
               */
-            static struct {
+            static constexpr struct sinusoidalOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * sinf(position * static_cast<float>(M_PI) / 2) + start);
                 }
-            } sinusoidalOut;
+            } sinusoidalOut = sinusoidalOutEasing{};
 
             /**
               * @ingroup sinusoidal
               * @brief Acceelerate initial and deaccelerate ending values with a sinusoidal equation.
               */
-            static struct {
+            static constexpr struct sinusoidalInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((-(end - start) / 2) * (cosf(position * static_cast<float>(M_PI)) - 1) + start);
                 }
-            } sinusoidalInOut;
+            } sinusoidalInOut = sinusoidalInOutEasing{};
 
             /**
               * @ingroup exponential
               * @brief Acceelerate initial values with an exponential equation.
               */
-            static struct {
+            static constexpr struct exponentialInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * powf(2, 10 * (position - 1)) + start);
                 }
-            } exponentialIn;
+            } exponentialIn = exponentialInEasing{};
 
             /**
               * @ingroup exponential
               * @brief Deaccelerate ending values with an exponential equation.
               */
-            static struct {
+            static constexpr struct exponentialOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * (-powf(2, -10 * position) + 1) + start);
                 }
-            } exponentialOut;
+            } exponentialOut = exponentialOutEasing{};
 
             /**
               * @ingroup exponential
               * @brief Acceelerate initial and deaccelerate ending values with an exponential equation.
               */
-            static struct {
+            static constexpr struct exponentialInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     position *= 2;
@@ -363,36 +367,36 @@ namespace tweeny {
                     --position;
                     return static_cast<T>(((end - start) / 2) * (-powf(2, -10 * position) + 2) + start);
                 }
-            } exponentialInOut;
+            } exponentialInOut = exponentialInOutEasing{};
 
             /**
               * @ingroup circular
               * @brief Acceelerate initial values with a circular equation.
               */
-            static struct {
+            static constexpr struct circularInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>( -(end - start) * (sqrtf(1 - position * position) - 1) + start );
                 }
-            } circularIn;
+            } circularIn = circularInEasing{};
 
             /**
               * @ingroup circular
               * @brief Deaccelerate ending values with a circular equation.
               */
-            static struct {
+            static constexpr struct circularOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     --position;
                     return static_cast<T>((end - start) * (sqrtf(1 - position * position)) + start);
                 }
-            } circularOut;
+            } circularOut = circularOutEasing{};
 
             /**
               * @ingroup circular
               * @brief Acceelerate initial and deaccelerate ending values with a circular equation.
               */
-            static struct {
+            static constexpr struct circularInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     position *= 2;
@@ -403,24 +407,24 @@ namespace tweeny {
                     position -= 2;
                     return static_cast<T>(((end - start) / 2) * (sqrtf(1 - position * position) + 1) + start);
                 }
-            } circularInOut;
+            } circularInOut = circularInOutEasing{};
 
             /**
               * @ingroup bounce
               * @brief Acceelerate initial values with a "bounce" equation.
               */
-            static struct {
+            static constexpr struct bounceInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return (end - start) - bounceOut.run((1 - position), T(), end) + start;
                 }
-            } bounceIn;
+            } bounceIn = bounceInEasing{};
 
             /**
               * @ingroup bounce
               * @brief Deaccelerate ending values with a "bounce" equation.
               */
-            static struct {
+            static constexpr struct bounceOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     T c = end - start;
@@ -437,25 +441,25 @@ namespace tweeny {
                         return static_cast<T>(c * (7.5625f * (postFix) * position + .984375f) + start);
                     }
                 }
-            } bounceOut;
+            } bounceOut = bounceOutEasing{};
 
             /**
             * @ingroup bounce
             * @brief Acceelerate initial and deaccelerate ending values with a "bounce" equation.
             */
-            static struct {
+            static constexpr struct bounceInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     if (position < 0.5f) return static_cast<T>(bounceIn.run(position * 2, T(), end) * .5f + start);
                     else return static_cast<T>(bounceOut.run((position * 2 - 1), T(), end) * .5f + (end - start) * .5f + start);
                 }
-            } bounceInOut;
+            } bounceInOut = bounceInOutEasing{};
 
             /**
               * @ingroup elastic
               * @brief Acceelerate initial values with an "elastic" equation.
               */
-            static struct {
+            static constexpr struct elasticInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     if (position <= 0.00001f) return start;
@@ -467,13 +471,13 @@ namespace tweeny {
                         a * powf(2, 10 * (position -= 1)); // this is a fix, again, with post-increment operators
                     return static_cast<T>(-(postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p)) + start);
                 }
-            } elasticIn;
+            } elasticIn = elasticInEasing{};
 
             /**
               * @ingroup elastic
               * @brief Deaccelerate ending values with an "elastic" equation.
               */
-            static struct {
+            static constexpr struct elasticOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     if (position <= 0.00001f) return start;
@@ -483,13 +487,13 @@ namespace tweeny {
                     float s = p / 4;
                     return static_cast<T>(a * powf(2, -10 * position) * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p) + end);
                 }
-            } elasticOut;
+            } elasticOut = elasticOutEasing{};
 
             /**
             * @ingroup elastic
             * @brief Acceelerate initial and deaccelerate ending values with an "elastic" equation.
             */
-            static struct {
+            static constexpr struct elasticInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     if (position <= 0.00001f) return start;
@@ -507,39 +511,39 @@ namespace tweeny {
                     postFix = a * powf(2, -10 * (position -= 1)); // postIncrement is evil
                     return static_cast<T>(postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p) * .5f + end);
                 }
-            } elasticInOut;
+            } elasticInOut = elasticInOutEasing{};
 
             /**
               * @ingroup back
               * @brief Acceelerate initial values with a "back" equation.
               */
-            static struct {
+            static constexpr struct backInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     float s = 1.70158f;
                     float postFix = position;
                     return static_cast<T>((end - start) * (postFix) * position * ((s + 1) * position - s) + start);
                 }
-            } backIn;
+            } backIn = backInEasing{};
 
             /**
               * @ingroup back
               * @brief Deaccelerate ending values with a "back" equation.
               */
-            static struct {
+            static constexpr struct backOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     float s = 1.70158f;
                     position -= 1;
                     return static_cast<T>((end - start) * ((position) * position * ((s + 1) * position + s) + 1) + start);
                 }
-            } backOut;
+            } backOut = backOutEasing{};
 
             /**
             * @ingroup back
             * @brief Acceelerate initial and deaccelerate ending values with a "back" equation.
             */
-            static struct {
+            static constexpr struct backInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     float s = 1.70158f;
@@ -552,7 +556,7 @@ namespace tweeny {
                     float postFix = t -= 2;
                     return static_cast<T>(c / 2 * ((postFix) * t * (((s) + 1) * t + s) + 2) + b);
                 }
-            } backInOut;
+            } backInOut = backInOutEasing{};
     };
 }
 #endif //TWEENY_EASING_H
