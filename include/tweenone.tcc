@@ -112,21 +112,21 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline void tween<T>::interpolate(float prog) {
+    inline void tween<T>::interpolate(float prog, T & value) {
         auto & p = points.at(currentPoint);
-        uint32_t pointDuration = p.duration() - (p.stacked - (prog * total));
+        uint32_t pointDuration = p.duration() - (p.stacked - (prog * static_cast<float>(total)));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<0>(p.easings);
-        current = easing(pointTotal, std::get<0>(p.values), std::get<0>(points.at(currentPoint+1).values));
+        value = easing(pointTotal, std::get<0>(p.values), std::get<0>(points.at(currentPoint+1).values));
     }
 
     template<typename T>
     inline void tween<T>::render(float p) {
-        uint32_t t = static_cast<uint32_t>(p * total);
+        uint32_t t = static_cast<uint32_t>(p * static_cast<float>(total));
         if (t > points.at(currentPoint).stacked) currentPoint++;
         if (currentPoint > 0 && t <= points.at(currentPoint - 1u).stacked) currentPoint--;
-        interpolate(p);
+        interpolate(p, current);
     }
 
     template<typename T>
