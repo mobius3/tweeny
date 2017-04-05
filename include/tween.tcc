@@ -116,22 +116,22 @@ namespace tweeny {
 
     template<typename T, typename... Ts>
     template<size_t I>
-    inline void tween<T, Ts...>::interpolate(float prog, typename traits::valuesType & values, detail::int2type<I>) {
-        auto & p = points.at(currentPoint);
+    inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) {
+        auto & p = points.at(point);
         float pointTotal = (prog * p.duration()) / p.duration(I);
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<I>(p.easings);
-        std::get<I>(values) = easing(pointTotal, std::get<I>(p.values), std::get<I>(points.at(currentPoint+1).values));
-        interpolate(prog, values, detail::int2type<I-1>{ });
+        std::get<I>(values) = easing(pointTotal, std::get<I>(p.values), std::get<I>(points.at(point+1).values));
+        interpolate(prog, point, values, detail::int2type<I-1>{ });
     }
 
     template<typename T, typename... Ts>
-    inline void tween<T, Ts...>::interpolate(float prog, typename traits::valuesType & values, detail::int2type<0>) {
-        auto & p = points.at(currentPoint);
+    inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) {
+        auto & p = points.at(point);
         float pointTotal = (prog * p.duration()) / p.duration(0);
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<0>(p.easings);
-        std::get<0>(values) = easing(pointTotal, std::get<0>(p.values), std::get<0>(points.at(currentPoint+1).values));
+        std::get<0>(values) = easing(pointTotal, std::get<0>(p.values), std::get<0>(points.at(point+1).values));
     }
 
     template<typename T, typename... Ts>
@@ -139,7 +139,7 @@ namespace tweeny {
         uint32_t t = static_cast<uint32_t>(p * total);
         if (t > points.at(currentPoint).stacked) currentPoint++;
         if (currentPoint > 0 && t <= points.at(currentPoint - 1u).stacked) currentPoint--;
-        interpolate(p, current, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
+        interpolate(p, currentPoint, current, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
     }
 
     template<typename T, typename... Ts>

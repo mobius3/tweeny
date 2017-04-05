@@ -499,8 +499,8 @@ namespace tweeny {
         private:
             /* member functions */
             tween(T t, Ts... vs);
-            template<size_t I> void interpolate(float prog, typename traits::valuesType & values, detail::int2type<I>);
-            void interpolate(float prog, typename traits::valuesType & values, detail::int2type<0>);
+            template<size_t I> void interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>);
+            void interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>);
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
     };
@@ -563,7 +563,7 @@ namespace tweeny {
         private:
             /* member functions */
             tween(T t);
-            void interpolate(float prog, T & value);
+            void interpolate(float prog, unsigned point, T & value);
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
     };
