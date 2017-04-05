@@ -186,7 +186,24 @@ namespace tweeny {
         return current;
     }
 
+
     template<typename T>
+    T tween<T>::peek(float progress) const {
+        T value;
+        interpolate(progress, pointAt(progress), value);
+        return value;
+    }
+
+    template<typename T>
+    T tween<T>::peek(uint32_t time) const {
+        T value;
+        float progress = static_cast<float>(time) / static_cast<float>(total);
+        interpolate(progress, pointAt(progress), value);
+        return value;
+    }
+
+
+  template<typename T>
     float tween<T>::progress() const {
         return currentProgress;
     }

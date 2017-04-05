@@ -200,6 +200,21 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
+    const typename detail::tweentraits<T, Ts...>::valuesType tween<T, Ts...>::peek(float progress) const {
+        typename detail::tweentraits<T, Ts...>::valuesType values;
+        interpolate(progress, pointAt(progress), values, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
+        return values;
+    }
+
+    template<typename T, typename... Ts>
+    const typename detail::tweentraits<T, Ts...>::valuesType tween<T, Ts...>::peek(uint32_t time) const {
+        typename detail::tweentraits<T, Ts...>::valuesType values;
+        float progress = static_cast<float>(time) / static_cast<float>(total);
+        interpolate(progress, pointAt(progress), values, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
+        return values;
+    }
+
+  template<typename T, typename... Ts>
     float tween<T, Ts...>::progress() const {
         return currentProgress;
     }

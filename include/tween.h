@@ -432,6 +432,25 @@ namespace tweeny {
             const typename detail::tweentraits<T, Ts...>::valuesType & peek() const;
 
             /**
+             * @brief Calculates and returns the tween values at a given progress
+             *
+             * This returns the tween value at the requested progress, without stepping
+             * or seeking.
+             * @returns std::tuple<Ts...> with the current tween values.
+             */
+             const typename detail::tweentraits<T, Ts...>::valuesType peek(float progress) const;
+
+
+            /**
+             * @brief Calculates and return the tween values at a given time
+             *
+             * This returns the tween values at the requested time, without stepping
+             * or seeking.
+             * @returns std::tuple<Ts...> with the calculated tween values.
+             */
+            const typename detail::tweentraits<T, Ts...>::valuesType peek(uint32_t time) const;
+
+            /**
              * @brief Returns the current currentProgress of the interpolation.
              *
              * 0 means its at the values passed in the construction, 1 means the last step.
@@ -540,6 +559,8 @@ namespace tweeny {
             tween<T> & onSeek(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onSeek
             tween<T> & onSeek(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onSeek
             const T & peek() const; ///< @sa tween::peek
+            T peek(float progress) const; ///< @sa tween::peek
+            T peek(uint32_t time) const; ///< @sa tween::peek
             uint32_t duration() const; ///< @sa tween::duration
             float progress() const; ///< @sa tween::progress
             tween<T> & forward(); ///< @sa tween::forward
