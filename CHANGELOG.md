@@ -1,4 +1,7 @@
 # Tweeny Changelog
+- Version 3:
+  - Implement `peek(float progress)` and `peek(uint32_t time)` to peek
+    at arbitrary points
 
 - Version 2:
   - Make non-modifying functions `const` (@Balletie)
