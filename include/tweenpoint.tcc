@@ -102,12 +102,12 @@ namespace tweeny {
         }
 
         template<typename... Ts>
-        inline uint16_t tweenpoint<Ts...>::duration() {
+        inline uint16_t tweenpoint<Ts...>::duration() const {
             return *std::max_element(durations.begin(), durations.end());
         }
 
         template<typename... Ts>
-        inline uint16_t tweenpoint<Ts...>::duration(size_t i) {
+        inline uint16_t tweenpoint<Ts...>::duration(size_t i) const {
             return durations.at(i);
         }
     }

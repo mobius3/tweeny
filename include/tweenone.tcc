@@ -112,7 +112,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline void tween<T>::interpolate(float prog, unsigned point, T & value) {
+    inline void tween<T>::interpolate(float prog, unsigned point, T & value) const {
         auto & p = points.at(point);
         uint32_t pointDuration = p.duration() - (p.stacked - (prog * static_cast<float>(total)));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());

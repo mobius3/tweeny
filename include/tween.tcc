@@ -116,7 +116,7 @@ namespace tweeny {
 
     template<typename T, typename... Ts>
     template<size_t I>
-    inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) {
+    inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) const {
         auto & p = points.at(point);
         float pointTotal = (prog * p.duration()) / p.duration(I);
         if (pointTotal > 1.0f) pointTotal = 1.0f;
@@ -126,7 +126,7 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
-    inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) {
+    inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) const {
         auto & p = points.at(point);
         float pointTotal = (prog * p.duration()) / p.duration(0);
         if (pointTotal > 1.0f) pointTotal = 1.0f;
