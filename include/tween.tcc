@@ -136,9 +136,7 @@ namespace tweeny {
 
     template<typename T, typename... Ts>
     inline void tween<T, Ts...>::render(float p) {
-        uint32_t t = static_cast<uint32_t>(p * total);
-        if (t > points.at(currentPoint).stacked) currentPoint++;
-        if (currentPoint > 0 && t <= points.at(currentPoint - 1u).stacked) currentPoint--;
+        currentPoint = pointAt(p);
         interpolate(p, currentPoint, current, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
     }
 
@@ -231,6 +229,14 @@ namespace tweeny {
 
     template<typename T, typename... Ts> inline uint16_t tween<T, Ts...>::point() const {
         return currentPoint;
+    };
+
+    template<typename T, typename... Ts> inline uint16_t tween<T, Ts...>::pointAt(float progress) const {
+        uint32_t t = static_cast<uint32_t>(progress * total);
+        uint16_t point = 0;
+        while (t > points.at(point).stacked) point++;
+        if (point > 0 && t <= points.at(point - 1u).stacked) point--;
+        return point;
     };
 }
 

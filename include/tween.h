@@ -503,6 +503,7 @@ namespace tweeny {
             void interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>);
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
+            uint16_t pointAt(float progress) const;
     };
 
     /**
@@ -566,6 +567,7 @@ namespace tweeny {
             void interpolate(float prog, unsigned point, T & value);
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
+            uint16_t pointAt(float progress) const;
     };
 }
 
