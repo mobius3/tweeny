@@ -21,6 +21,9 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # The purpose of this file is to include all examples subdirectories.
+
+find_package(SDL2 QUIET)
+
 macro(add_example)
     set(TARGET ${ARGV0})
     set(SOURCES "${ARGN}")
@@ -42,22 +45,24 @@ add_example(multitype multitype/multitype.cpp)
 add_example(easings easings/easings.cpp)
 add_example(loop loop/loop.cpp)
 
-add_example(sprite
-    sprite/main.cpp
-    sprite/stb_image.h
-    sprite/sprite.cpp
-    sprite/sprite.h
-    sprite/engine.cpp
-    sprite/engine.h
-    sprite/input.cpp
-    sprite/input.h
-    sprite/resources.c
-)
 
-if (TWEENY_EXAMPLE_SPRITE)
-    find_package(SDL2 REQUIRED)
-    string(STRIP ${SDL2_LIBRARIES} SDL2_LIBS)
-    target_link_libraries(sprite PRIVATE ${SDL2_LIBS})
-    target_include_directories(sprite PRIVATE ${SDL2_INCLUDE_DIRS})
+if (SDL2_FOUND)
+    add_example(sprite
+        sprite/main.cpp
+        sprite/stb_image.h
+        sprite/sprite.cpp
+        sprite/sprite.h
+        sprite/engine.cpp
+        sprite/engine.h
+        sprite/input.cpp
+        sprite/input.h
+        sprite/resources.c
+    )
+    if (TWEENY_EXAMPLE_SPRITE)
+        string(STRIP ${SDL2_LIBRARIES} SDL2_LIBS)
+        target_link_libraries(sprite PRIVATE ${SDL2_LIBS})
+        target_include_directories(sprite PRIVATE ${SDL2_INCLUDE_DIRS})
+    endif()
+else()
+    message(STATUS "SDL2 was not found. sprite example will NOT be built")
 endif()
-
