@@ -27,7 +27,28 @@ for (int i = 0; i < 50; i++) {
 }
 ```
 
-There are more complex examples in the `examples` folder.
+## Examples:
+
+Some examples can be seen in the [examples](https://github.com/mobius3/tweeny/tree/master/examples) folder. They need to be built if you want to see them in action. To do this, I recommed creating a `build` folder inside the project folder building it from there.
+
+*Disclaimer: the [sprite example](https://github.com/mobius3/tweeny/tree/master/examples) needs [SDL2](http://libsdl.org/) to build*
+
+### Linux, MacOS and Unix
+
+From the top level directory of tweeny: 
+
+    mkdir build && cd build
+    cmake ..
+    make
+    
+### Windows
+
+- Open CMake GUI and select the top level directory of tweeny as source
+- Select or create a build folder (it can be inside of tweeny)
+- Select the generator (depending on your compiler/IDE)
+- Click GENERATE
+- Open the generated project in your IDE, select the target and run it from there.
+    
 
 ## Installation methods:
 
