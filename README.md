@@ -77,3 +77,5 @@ Tweeny is open-source, meaning that it is open to modifications and contrubution
 - Document code using Doxygen
 - Implementation details should go inside `tweeny::detail` namespace.
 - Template implementations should go into a `.tcc` file
+
+[![Analytics](https://ga-beacon.appspot.com/UA-109934679-1/tweeny-readme?useReferer&flat-gif)](https://github.com/mobius3/tweeny)
