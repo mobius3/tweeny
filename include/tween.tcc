@@ -118,7 +118,8 @@ namespace tweeny {
     template<size_t I>
     inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) const {
         auto & p = points.at(point);
-        float pointTotal = (prog * p.duration()) / p.duration(I);
+        uint32_t pointDuration = p.duration() - (p.stacked - (prog * static_cast<float>(total)));
+        float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<I>(p.easings);
         std::get<I>(values) = easing(pointTotal, std::get<I>(p.values), std::get<I>(points.at(point+1).values));
@@ -128,7 +129,8 @@ namespace tweeny {
     template<typename T, typename... Ts>
     inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) const {
         auto & p = points.at(point);
-        float pointTotal = (prog * p.duration()) / p.duration(0);
+        uint32_t pointDuration = p.duration() - (p.stacked - (prog * static_cast<float>(total)));
+        float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<0>(p.easings);
         std::get<0>(values) = easing(pointTotal, std::get<0>(p.values), std::get<0>(points.at(point+1).values));
