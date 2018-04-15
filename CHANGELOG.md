@@ -1,5 +1,6 @@
 # Tweeny Changelog
 - Version 3:
+  - Fix point duration calculation in multipoint tweening 
   - Implement `peek(float progress)` and `peek(uint32_t time)` to peek
     at arbitrary points
   - Improve README instructions on how to build examples
