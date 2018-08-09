@@ -33,7 +33,7 @@ namespace tweeny {
     namespace sdl2 {
       class sprite {
         public:
-          sprite(sprite && other);
+          sprite(sprite && other) noexcept;
           sprite(const sprite & other);
           sprite(SDL_Renderer * renderer, const char file[], int framesx, int framesy);
           sprite(SDL_Renderer * renderer, const unsigned char data[], unsigned int len, int framesx, int framesy);
