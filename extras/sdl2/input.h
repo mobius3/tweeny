@@ -25,15 +25,19 @@
 #ifndef TWEENY_SDL2_INPUT_H
 #define TWEENY_SDL2_INPUT_H
 
-namespace ex {
-    struct input {
+namespace tweeny {
+  namespace extras {
+    namespace sdl2 {
+      struct input {
         static bool pressed();
         static bool left();
         static bool right();
         static bool up();
         static bool down();
         static bool space();
-    };
+      };
+    }
+  }
 }
 
 #endif //TWEENY_SDL2_INPUT_H

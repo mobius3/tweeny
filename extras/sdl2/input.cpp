@@ -24,34 +24,31 @@
 
 #include "input.h"
 #include "SDL.h"
-
-namespace ex {
-    bool keydown(int scancode) {
+    static bool keydown(int scancode) {
         static int numkeys = 0;
         static const uint8_t * state = SDL_GetKeyboardState(&numkeys);
         return state[scancode] != 0;
     }
 
-    bool input::pressed() {
+    bool tweeny::extras::sdl2::input::pressed() {
         return left() || right() || up() || down();
     }
 
-    bool input::left() {
-        return ex::keydown(SDL_SCANCODE_LEFT);
+    bool tweeny::extras::sdl2::input::left() {
+        return keydown(SDL_SCANCODE_LEFT);
     }
-    bool input::right() {
-        return ex::keydown(SDL_SCANCODE_RIGHT);
+    bool tweeny::extras::sdl2::input::right() {
+        return keydown(SDL_SCANCODE_RIGHT);
     }
-    bool input::up() {
-        return ex::keydown(SDL_SCANCODE_UP);
+    bool tweeny::extras::sdl2::input::up() {
+        return keydown(SDL_SCANCODE_UP);
     }
-    bool input::down() {
-        return ex::keydown(SDL_SCANCODE_DOWN);
+    bool tweeny::extras::sdl2::input::down() {
+        return keydown(SDL_SCANCODE_DOWN);
     }
-    bool input::space() {
-        return ex::keydown(SDL_SCANCODE_SPACE);
+    bool tweeny::extras::sdl2::input::space() {
+        return keydown(SDL_SCANCODE_SPACE);
     }
-}
 
 
 
