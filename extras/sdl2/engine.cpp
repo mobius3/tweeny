@@ -69,8 +69,6 @@ namespace ex {
     void engine::delay(uint32_t ms) {
         SDL_Delay(ms);
     }
-
-
 }
 
 

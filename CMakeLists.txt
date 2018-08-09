@@ -31,6 +31,7 @@ project(Tweeny)
 # Setup variables and options
 option(TWEENY_BUILD_EXAMPLES "Build examples contained in examples/ folder. It might require additional dependencies." ON)
 option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" ON)
+option(TWEENY_BUILD_EXTRAS "Attempts to build extra goodies on extras/ folder. It will require additional dependencies" ON)
 
 # Setup version
 include(cmake/SetupVersion.cmake)
@@ -70,6 +71,11 @@ include(cmake/SetupExports.cmake)
 # Set up cpack
 include(cmake/SetupCPack.cmake)
 
+# Include extras
+if (TWEENY_BUILD_EXTRAS)
+    add_subdirectory(extras)
+endif()
+
 # Include examples
 if (TWEENY_BUILD_EXAMPLES)
     add_subdirectory(examples)
@@ -94,5 +100,3 @@ add_library(tweeny-dummy
         include/int2type.h
         include/dispatcher.h)
 set_target_properties(tweeny-dummy PROPERTIES LINKER_LANGUAGE CXX EXCLUDE_FROM_ALL TRUE)
-
-#target_compile_options(tweeny INTERFACE -Weverything -Wno-c++98-compat -Wno-padded)

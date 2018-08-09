@@ -22,8 +22,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef SPRITE_STATE_H
-#define SPRITE_STATE_H
+#ifndef TWEENY_SDL2_ENGINE_H
+#define TWEENY_SDL2_ENGINE_H
 
 #include "sprite.h"
 
@@ -53,4 +53,4 @@ namespace ex {
         void delay(uint32_t ms);
     };
 }
-#endif //SPRITE_STATE_H
+#endif //TWEENY_SDL2_ENGINE_H

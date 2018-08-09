@@ -22,8 +22,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef SPRITE_SPRITE_H
-#define SPRITE_SPRITE_H
+#ifndef TWEENY_SDL2_SPRITE_H
+#define TWEENY_SDL2_SPRITE_H
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -48,4 +48,4 @@ namespace ex {
     };
 }
 
-#endif //SPRITE_SPRITE_H
+#endif //TWEENY_SDL2_SPRITE_H

@@ -22,8 +22,8 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef SPRITE_INPUT_H
-#define SPRITE_INPUT_H
+#ifndef TWEENY_SDL2_INPUT_H
+#define TWEENY_SDL2_INPUT_H
 
 namespace ex {
     struct input {
@@ -36,4 +36,4 @@ namespace ex {
     };
 }
 
-#endif //SPRITE_INPUT_H
+#endif //TWEENY_SDL2_INPUT_H
