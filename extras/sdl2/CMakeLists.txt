@@ -34,7 +34,8 @@ endif ()
 add_library(tweeny-extras-sdl2 STATIC
   engine.cpp
   input.cpp
-  sprite.cpp)
+  sprite.cpp
+  stb_image.c)
 
 if (TARGET SDL2::SDL2)
   target_link_libraries(tweeny-extras-sdl2 PUBLIC SDL2::SDL2)

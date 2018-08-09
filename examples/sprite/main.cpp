@@ -138,7 +138,4 @@ bool loop(tweeny::tween<int> & t, int) {
     return false;
 }
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 
