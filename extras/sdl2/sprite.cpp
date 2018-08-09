@@ -66,7 +66,7 @@ void tweeny::extras::sdl2::sprite::render(int x, int y, double angle) {
   render(0, 0, x, y, angle);
 }
 
-tweeny::extras::sdl2::sprite::sprite(sprite && other)
+tweeny::extras::sdl2::sprite::sprite(sprite && other) noexcept
   : texture(other.texture)
   , renderer(other.renderer)
   , w(other.w), h(other.h)
