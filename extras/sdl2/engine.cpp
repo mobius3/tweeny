@@ -26,48 +26,48 @@
 #include "engine.h"
 #include "sprite.h"
 
-    tweeny::extras::sdl2::sprite tweeny::extras::sdl2::engine::sprite(const unsigned char * data, unsigned int len, int framesx, int framesy) {
-        return tweeny::extras::sdl2::sprite{renderer, data, len, framesx, framesy};
-    }
+tweeny::extras::sdl2::sprite tweeny::extras::sdl2::engine::sprite(const unsigned char * data, unsigned int len, int framesx, int framesy) {
+  return tweeny::extras::sdl2::sprite{renderer, data, len, framesx, framesy};
+}
 
 tweeny::extras::sdl2::sprite tweeny::extras::sdl2::engine::sprite(const char * file, int framesx, int framesy) {
-        return tweeny::extras::sdl2::sprite{renderer, file, framesx, framesy};
-    }
+  return tweeny::extras::sdl2::sprite{renderer, file, framesx, framesy};
+}
 
 tweeny::extras::sdl2::engine::engine(int w, int h) {
-        SDL_Init(SDL_INIT_EVERYTHING);
-        SDL_CreateWindowAndRenderer(w, h, 0, &window, &renderer);
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    }
+  SDL_Init(SDL_INIT_EVERYTHING);
+  SDL_CreateWindowAndRenderer(w, h, 0, &window, &renderer);
+  SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+}
 
 tweeny::extras::sdl2::engine::~engine() {
-        SDL_DestroyWindow(window);
-        SDL_DestroyRenderer(renderer);
-        SDL_Quit();
-    }
+  SDL_DestroyWindow(window);
+  SDL_DestroyRenderer(renderer);
+  SDL_Quit();
+}
 
-    void tweeny::extras::sdl2::engine::clear() {
-        clear(clearcolor.r, clearcolor.g, clearcolor.b, clearcolor.a);
-    }
+void tweeny::extras::sdl2::engine::clear() {
+  clear(clearcolor.r, clearcolor.g, clearcolor.b, clearcolor.a);
+}
 
-    void tweeny::extras::sdl2::engine::clear(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-        start = SDL_GetTicks();
-        SDL_SetRenderDrawColor(renderer, r, g, b, a);
-        SDL_RenderClear(renderer);
-    }
+void tweeny::extras::sdl2::engine::clear(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
+  start = SDL_GetTicks();
+  SDL_SetRenderDrawColor(renderer, r, g, b, a);
+  SDL_RenderClear(renderer);
+}
 
-    void tweeny::extras::sdl2::engine::flip() {
-        SDL_RenderPresent(renderer);
-        dt = SDL_GetTicks() - start;
-    }
+void tweeny::extras::sdl2::engine::flip() {
+  SDL_RenderPresent(renderer);
+  dt = SDL_GetTicks() - start;
+}
 
-    bool tweeny::extras::sdl2::engine::quit() {
-        return SDL_QuitRequested();
-    }
+bool tweeny::extras::sdl2::engine::quit() {
+  return SDL_QuitRequested();
+}
 
-    void tweeny::extras::sdl2::engine::delay(uint32_t ms) {
-        SDL_Delay(ms);
-    }
+void tweeny::extras::sdl2::engine::delay(uint32_t ms) {
+  SDL_Delay(ms);
+}
 
 
 
