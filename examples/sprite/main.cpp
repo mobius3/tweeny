@@ -25,9 +25,10 @@
 /* This example uses tweens to control the frames of a sprite */
 
 #include "tweeny.h"
-#include "sprite.h"
-#include "engine.h"
-#include "input.h"
+#include "extras/sdl2/sprite.h"
+#include "extras/sdl2/engine.h"
+#include "extras/sdl2/input.h"
+
 #ifdef EMSCRIPTEN
 #include <emscripten/emscripten.h>
 #endif

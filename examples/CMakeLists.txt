@@ -25,48 +25,31 @@
 find_package(SDL2 QUIET)
 
 macro(add_example)
-    set(TARGET ${ARGV0})
-    set(SOURCES "${ARGN}")
-    list(REMOVE_AT SOURCES 0)
-    string(TOUPPER ${TARGET} TARGET_UPPER)
-    option(TWEENY_EXAMPLE_${TARGET_UPPER} "Build the ${TARGET} example." ON)
-    if (TWEENY_EXAMPLE_${TARGET_UPPER})
-        add_executable(${TARGET} ${SOURCES})
-        target_link_libraries(${TARGET} PRIVATE tweeny)
-    endif()
+  set(TARGET ${ARGV0})
+  set(SOURCES "${ARGN}")
+  list(REMOVE_AT SOURCES 0)
+  string(TOUPPER ${TARGET} TARGET_UPPER)
+  option(TWEENY_EXAMPLE_${TARGET_UPPER} "Build the ${TARGET} example." ON)
+  if (TWEENY_EXAMPLE_${TARGET_UPPER})
+    add_executable(${TARGET} ${SOURCES})
+    target_link_libraries(${TARGET} PRIVATE tweeny)
+  endif ()
 endmacro()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ALLOW_MEMORY_GROWTH=1")
-    set(CMAKE_EXECUTABLE_SUFFIX ".html")
-endif()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ALLOW_MEMORY_GROWTH=1")
+  set(CMAKE_EXECUTABLE_SUFFIX ".html")
+endif ()
 
 add_example(multitype multitype/multitype.cpp)
 add_example(easings easings/easings.cpp)
 add_example(loop loop/loop.cpp)
 
 
-if (SDL2_FOUND)
-    add_example(sprite
-        sprite/main.cpp
-        sprite/stb_image.h
-        sprite/sprite.cpp
-        sprite/sprite.h
-        sprite/engine.cpp
-        sprite/engine.h
-        sprite/input.cpp
-        sprite/input.h
-        sprite/resources.c
-    )
-    if (TWEENY_EXAMPLE_SPRITE)
-        if (TARGET SDL2::SDL2)
-            target_link_libraries(sprite PRIVATE SDL2::SDL2)
-        elseif(SDL2_LIBRARIES)
-            string(STRIP ${SDL2_LIBRARIES} SDL2_LIBS)
-            target_link_libraries(sprite PRIVATE ${SDL2_LIBS})
-            target_include_directories(sprite PRIVATE ${SDL2_INCLUDE_DIRS})
-        endif()
-    endif()
-else()
-    message(STATUS "SDL2 was not found. sprite example will NOT be built")
-endif()
+if (TARGET tweeny::extras::sdl2)
+  message(STATUS "Tweeny SDL2 extra found. Examples depending on it will be built.")
+  if (TWEENY_EXAMPLE_SPRITE)
+    add_example(sprite sprite/main.cpp sprite/resources.c)
+    target_link_libraries(sprite PRIVATE tweeny::extras::sdl2)
+  endif ()
+endif ()
