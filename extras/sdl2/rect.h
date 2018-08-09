@@ -22,44 +22,40 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_SDL2_ENGINE_H
-#define TWEENY_SDL2_ENGINE_H
+#ifndef TWEENY_SDL2_RECT_H
+#define TWEENY_SDL2_RECT_H
 
-#include "sprite.h"
 #include "color.h"
-#include "rect.h"
 
-struct SDL_Window;
 struct SDL_Renderer;
 
 namespace tweeny {
   namespace extras {
     namespace sdl2 {
-      struct engine {
-        SDL_Renderer * renderer = nullptr;
-        SDL_Window * window = nullptr;
-        int w = 0, h = 0;
-        uint32_t start = 0, dt = 0;
 
-        sdl2::color clearcolor;
+      class rect {
+        public:
+          rect(rect && other) noexcept;
+          rect(const rect & other) = default;
+          rect(SDL_Renderer * renderer, float x, float y, float w, float h, const sdl2::color & background, const sdl2::color & line);
+          void fill(const sdl2::color & bg);
+          void border(const sdl2::color & bg);
+          void render();
 
-        engine(int w, int h);
-        ~engine();
+        public:
+          float x;
+          float y;
+          float w;
+          float h;
 
-        tweeny::extras::sdl2::sprite sprite(const unsigned char data[], unsigned int len, int framesx = 1, int framesy = 1);
-        tweeny::extras::sdl2::sprite sprite(const char file[], int framesx = 1, int framesy = 1);
-
-        tweeny::extras::sdl2::rect rect(float x, float y, float w, float h, const sdl2::color & fill = sdl2::color::black, sdl2::color & background = sdl2::color::black);
-
-        void clear(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-        void clear(uint8_t r, uint8_t g, uint8_t b) { clear(r, g, b, clearcolor.a); }
-        void clear(sdl2::color color) { clear(color.r, color.g, color.b, color.a); }
-        void clear();
-        void flip();
-        bool quit();
-        void delay(uint32_t ms);
+        private:
+          SDL_Renderer * renderer;
+          sdl2::color fg;
+          sdl2::color bg;
       };
     }
   }
 }
-#endif //TWEENY_SDL2_ENGINE_H
+
+
+#endif //TWEENY_SDL2_RECT_H

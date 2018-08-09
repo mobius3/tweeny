@@ -22,44 +22,23 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_SDL2_ENGINE_H
-#define TWEENY_SDL2_ENGINE_H
-
-#include "sprite.h"
-#include "color.h"
-#include "rect.h"
-
-struct SDL_Window;
-struct SDL_Renderer;
+#ifndef TWEENY_SDL2_COLOR_H
+#define TWEENY_SDL2_COLOR_H
 
 namespace tweeny {
   namespace extras {
     namespace sdl2 {
-      struct engine {
-        SDL_Renderer * renderer = nullptr;
-        SDL_Window * window = nullptr;
-        int w = 0, h = 0;
-        uint32_t start = 0, dt = 0;
+      struct color {
+        static color black;
+        static color white;
+        static color red;
+        static color green;
+        static color blue;
 
-        sdl2::color clearcolor;
-
-        engine(int w, int h);
-        ~engine();
-
-        tweeny::extras::sdl2::sprite sprite(const unsigned char data[], unsigned int len, int framesx = 1, int framesy = 1);
-        tweeny::extras::sdl2::sprite sprite(const char file[], int framesx = 1, int framesy = 1);
-
-        tweeny::extras::sdl2::rect rect(float x, float y, float w, float h, const sdl2::color & fill = sdl2::color::black, sdl2::color & background = sdl2::color::black);
-
-        void clear(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-        void clear(uint8_t r, uint8_t g, uint8_t b) { clear(r, g, b, clearcolor.a); }
-        void clear(sdl2::color color) { clear(color.r, color.g, color.b, color.a); }
-        void clear();
-        void flip();
-        bool quit();
-        void delay(uint32_t ms);
+        unsigned char r = 0, g = 0, b = 0, a = 0;
       };
     }
   }
 }
-#endif //TWEENY_SDL2_ENGINE_H
+
+#endif //TWEENY_SDL2_COLOR_H

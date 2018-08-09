@@ -54,6 +54,7 @@ void tweeny::extras::sdl2::engine::clear(uint8_t r, uint8_t g, uint8_t b, uint8_
   start = SDL_GetTicks();
   SDL_SetRenderDrawColor(renderer, r, g, b, a);
   SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(renderer, clearcolor.r, clearcolor.g, clearcolor.b, clearcolor.a);
 }
 
 void tweeny::extras::sdl2::engine::flip() {
@@ -67,6 +68,10 @@ bool tweeny::extras::sdl2::engine::quit() {
 
 void tweeny::extras::sdl2::engine::delay(uint32_t ms) {
   SDL_Delay(ms);
+}
+
+tweeny::extras::sdl2::rect tweeny::extras::sdl2::engine::rect(float x, float y, float w, float h, const tweeny::extras::sdl2::color & fill, tweeny::extras::sdl2::color & background) {
+  return {renderer, x, y, w, h, fill, background};
 }
 
 

@@ -35,6 +35,8 @@ add_library(tweeny-extras-sdl2 STATIC
   engine.cpp
   input.cpp
   sprite.cpp
+  color.cpp
+  rect.cpp
   stb_image.c)
 
 if (TARGET SDL2::SDL2)
