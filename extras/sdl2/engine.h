@@ -28,6 +28,9 @@
 #include "sprite.h"
 #include "color.h"
 #include "rect.h"
+#include "cursor.h"
+
+#include <vector>
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -42,6 +45,8 @@ namespace tweeny {
         uint32_t start = 0, dt = 0;
 
         sdl2::color clearcolor;
+        bool quitRequested = false;
+        std::vector<sdl2::cursor> cursors;
 
         engine(int w, int h);
         ~engine();
@@ -58,6 +63,7 @@ namespace tweeny {
         void flip();
         bool quit();
         void delay(uint32_t ms);
+        const sdl2::cursor & cursor(uint8_t index = 0);
       };
     }
   }

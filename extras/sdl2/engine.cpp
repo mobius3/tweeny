@@ -22,6 +22,7 @@
  CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include <iostream>
 #include "SDL.h"
 #include "engine.h"
 #include "sprite.h"
@@ -34,7 +35,8 @@ tweeny::extras::sdl2::sprite tweeny::extras::sdl2::engine::sprite(const char * f
   return tweeny::extras::sdl2::sprite{renderer, file, framesx, framesy};
 }
 
-tweeny::extras::sdl2::engine::engine(int w, int h) {
+tweeny::extras::sdl2::engine::engine(int w, int h)
+: w(w), h(h), cursors(1) {
   SDL_Init(SDL_INIT_EVERYTHING);
   SDL_CreateWindowAndRenderer(w, h, 0, &window, &renderer);
   SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -60,10 +62,29 @@ void tweeny::extras::sdl2::engine::clear(uint8_t r, uint8_t g, uint8_t b, uint8_
 void tweeny::extras::sdl2::engine::flip() {
   SDL_RenderPresent(renderer);
   dt = SDL_GetTicks() - start;
+  SDL_Event ev;
+  SDL_PumpEvents();
+  while (SDL_PollEvent(&ev)) {
+    switch (ev.type) {
+      case SDL_QUIT: quitRequested = true; break;
+      case SDL_MOUSEMOTION:
+        cursors[0].position.x = static_cast<float>(ev.motion.x - w / 2);
+        cursors[0].position.y = static_cast<float>(ev.motion.y - h / 2);
+        break;
+      case SDL_MOUSEBUTTONDOWN:
+        if (ev.button.button & SDL_BUTTON_LEFT)
+          cursors[0].pressed = true;
+        break;
+      case SDL_MOUSEBUTTONUP:
+        if (ev.button.button & SDL_BUTTON_LEFT)
+          cursors[0].pressed = false;
+        break;
+    }
+  }
 }
 
 bool tweeny::extras::sdl2::engine::quit() {
-  return SDL_QuitRequested();
+  return quitRequested;
 }
 
 void tweeny::extras::sdl2::engine::delay(uint32_t ms) {
@@ -72,6 +93,10 @@ void tweeny::extras::sdl2::engine::delay(uint32_t ms) {
 
 tweeny::extras::sdl2::rect tweeny::extras::sdl2::engine::rect(float x, float y, float w, float h, const tweeny::extras::sdl2::color & fill, tweeny::extras::sdl2::color & background) {
   return {renderer, x, y, w, h, fill, background};
+}
+
+tweeny::extras::sdl2::cursor const & tweeny::extras::sdl2::engine::cursor(uint8_t index) {
+  return cursors[index];
 }
 
 
