@@ -81,9 +81,11 @@ void tweeny::extras::sdl2::rect::border(const tweeny::extras::sdl2::color & fg) 
 }
 
 void tweeny::extras::sdl2::rect::render() {
+  int ww = 0, wh = 0;
+  SDL_GetRendererOutputSize(renderer, &ww, &wh);
   SDL_Rect r = {
-    static_cast<int>(x),
-    static_cast<int>(y),
+    static_cast<int>(x + (ww/2) - w/2),
+    static_cast<int>(y + (wh/2) - h/2),
     static_cast<int>(w),
     static_cast<int>(h)
   };
