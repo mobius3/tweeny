@@ -28,13 +28,16 @@
 #include "SDL.h"
 
 struct colorguard {
-  tweeny::extras::sdl2::color old;
+  SDL_Color old;
   SDL_Renderer * renderer;
   colorguard(SDL_Renderer * renderer, const tweeny::extras::sdl2::color & color)
     : renderer(renderer)
   {
     SDL_GetRenderDrawColor(renderer, &old.r, &old.g, &old.b, &old.a);
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_SetRenderDrawColor(renderer, static_cast<unsigned char>(color.r),
+                           static_cast<unsigned char>(color.g),
+                           static_cast<unsigned char>(color.b),
+                           static_cast<unsigned char>(color.a));
   }
 
   ~colorguard() {

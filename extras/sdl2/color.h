@@ -25,18 +25,45 @@
 #ifndef TWEENY_SDL2_COLOR_H
 #define TWEENY_SDL2_COLOR_H
 
+#include <ostream>
+
 namespace tweeny {
   namespace extras {
     namespace sdl2 {
+      struct rgba { unsigned char r = 0, g = 0, b = 0, a = 0; };
+      struct hsv { float h = 0, s = 0, v = 0; unsigned char a = 0; };
+
       struct color {
+
         static color black;
         static color white;
         static color red;
         static color green;
         static color blue;
+        static color yellow;
 
         unsigned char r = 0, g = 0, b = 0, a = 0;
+
+        explicit color(const hsv & hsv) noexcept;
+        explicit color(const rgba & rgb) noexcept;
+        color() noexcept;
+
+        sdl2::rgba rgba() const;
+        sdl2::hsv hsv() const;
+
+        color & operator=(const sdl2::rgba & rgba);
+        color & operator=(const sdl2::hsv & hsv);
+        color & operator-=(const color & other);
+        color & operator+=(const color & other);
+        color & operator*=(float f);
+        color & operator/=(float f);
       };
+      std::ostream & operator<<(std::ostream & os, color const & c);
+      color operator-(const color & a, const color & b);
+      color operator-(const color & a);
+      color operator+(const color & a, const color & b);
+      color operator*(const color & a, float f);
+      color operator/(const color & a, float f);
     }
   }
 }
