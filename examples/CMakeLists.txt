@@ -48,8 +48,14 @@ add_example(loop loop/loop.cpp)
 
 if (TARGET tweeny::extras::sdl2)
   message(STATUS "Tweeny SDL2 extra found. Examples depending on it will be built.")
+
+  add_example(sprite sprite/main.cpp sprite/resources.c)
   if (TWEENY_EXAMPLE_SPRITE)
-    add_example(sprite sprite/main.cpp sprite/resources.c)
     target_link_libraries(sprite PRIVATE tweeny::extras::sdl2)
   endif ()
+
+  add_example(squares squares/main.cpp)
+  if (TWEENY_EXAMPLE_SQUARES)
+    target_link_libraries(squares PRIVATE tweeny::extras::sdl2)
+  endif()
 endif ()
