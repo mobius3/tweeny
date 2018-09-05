@@ -34,12 +34,17 @@ using namespace tweeny::extras;
 int main(int argc, char ** argv) {
   const auto & a = sdl2::color::yellow, & b = sdl2::color::blue;
   sdl2::engine engine(800, 600);
-  sdl2::rect r = engine.rect(0, 0, 400, 400, a);
-  auto t = tweeny::from(a).to(b).during(400).via(tweeny::easing::sinusoidalOut);
+  sdl2::rect r = engine.rect(0, 0, 20, 20, a);
+  auto posTween = tweeny::from(.0f, .0f).to(.0f, .0f).during(100);
   while (!engine.quit()) {
     engine.clear(100, 100, 200);
-    r.fill(t.step(16));
+    auto pos = posTween.step(16);
+    r.x = pos[0]; r.y = pos[1];
     r.render();
+    const sdl2::cursor & cursor = engine.cursor();
+    if (cursor.pressed) {
+      posTween = tweeny::from(r.x, r.y).to(cursor.position.x, cursor.position.y).during(500).via(tweeny::easing::backOut);
+    }
     engine.delay(16);
     engine.flip();
   }
