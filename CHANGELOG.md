@@ -1,4 +1,8 @@
 # Tweeny Changelog
+- Version 4:
+  - Move examples to [tweeny-demos](github.com/mobius3/tweeny-demos) repository
+  - Update README and docs
+
 - Version 3:
   - Fix point duration calculation in multipoint tweening 
   - Implement `peek(float progress)` and `peek(uint32_t time)` to peek
