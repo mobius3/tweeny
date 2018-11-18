@@ -230,7 +230,7 @@ namespace tweeny {
 
  <hr>
 
- This covers all the basics steps of using Tweeny. There is more to learn though, take a look at the examples folder of the source code to see
+ This covers all the basics steps of using Tweeny. There is more to learn though, take a look at the <a href="http://github.com/mobius3/tweey-demos">demo repository</a> to see
  more. Consult the API of the @ref tween class to see all its methods and more examples within.
 
  I hope you have fun using Tweeny.
