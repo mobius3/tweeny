@@ -23,9 +23,7 @@
 # This cmake file creates and builds doxygen documentation. It also sets it in the install list.
 
 find_package(Doxygen)
-option(TWEENY_GENERATE_DOC "Generate HTML documentation" OFF)
-option(TWEENY_INSTALL_EXAMPLES "Install examples with the doc" OFF)
-if (TWEENY_GENERATE_DOC)
+if (TWEENY_BUILD_DOCUMENTATION)
     set(DOC_ADD_TO_ALL ALL)
 else()
     set(DOC_ADD_TO_ALL "")
@@ -49,14 +47,8 @@ if(DOXYGEN_FOUND)
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
-    if (TWEENY_GENERATE_DOC)
+    if (TWEENY_BUILD_DOCUMENTATION)
         install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc/Tweeny)
-    endif()
-
-    if (TWEENY_INSTALL_EXAMPLES)
-        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../examples/sprite DESTINATION share/doc/Tweeny/examples)
-        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../examples/loop DESTINATION share/doc/Tweeny/examples)
-        install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../examples/easings DESTINATION share/doc/Tweeny/examples)
     endif()
 
 endif(DOXYGEN_FOUND)

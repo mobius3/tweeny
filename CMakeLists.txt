@@ -30,7 +30,7 @@ project(Tweeny)
 
 # Setup variables and options
 option(TWEENY_BUILD_EXAMPLES "Build examples contained in examples/ folder. It might require additional dependencies." ON)
-option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" ON)
+option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" OFF)
 option(TWEENY_BUILD_EXTRAS "Attempts to build extra goodies on extras/ folder. It will require additional dependencies" ON)
 
 # Setup version
