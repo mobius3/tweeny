@@ -33,10 +33,6 @@ if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
     file(COPY
-            ${CMAKE_CURRENT_SOURCE_DIR}/customdoxygen.css
-            ${CMAKE_CURRENT_SOURCE_DIR}/doxy-boot.js
-            ${CMAKE_CURRENT_SOURCE_DIR}/footer.html
-            ${CMAKE_CURRENT_SOURCE_DIR}/header.html
             ${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml
             ${CMAKE_CURRENT_SOURCE_DIR}/MANUAL.dox
          DESTINATION
