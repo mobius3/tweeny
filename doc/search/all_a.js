@@ -1,15 +1,9 @@
 var searchData=
 [
-  ['quadratic',['Quadratic',['../group__quadratic.html',1,'']]],
-  ['quadraticin',['quadraticIn',['../group__quadratic.html#gaa8be5b01b8440c562ed043c8bb5ab7d8',1,'tweeny::easing']]],
-  ['quadraticinout',['quadraticInOut',['../group__quadratic.html#ga3b89dcc5dae131815993609004a60619',1,'tweeny::easing']]],
-  ['quadraticout',['quadraticOut',['../group__quadratic.html#ga28fd528f4fd47a51d5c393304f886184',1,'tweeny::easing']]],
-  ['quartic',['Quartic',['../group__quartic.html',1,'']]],
-  ['quarticin',['quarticIn',['../group__quartic.html#ga76b67f5389d6a7d1301033d705f9e71c',1,'tweeny::easing']]],
-  ['quarticinout',['quarticInOut',['../group__quartic.html#gae29932b46fd6569bc6800bd900ffba68',1,'tweeny::easing']]],
-  ['quarticout',['quarticOut',['../group__quartic.html#ga6bc22839674c44d4f43ad3559bae3021',1,'tweeny::easing']]],
-  ['quintic',['Quintic',['../group__quintic.html',1,'']]],
-  ['quinticin',['quinticIn',['../group__quintic.html#ga1d631c9c02406b6c8e8592475f0afb3b',1,'tweeny::easing']]],
-  ['quinticinout',['quinticInOut',['../group__quintic.html#ga6a35309d9ab4fdf3fd934a2b59e32e4d',1,'tweeny::easing']]],
-  ['quinticout',['quinticOut',['../group__quintic.html#ga92301fa55c95ebc19666b1f17e1f23a6',1,'tweeny::easing']]]
+  ['seek',['seek',['../classtweeny_1_1tween_a03fcf9dd9af1edeeb34f12cb745b81f0.html#a03fcf9dd9af1edeeb34f12cb745b81f0',1,'tweeny::tween::seek(float p, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_a3867756a5bc83fe90e148d1f5eaf0ea6.html#a3867756a5bc83fe90e148d1f5eaf0ea6',1,'tweeny::tween::seek(int32_t d, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_a9d631c0108600f3e419c1358cafae277.html#a9d631c0108600f3e419c1358cafae277',1,'tweeny::tween::seek(uint32_t d, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_3_01T_01_4_ae2e58f54c7bb3f6bb0e2b6e987a4b526.html#ae2e58f54c7bb3f6bb0e2b6e987a4b526',1,'tweeny::tween&lt; T &gt;::seek(float p, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_3_01T_01_4_acd2c270bb5bbba09a69f0f7bac49e82c.html#acd2c270bb5bbba09a69f0f7bac49e82c',1,'tweeny::tween&lt; T &gt;::seek(int32_t d, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_3_01T_01_4_a3890d6b12dc423678b14e3f4f124a62c.html#a3890d6b12dc423678b14e3f4f124a62c',1,'tweeny::tween&lt; T &gt;::seek(uint32_t d, bool suppressCallbacks=false)']]],
+  ['sinuisodal',['Sinuisodal',['../group__sinuisodal.html',1,'']]],
+  ['sinusoidalineasing',['sinusoidalInEasing',['../structtweeny_1_1easing_1_1sinusoidalInEasing.html',1,'tweeny::easing']]],
+  ['sinusoidalinouteasing',['sinusoidalInOutEasing',['../structtweeny_1_1easing_1_1sinusoidalInOutEasing.html',1,'tweeny::easing']]],
+  ['sinusoidalouteasing',['sinusoidalOutEasing',['../structtweeny_1_1easing_1_1sinusoidalOutEasing.html',1,'tweeny::easing']]],
+  ['step',['step',['../classtweeny_1_1tween_a22a6ff62fc3ae990aeb412052c28f969.html#a22a6ff62fc3ae990aeb412052c28f969',1,'tweeny::tween::step(int32_t dt, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_a4c60cbc8cc32c4123ab51f1dfefc162e.html#a4c60cbc8cc32c4123ab51f1dfefc162e',1,'tweeny::tween::step(uint32_t dt, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_ab2274527a8fde35834dfbbb406f7f03d.html#ab2274527a8fde35834dfbbb406f7f03d',1,'tweeny::tween::step(float dp, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_3_01T_01_4_a18699df9425ef39b3539b2b947936be8.html#a18699df9425ef39b3539b2b947936be8',1,'tweeny::tween&lt; T &gt;::step(int32_t dt, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_3_01T_01_4_a7d5025469015935d4411449ccdb067df.html#a7d5025469015935d4411449ccdb067df',1,'tweeny::tween&lt; T &gt;::step(uint32_t dt, bool suppressCallbacks=false)'],['../classtweeny_1_1tween_3_01T_01_4_af50d72227d34371a0ef9d29b232235b3.html#af50d72227d34371a0ef9d29b232235b3',1,'tweeny::tween&lt; T &gt;::step(float dp, bool suppressCallbacks=false)']]]
 ];

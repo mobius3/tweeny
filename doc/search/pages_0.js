@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['easings_20example',['Easings example',['../easingsexample.html',1,'']]]
+  ['tweeny',['Tweeny',['../index.html',1,'']]],
+  ['tweeny_20manual',['Tweeny Manual',['../manual.html',1,'']]]
 ];
