@@ -68,43 +68,11 @@
  *
  * **Examples**
  *
- * * @ref easingsexample prints on the console the easing curve for each easing function.
- * * @ref loop provides an example on how to make a tween loop
- * * @ref zombieexample holds a sprite animation example using two tweens.
+ * * Check <a href="http://github.com/mobius3/tweeny-demos">tweeny-demos</a> repository to see demonstration code
  *
  * **Useful links and references**
  * * <a href="http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm">Tim Groleau's easing function generator (requires flash)</a>
  * * <a href="http://easings.net/">Easing cheat sheet (contains graphics!)</a>
- */
-
-/**
- * @page loop Loop example
- * @details The loop example shows various forms of implementing tween loops using the tween::onStep function.
- *
- * @include loop/loop.cpp
- */
-
-/**
- * @page easingsexample Easings example
- * @details This example simply prints the curves for each easing.
- *
- * @include easings/easings.cpp
- */
-
-/**
- * @page zombieexample Sprite animation example
- * @details This example uses a tween to control the animation frames of a sprite. It uses two tweens, one for
- * the idle animation with a yoyo loop and the walking animation with a wrap loop. The complete example can be
- * obtained by examining the source code.
- *
- * @include sprite/main.cpp
- */
-
-/**
- * @page multitypeexample Multi type example
- * @details Example of a tween having multiple value types.
- *
- * @include multitype/multitype.cpp
  */
 
 #ifndef TWEENY_H

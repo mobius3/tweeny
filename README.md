@@ -58,6 +58,10 @@ target_link_libraries(yourtarget tweeny)
 ```
 This will add the `include/` folder to your search path, and you can `#include "tweeny.h"`.
 
+## Doxygen documentation
+
+This library is documented using Doxygen. If you intend to generate docs, specify the flag `TWEENY_BUILD_DOCUMENTATION` when generating CMake build files (e.g: `cmake .. -DTWEENY_BUILD_DOCUMENTATION=1`). You will need doxygen installed.
+
 ## Contributing
 
 Tweeny is open-source, meaning that it is open to modifications and contrubutions from the community (you are very much encouraged to do so!). However, we'd appreciate if you follow these guidelines:
