@@ -71,16 +71,6 @@ include(cmake/SetupExports.cmake)
 # Set up cpack
 include(cmake/SetupCPack.cmake)
 
-# Include extras
-if (TWEENY_BUILD_EXTRAS)
-    add_subdirectory(extras)
-endif()
-
-# Include examples
-if (TWEENY_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
-
 if (TWEENY_BUILD_DOCUMENTATION)
     add_subdirectory(doc)
 endif()
