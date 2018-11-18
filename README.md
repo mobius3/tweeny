@@ -19,44 +19,34 @@ The goal of Tweeny is to provide means to create fluid interpolations when anima
 
 **Obligatory hello world example**:
 
+Linearly interpolate character by character from the word *hello* to *world* in `50` steps:
+
 ```cpp
-auto helloworld = tweeny::from('h','e', 'l', 'l', 'o').to('w', 'o', 'r', 'l', 'd').during(50);
+auto helloworld = tweeny::from('h','e','l','l','o').to('w','o','r','l','d').during(50);
 for (int i = 0; i < 50; i++) {
     for (char c : helloworld.step(1)) { printf("%c", c); }
     printf("\n");
 }
 ```
 
-## Examples:
+Relevant code:
 
-Some examples can be seen in the [examples](https://github.com/mobius3/tweeny/tree/master/examples) folder. They need to be built if you want to see them in action. To do this, I recommed creating a `build` folder inside the project folder building it from there.
-
-*Disclaimer: the [sprite example](https://github.com/mobius3/tweeny/tree/master/examples) needs [SDL2](http://libsdl.org/) to build*
-
-### Linux, MacOS and Unix
-
-From the top level directory of tweeny: 
-
-    mkdir build && cd build
-    cmake ..
-    make
-    
-### Windows
-
-- Open CMake GUI and select the top level directory of tweeny as source
-- Select or create a build folder (it can be inside of tweeny)
-- Select the generator (depending on your compiler/IDE)
-- Click GENERATE
-- Open the generated project in your IDE, select the target and run it from there.
-    
+- **1**: create the tween instance starting with characters of the `hello` word, adds a tween target with the chars of the `world` word and specify it should reach it in `50` steps.
+- **3**: move the tween forward by one step. Use the return value of it (which ill be a `std::array<char, 5>` in this case) to set up a for loop iterating in each char, printing it.
 
 ## Installation methods:
 
-You just need to adjust your include path to point to the `include/` folder.
+**Using your package manager**
+
+There are some packages for tweeny made by some great people. Repology has a list of them and their versions [here](https://repology.org/metapackage/tweeny/versions). Thanks, great people!
+
+**Not installing it**
+
+You just need to adjust your include path to point to the `include/` folder after you've cloned this repository.
 
 **Copying the `include` folder:**
 
-Tweeny itself is a header only library. The easiest way to use it is to copy the `include/` folder into your project folder and then include from it: `#include "tweeny/tweeny.h"`
+Tweeny itself is a header only library. You can copy the `include/` folder into your project folder and then include from it: `#include "tweeny/tweeny.h"`
 
 **CMake subproject**
 
@@ -78,4 +68,6 @@ Tweeny is open-source, meaning that it is open to modifications and contrubution
 - Implementation details should go inside `tweeny::detail` namespace.
 - Template implementations should go into a `.tcc` file
 
-[![Analytics](https://ga-beacon.appspot.com/UA-109934679-1/tweeny-readme?useReferer&flat-gif)](https://github.com/mobius3/tweeny)
+## Examples:
+
+Demo code showcasing some of Tweeny features can be seen in the [tweeny-demo](https://github.com/mobius3/tweeny-demos) repository. This repository also has instructions on how to build them.
