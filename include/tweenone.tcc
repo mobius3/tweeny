@@ -243,6 +243,6 @@ namespace tweeny {
         while (t > points.at(point).stacked) point++;
         if (point > 0 && t <= points.at(point - 1u).stacked) point--;
         return point;
-  };
+    }
 }
 #endif //TWEENY_TWEENONE_TCC
