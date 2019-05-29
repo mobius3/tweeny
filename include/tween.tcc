@@ -246,7 +246,7 @@ namespace tweeny {
 
     template<typename T, typename... Ts> inline uint16_t tween<T, Ts...>::point() const {
         return currentPoint;
-    };
+    }
 
     template<typename T, typename... Ts> inline uint16_t tween<T, Ts...>::pointAt(float progress) const {
         uint32_t t = static_cast<uint32_t>(progress * total);
@@ -254,7 +254,7 @@ namespace tweeny {
         while (t > points.at(point).stacked) point++;
         if (point > 0 && t <= points.at(point - 1u).stacked) point--;
         return point;
-    };
+    }
 }
 
 #endif //TWEENY_TWEEN_TCC
