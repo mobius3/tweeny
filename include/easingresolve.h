@@ -73,6 +73,15 @@ namespace tweeny {
                 easingresolve<I + 1, TypeTuple, FunctionTuple, Fs...>::impl(b, fs...);
             }
         };
+        template<int I, typename TypeTuple, typename FunctionTuple, typename... Fs>
+        struct easingresolve<I, TypeTuple, FunctionTuple, easing::defaultEasing, Fs...> {
+            typedef typename std::tuple_element<I, TypeTuple>::type ArgType;
+
+            static void impl(FunctionTuple &b, easing::defaultEasing, Fs... fs) {
+                get<I>(b) = easing::default.run<ArgType>;
+                easingresolve<I + 1, TypeTuple, FunctionTuple, Fs...>::impl(b, fs...);
+            }
+        };
 
         #define DECLARE_EASING_RESOLVE(__EASING_TYPE__) \
         template <int I, typename TypeTuple, typename FunctionTuple, typename... Fs> \
