@@ -46,6 +46,11 @@
     * @sa tweeny::easing
     * @{
     *//**
+    *   @defgroup stepped Stepped
+    *   @{
+    *       @brief The value does not change. No interpolation is used.
+    *   @}
+    *//**
     *   @defgroup default Default
     *   @{
     *       @brief A default mode for arithmetic values it will change in constant speed, for non-arithmetic value will be constant.
@@ -124,6 +129,17 @@ namespace tweeny {
      */
     class easing {
         public:
+            /**
+             * @ingroup stepped
+             * @brief Value is constant.
+             */
+            static constexpr struct steppedEasing {
+                template<typename T>
+                static T run(float position, T start, T end) {
+                    return start;
+                }
+            } stepped = steppedEasing{};
+      
             /**
              * @ingroup default
              * @brief Values change with constant speed for arithmetic type only. The non-arithmetic it will be constant.
