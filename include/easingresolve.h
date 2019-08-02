@@ -78,7 +78,7 @@ namespace tweeny {
             typedef typename std::tuple_element<I, TypeTuple>::type ArgType;
 
             static void impl(FunctionTuple &b, easing::defaultEasing, Fs... fs) {
-                get<I>(b) = easing::default.run<ArgType>;
+                get<I>(b) = easing::def.run<ArgType>;
                 easingresolve<I + 1, TypeTuple, FunctionTuple, Fs...>::impl(b, fs...);
             }
         };

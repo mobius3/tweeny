@@ -69,7 +69,7 @@ namespace tweeny {
         template<typename... Ts>
         inline tweenpoint<Ts...>::tweenpoint(Ts... vs) : values{vs...} {
             during(static_cast<uint16_t>(0));
-            via(easing::default);
+            via(easing::def);
         }
 
         template<typename... Ts>

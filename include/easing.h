@@ -175,7 +175,7 @@ namespace tweeny {
                 static typename std::enable_if<!supports_arithmetic_operations<T>::value, T>::type run(float position, T start, T end) {
                     return start;
                 }
-            } default = defaultEasing{};
+            } def = defaultEasing{};
 
             /**
              * @ingroup linear
