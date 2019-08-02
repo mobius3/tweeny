@@ -46,6 +46,11 @@
     * @sa tweeny::easing
     * @{
     *//**
+    *   @defgroup stepped Stepped
+    *   @{
+    *       @brief The value does not change. No interpolation is used.
+    *   @}
+    *//**
     *   @defgroup linear Linear
     *   @{
     *       @brief The most boring ever easing function. It has no acceleration and change values in constant speed.
@@ -119,6 +124,17 @@ namespace tweeny {
      */
     class easing {
         public:
+            /**
+             * @ingroup stepped
+             * @brief Value is constant.
+             */
+            static constexpr struct steppedEasing {
+                template<typename T>
+                static T run(float position, T start, T end) {
+                    return start;
+                }
+            } stepped = steppedEasing{};
+
             /**
              * @ingroup linear
              * @brief Values change with constant speed.
