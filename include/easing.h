@@ -46,6 +46,11 @@
     * @sa tweeny::easing
     * @{
     *//**
+    *   @defgroup default Default
+    *   @{
+    *       @brief A default mode for arithmetic values it will change in constant speed, for non-arithmetic value will be constant.
+    *   @}
+    *//**
     *   @defgroup linear Linear
     *   @{
     *       @brief The most boring ever easing function. It has no acceleration and change values in constant speed.
@@ -119,6 +124,43 @@ namespace tweeny {
      */
     class easing {
         public:
+            /**
+             * @ingroup default
+             * @brief Values change with constant speed for arithmetic type only. The non-arithmetic it will be constant.
+             */
+            static constexpr struct defaultEasing {
+                template<class...> struct voidify { using type = void; };
+                template<class... Ts> using void_t = typename voidify<Ts...>::type;
+
+                template<class T, class = void>
+                struct supports_arithmetic_operations : std::false_type {};
+
+                template<class T>
+                struct supports_arithmetic_operations<T, void_t<
+                    decltype(std::declval<T>() + std::declval<T>()),
+                    decltype(std::declval<T>() - std::declval<T>()),
+                    decltype(std::declval<T>() * std::declval<T>()),
+                    decltype(std::declval<T>() * std::declval<float>()),
+                    decltype(std::declval<float>() * std::declval<T>())
+                    >> : std::true_type{};
+
+
+                template<typename T>
+                static typename std::enable_if<std::is_integral<T>::value, T>::type run(float position, T start, T end) {
+                    return static_cast<T>(roundf((end - start) * position + start));
+                }
+
+                template<typename T>
+                static typename std::enable_if<supports_arithmetic_operations<T>::value && !std::is_integral<T>::value, T>::type run(float position, T start, T end) {
+                    return static_cast<T>((end - start) * position + start);
+                }
+
+                template<typename T>
+                static typename std::enable_if<!supports_arithmetic_operations<T>::value, T>::type run(float position, T start, T end) {
+                    return start;
+                }
+            } default = defaultEasing{};
+
             /**
              * @ingroup linear
              * @brief Values change with constant speed.
