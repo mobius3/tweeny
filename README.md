@@ -1,4 +1,7 @@
 # Tweeny
+<a href="https://repology.org/project/tweeny/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/tweeny.svg" alt="Packaging status" align="right" style="padding-left: 20px">
+</a>
 
 Tweeny is an inbetweening library designed for the creation of complex animations for games and other beautiful interactive software. It leverages features of modern C++ to empower developers with an intuitive API for declaring tweenings of any type of value, as long as they support arithmetic operations.
 
