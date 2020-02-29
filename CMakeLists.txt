@@ -68,9 +68,6 @@ install(DIRECTORY include/ DESTINATION include/tweeny)
 # Set up export and config
 include(cmake/SetupExports.cmake)
 
-# Set up cpack
-include(cmake/SetupCPack.cmake)
-
 if (TWEENY_BUILD_DOCUMENTATION)
     add_subdirectory(doc)
 endif()
