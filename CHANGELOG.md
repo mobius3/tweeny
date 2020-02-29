@@ -1,6 +1,9 @@
 # Tweeny Changelog
 - Version 4:
+  - Remove some extraneous semicolons (@Omegastick)
+  - Adds `easing::stepped` and `easing::def` for arithmetic-like values (@ArnCaveris)
   - Fix point progress calculation in multi-duration tweens (#15)
+
 - Version 3:
   - Fix point duration calculation in multipoint tweening 
   - Implement `peek(float progress)` and `peek(uint32_t time)` to peek
