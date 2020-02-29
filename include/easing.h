@@ -523,7 +523,7 @@ namespace tweeny {
                     if (position <= 0.00001f) return start;
                     if (position >= 0.999f) return end;
                     float p = .3f;
-                    float a = end - start;
+                    auto a = end - start;
                     float s = p / 4;
                     float postFix =
                         a * powf(2, 10 * (position -= 1)); // this is a fix, again, with post-increment operators
@@ -541,7 +541,7 @@ namespace tweeny {
                     if (position <= 0.00001f) return start;
                     if (position >= 0.999f) return end;
                     float p = .3f;
-                    float a = end - start;
+                    auto a = end - start;
                     float s = p / 4;
                     return static_cast<T>(a * powf(2, -10 * position) * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p) + end);
                 }
@@ -558,7 +558,7 @@ namespace tweeny {
                     if (position >= 0.999f) return end;
                     position *= 2;
                     float p = (.3f * 1.5f);
-                    float a = end - start;
+                    auto a = end - start;
                     float s = p / 4;
                     float postFix;
 
@@ -606,8 +606,8 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     float s = 1.70158f;
                     float t = position;
-                    T b = start;
-                    T c = end - start;
+                    auto b = start;
+                    auto c = end - start;
                     float d = 1;
                     s *= (1.525f);
                     if ((t /= d / 2) < 1) return static_cast<T>(c / 2 * (t * t * (((s) + 1) * t - s)) + b);
