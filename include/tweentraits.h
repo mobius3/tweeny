@@ -38,10 +38,11 @@ namespace tweeny {
 
     namespace detail {
 
-        template<typename... Ts> struct equal { enum { value = true }; };
-        template<typename T> struct equal<T> { enum { value = true }; };
-        template<typename T, typename... Ts> struct equal<T, T, Ts...>  { enum { value = true && equal<Ts...>::value }; };
-        template<typename T, typename U, typename... Ts> struct equal<T, U, Ts...> { enum { value = false }; };
+      template<typename... Ts> struct equal {};
+      template<typename T> struct equal<T> { enum { value = true }; };
+      template <typename T, typename U, typename... Ts> struct equal<T, U, Ts...> {
+        enum { value = std::is_same<T, U>::value && equal<T, Ts...>::value && equal<U, Ts...>::value };
+      };
 
         template<typename T, typename...> struct first { typedef T type; };
 
