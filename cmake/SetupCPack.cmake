@@ -29,18 +29,15 @@ set(CPACK_PACKAGE_VERSION_MINOR "${TWEENY_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${TWEENY_VERSION_PATCH}")
 set(CPACK_PACKAGE_CONTACT "leonardo.guilherme@gmail.com")
 set(CPACK_MONOLITHIC_INSTALL TRUE)
-set(CPACK_GENERATOR ZIP)
 
 # On Windows, also generate a NSIS package
 if (WIN32)
-    list(APPEND CPACK_GENERATOR NSIS)
+    set(CPACK_GENERATOR ZIP)
 endif()
 
 # On Unix-not-apple, generate tgz, deb and rpm packages
 if (UNIX AND NOT APPLE)
-    list(APPEND CPACK_GENERATOR TGZ)
-    list(APPEND CPACK_GENERATOR DEB)
-    list(APPEND CPACK_GENERATOR RPM)
+    set(CPACK_GENERATOR TGZ)
 endif()
 
 # This will enable the `make package` target.
