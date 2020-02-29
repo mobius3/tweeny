@@ -11,7 +11,7 @@
   - Fix point duration calculation in multipoint tweening 
   - Implement `peek(float progress)` and `peek(uint32_t time)` to peek
     at arbitrary points
-  - Move examples to [tweeny-demos](github.com/mobius3/tweeny-demos) repository
+  - Move examples to [tweeny-demos](http://github.com/mobius3/tweeny-demos) repository
   - Update README and docs
 
 - Version 2:
