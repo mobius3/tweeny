@@ -31,7 +31,7 @@ install(EXPORT TweenyTargets DESTINATION lib/cmake/Tweeny)
 # Macro to write config
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/TweenyConfigVersion.cmake"
-    VERSION ${TWEENY_VERSION}
+    VERSION ${Tweeny_VERSION}
     COMPATIBILITY AnyNewerVersion
 )
 

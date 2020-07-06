@@ -26,15 +26,12 @@
 # instructions.
 
 cmake_minimum_required(VERSION 3.0)
-project(Tweeny)
+cmake_policy(SET CMP0063 NEW)
+project(Tweeny LANGUAGES CXX VERSION 3.1.1)
 
 # Setup variables and options
-option(TWEENY_BUILD_EXAMPLES "Build examples contained in examples/ folder. It might require additional dependencies." ON)
 option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" OFF)
-option(TWEENY_BUILD_EXTRAS "Attempts to build extra goodies on extras/ folder. It will require additional dependencies" ON)
-
-# Setup version
-include(cmake/SetupVersion.cmake)
+option(TWEENY_BUILD_SINGLE_HEADER "Joins together all header files in a single one. Needs Python 3.6 and quom installed" OFF)
 
 # The library target
 add_library(tweeny INTERFACE)
@@ -87,3 +84,7 @@ add_library(tweeny-dummy
         include/int2type.h
         include/dispatcher.h)
 set_target_properties(tweeny-dummy PROPERTIES LINKER_LANGUAGE CXX EXCLUDE_FROM_ALL TRUE)
+
+if (TWEENY_BUILD_SINGLE_HEADER)
+    include(cmake/GenerateSingleHeader.cmake)
+endif()
