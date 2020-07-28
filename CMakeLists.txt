@@ -59,8 +59,9 @@ target_include_directories(tweeny INTERFACE
 )
 
 # Set up install
+include(GNUInstallDirs)
 install(TARGETS tweeny EXPORT TweenyTargets)
-install(DIRECTORY include/ DESTINATION include/tweeny)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tweeny)
 
 # Set up export and config
 include(cmake/SetupExports.cmake)
