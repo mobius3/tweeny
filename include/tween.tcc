@@ -80,7 +80,7 @@ namespace tweeny {
 
     template<typename T, typename... Ts>
     inline const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::step(int32_t dt, bool suppress) {
-        return step(static_cast<float>(dt * currentDirection)/static_cast<float>(total), suppress);
+        return step(static_cast<float>(dt)/static_cast<float>(total), suppress);
     }
 
     template<typename T, typename... Ts>
@@ -90,6 +90,7 @@ namespace tweeny {
 
     template<typename T, typename... Ts>
     inline const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::step(float dp, bool suppress) {
+        dp *= currentDirection;
         seek(currentProgress + dp, true);
         if (!suppress) dispatch(onStepCallbacks);
         return current;

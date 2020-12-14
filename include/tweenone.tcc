@@ -72,7 +72,7 @@ namespace tweeny {
 
     template<typename T>
     inline const T & tween<T>::step(int32_t dt, bool suppress) {
-        return step(static_cast<float>(dt * currentDirection)/static_cast<float>(total), suppress);
+        return step(static_cast<float>(dt)/static_cast<float>(total), suppress);
     }
 
     template<typename T>
@@ -82,6 +82,7 @@ namespace tweeny {
 
     template<typename T>
     inline const T & tween<T>::step(float dp, bool suppress) {
+        dp *= currentDirection;
         seek(currentProgress + dp, true);
         if (!suppress) dispatch(onStepCallbacks);
         return current;
