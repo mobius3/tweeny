@@ -130,6 +130,48 @@ namespace tweeny {
     class easing {
         public:
             /**
+             * @brief Enumerates all easings to aid in runtime when adding easins to a tween using tween::via
+             *
+             * The aim of this enum is to help in situations where the easing doesn't come straight from the C++
+             * code but rather from a configuration file or some sort of external paramenter.
+             */
+            enum class enumerated {
+                def,
+                linear,
+                stepped,
+                quadraticIn,
+                quadraticOut,
+                quadraticInOut,
+                cubicIn,
+                cubicOut,
+                cubicInOut,
+                quarticIn,
+                quarticOut,
+                quarticInOut,
+                quinticIn,
+                quinticOut,
+                quinticInOut,
+                sinusoidalIn,
+                sinusoidalOut,
+                sinusoidalInOut,
+                exponentialIn,
+                exponentialOut,
+                exponentialInOut,
+                circularIn,
+                circularOut,
+                circularInOut,
+                bounceIn,
+                bounceOut,
+                bounceInOut,
+                elasticIn,
+                elasticOut,
+                elasticInOut,
+                backIn,
+                backOut,
+                backInOut
+            };
+
+            /**
              * @ingroup stepped
              * @brief Value is constant.
              */

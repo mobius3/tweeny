@@ -59,6 +59,91 @@ namespace tweeny {
     }
 
     template<typename T>
+    template<typename... Fs>
+    tween <T> & tween<T>::via(easing::enumerated enumerated, Fs... vs) {
+        switch (enumerated) {
+            case easing::enumerated::def: return via(easing::def, vs...);
+            case easing::enumerated::linear: return via(easing::linear, vs...);
+            case easing::enumerated::stepped: return via(easing::stepped, vs...);
+            case easing::enumerated::quadraticIn: return via(easing::quadraticIn, vs...);
+            case easing::enumerated::quadraticOut: return via(easing::quadraticOut, vs...);
+            case easing::enumerated::quadraticInOut: return via(easing::quadraticInOut, vs...);
+            case easing::enumerated::cubicIn: return via(easing::cubicIn, vs...);
+            case easing::enumerated::cubicOut: return via(easing::cubicOut, vs...);
+            case easing::enumerated::cubicInOut: return via(easing::cubicInOut, vs...);
+            case easing::enumerated::quarticIn: return via(easing::quarticIn, vs...);
+            case easing::enumerated::quarticOut: return via(easing::quarticOut, vs...);
+            case easing::enumerated::quarticInOut: return via(easing::quarticInOut, vs...);
+            case easing::enumerated::quinticIn: return via(easing::quinticIn, vs...);
+            case easing::enumerated::quinticOut: return via(easing::quinticOut, vs...);
+            case easing::enumerated::quinticInOut: return via(easing::quinticInOut, vs...);
+            case easing::enumerated::sinusoidalIn: return via(easing::sinusoidalIn, vs...);
+            case easing::enumerated::sinusoidalOut: return via(easing::sinusoidalOut, vs...);
+            case easing::enumerated::sinusoidalInOut: return via(easing::sinusoidalInOut, vs...);
+            case easing::enumerated::exponentialIn: return via(easing::exponentialIn, vs...);
+            case easing::enumerated::exponentialOut: return via(easing::exponentialOut, vs...);
+            case easing::enumerated::exponentialInOut: return via(easing::exponentialInOut, vs...);
+            case easing::enumerated::circularIn: return via(easing::circularIn, vs...);
+            case easing::enumerated::circularOut: return via(easing::circularOut, vs...);
+            case easing::enumerated::circularInOut: return via(easing::circularInOut, vs...);
+            case easing::enumerated::bounceIn: return via(easing::bounceIn, vs...);
+            case easing::enumerated::bounceOut: return via(easing::bounceOut, vs...);
+            case easing::enumerated::bounceInOut: return via(easing::bounceInOut, vs...);
+            case easing::enumerated::elasticIn: return via(easing::elasticIn, vs...);
+            case easing::enumerated::elasticOut: return via(easing::elasticOut, vs...);
+            case easing::enumerated::elasticInOut: return via(easing::elasticInOut, vs...);
+            case easing::enumerated::backIn: return via(easing::backIn, vs...);
+            case easing::enumerated::backOut: return via(easing::backOut, vs...);
+            case easing::enumerated::backInOut: return via(easing::backInOut, vs...);
+            default: return via(easing::def, vs...);
+        }
+    }
+
+    template<typename T>
+    template<typename... Fs>
+    tween <T> & tween<T>::via(const std::string & easing, Fs... vs) {
+        if (easing == "stepped") return via(easing::stepped, vs...);
+        if (easing == "linear") return via(easing::linear, vs...);
+        if (easing == "quadraticIn") return via(easing::quadraticIn, vs...);
+        if (easing == "quadraticOut") return via(easing::quadraticOut, vs...);
+        if (easing == "quadraticInOut") return via(easing::quadraticInOut, vs...);
+        if (easing == "cubicIn") return via(easing::cubicIn, vs...);
+        if (easing == "cubicOut") return via(easing::cubicOut, vs...);
+        if (easing == "cubicInOut") return via(easing::cubicInOut, vs...);
+        if (easing == "quarticIn") return via(easing::quarticIn, vs...);
+        if (easing == "quarticOut") return via(easing::quarticOut, vs...);
+        if (easing == "quarticInOut") return via(easing::quarticInOut, vs...);
+        if (easing == "quinticIn") return via(easing::quinticIn, vs...);
+        if (easing == "quinticOut") return via(easing::quinticOut, vs...);
+        if (easing == "quinticInOut") return via(easing::quinticInOut, vs...);
+        if (easing == "sinusoidalIn") return via(easing::sinusoidalIn, vs...);
+        if (easing == "sinusoidalOut") return via(easing::sinusoidalOut, vs...);
+        if (easing == "sinusoidalInOut") return via(easing::sinusoidalInOut, vs...);
+        if (easing == "exponentialIn") return via(easing::exponentialIn, vs...);
+        if (easing == "exponentialOut") return via(easing::exponentialOut, vs...);
+        if (easing == "exponentialInOut") return via(easing::exponentialInOut, vs...);
+        if (easing == "circularIn") return via(easing::circularIn, vs...);
+        if (easing == "circularOut") return via(easing::circularOut, vs...);
+        if (easing == "circularInOut") return via(easing::circularInOut, vs...);
+        if (easing == "bounceIn") return via(easing::bounceIn, vs...);
+        if (easing == "bounceOut") return via(easing::bounceOut, vs...);
+        if (easing == "bounceInOut") return via(easing::bounceInOut, vs...);
+        if (easing == "elasticIn") return via(easing::elasticIn, vs...);
+        if (easing == "elasticOut") return via(easing::elasticOut, vs...);
+        if (easing == "elasticInOut") return via(easing::elasticInOut, vs...);
+        if (easing == "backIn") return via(easing::backIn, vs...);
+        if (easing == "backOut") return via(easing::backOut, vs...);
+        if (easing == "backInOut") return via(easing::backInOut, vs...);
+        return via(easing::def, vs...);
+    }
+
+    template<typename T>
+    template<typename... Fs>
+    tween <T> & tween<T>::via(const char * easing, Fs... vs) {
+        return via(std::string(easing));
+    }
+
+    template<typename T>
     template<typename... Ds>
     inline tween<T> & tween<T>::during(Ds... ds) {
         total = 0;
