@@ -82,7 +82,7 @@ namespace tweeny {
         template<typename... Ds>
         inline void tweenpoint<Ts...>::during(Ds... milis) {
             static_assert(sizeof...(Ds) == sizeof...(Ts),
-                          "Amount of durations should be equal to the amount of values in a currentPoint");
+                          "Amount of durations should be equal to the amount of values in a point");
             std::array<int, sizeof...(Ts)> list = {{ milis... }};
             std::copy(list.begin(), list.end(), durations.begin());
         }

@@ -23,7 +23,7 @@
 */
 
 /*
- * This file provides the declarations for a tween currentPoint utility class. A tweenpoint holds the tween values,
+ * This file provides the declarations for a tween point utility class. A tweenpoint holds the tween values,
  * easings and durations.
  */
 
@@ -40,7 +40,7 @@
 namespace tweeny {
     namespace detail {
         /*
-         * The tweenpoint class aids in the management of a tweening currentPoint by the tween class.
+         * The tweenpoint class aids in the management of a tweening point by the tween class.
          * This class is private.
          */
         template<typename... Ts>
@@ -56,10 +56,10 @@ namespace tweeny {
             /* Constructs a tweenpoint from a set of values, filling their durations and easings */
             tweenpoint(Ts... vs);
 
-            /* Set the duration for all the values in this currentPoint */
+            /* Set the duration for all the values in this point */
             template<typename D> void during(D milis);
 
-            /* Sets the duration for each value in this currentPoint */
+            /* Sets the duration for each value in this point */
             template<typename... Ds> void during(Ds... vs);
 
             /* Sets the easing functions of each value */

@@ -48,7 +48,7 @@ namespace tweeny {
     class tween {
         public:
             /**
-             * @brief Instantiates a tween from a starting currentPoint.
+             * @brief Instantiates a tween from a starting point.
              *
              * This is a static factory helper function to be used by @p tweeny::from. You should not use this directly.
              * @p t The first value in the point
@@ -66,10 +66,10 @@ namespace tweeny {
             tween();
 
             /**
-             * @brief Adds a new currentPoint in this tweening.
+             * @brief Adds a new point in this tweening.
              *
-             * This will add a new tweening currentPoint with the specified values. Next calls to @p via and @p during
-             * will refer to this currentPoint.
+             * This will add a new tweening point with the specified values. Next calls to @p via and @p during
+             * will refer to this point.
              *
              * **Example**
              *
@@ -83,12 +83,12 @@ namespace tweeny {
             tween<T, Ts...> & to(T t, Ts... vs);
 
             /**
-             * @brief Specifies the easing function for the last added currentPoint.
+             * @brief Specifies the easing function for the last added point.
              *
-             * This will specify the easing between the last tween currentPoint added by @p to and its previous step. You can
+             * This will specify the easing between the last tween point added by @p to and its previous step. You can
              * use any callable object. Additionally, you can use the easing objects specified in the class @p easing.
              *
-             * If it is a multi-value currentPoint, you can either specify a single easing function that will be used for
+             * If it is a multi-value point, you can either specify a single easing function that will be used for
              * every value or you can specify an easing function for each value. You can mix and match callable objects,
              * lambdas and bundled easing objects.
              *
@@ -164,10 +164,10 @@ namespace tweeny {
             template<typename... Fs> tween<T, Ts...> & via(const char * easing, Fs... fs);
 
             /**
-             * @brief Specifies the easing function for a specific currentPoint.
+             * @brief Specifies the easing function for a specific point.
              *
              * Points starts at index 0. The index 0 refers to the first @p to call.
-             * Using this function without adding a currentPoint with @p to leads to undefined
+             * Using this function without adding a point with @p to leads to undefined
              * behaviour.
              *
              * @param index The tween point index
@@ -178,7 +178,7 @@ namespace tweeny {
             template<typename... Fs> tween<T, Ts...> & via(int index, Fs... fs);
 
             /**
-             * @brief Specifies the duration, typically in milliseconds, for the tweening of values in last currentPoint.
+             * @brief Specifies the duration, typically in milliseconds, for the tweening of values in last point.
              *
              * You can either specify a single duration for all values or give every value its own duration. Value types
              * must be convertible to the uint16_t type.
@@ -186,8 +186,8 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * // Specify that the first currentPoint will be reached in 100 milliseconds and the first value in the second
-             * // currentPoint in 100, whereas the second value will be reached in 500.
+             * // Specify that the first point will be reached in 100 milliseconds and the first value in the second
+             * // point in 100, whereas the second value will be reached in 500.
              * auto tween = tweeny::from(0, 0).to(100, 200).during(100).to(200, 300).during(100, 500);
              * @endcode
              *
@@ -252,7 +252,7 @@ namespace tweeny {
             const typename detail::tweentraits<T, Ts...>::valuesType & step(float dp, bool suppressCallbacks = false);
 
             /**
-             * @brief Seeks to a specified currentPoint in time based on the currentProgress.
+             * @brief Seeks to a specified point in time based on the currentProgress.
              *
              * This function sets the current animation time and currentProgress. Callbacks set by @p call will be triggered.
              *
@@ -263,7 +263,7 @@ namespace tweeny {
             const typename detail::tweentraits<T, Ts...>::valuesType & seek(float p, bool suppressCallbacks = false);
 
             /**
-             * @brief Seeks to a specified currentPoint in time.
+             * @brief Seeks to a specified point in time.
              *
              * This function sets the current animation time and currentProgress. Callbacks set by @p call will be triggered.
              *
@@ -275,7 +275,7 @@ namespace tweeny {
             const typename detail::tweentraits<T, Ts...>::valuesType & seek(int32_t d, bool suppressCallbacks = false);
 
             /**
-             * @brief Seeks to a specified currentPoint in time.
+             * @brief Seeks to a specified point in time.
              *
              * This function sets the current animation time and currentProgress. Callbacks set by @p call will be triggered.
              *
@@ -539,11 +539,11 @@ namespace tweeny {
             int direction() const;
 
             /**
-             * @brief Jumps to a specific tween currentPoint
+             * @brief Jumps to a specific tween point
              *
              * This will seek the tween to a percentage matching the beginning of that step.
              *
-             * @param point The currentPoint to seek to. 0 means the currentPoint passed in tweeny::from
+             * @param point The point to seek to. 0 means the point passed in tweeny::from
              * @param suppressCallbacks (optional) set to true to suppress seek() callbacks
              * @returns current values
              * @sa seek
@@ -562,8 +562,8 @@ namespace tweeny {
 
         private /* member variables */:
             uint32_t total = 0; // total runtime
-            uint16_t currentPoint = 0; // current currentPoint
-            float currentProgress = 0; // current currentProgress
+            uint16_t currentPoint = 0; // current point
+            float currentProgress = 0; // current progress
             std::vector<detail::tweenpoint<T, Ts...>> points;
             typename traits::valuesType current;
             std::vector<typename traits::callbackType> onStepCallbacks;
@@ -632,8 +632,8 @@ namespace tweeny {
 
         private /* member variables */:
             uint32_t total = 0; // total runtime
-            uint16_t currentPoint = 0; // current currentPoint
-            float currentProgress = 0; // current currentProgress
+            uint16_t currentPoint = 0; // current point
+            float currentProgress = 0; // current progress
             std::vector<detail::tweenpoint<T>> points;
             T current;
             std::vector<typename traits::callbackType> onStepCallbacks;

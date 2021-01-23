@@ -119,7 +119,7 @@ namespace tweeny {
      * @brief The easing class holds all the bundled easings.
      *
      * You should pass the easing function to the @p tweeny::tween::via method, to set the easing function that will
-     * be used to interpolate values in a tween currentPoint.
+     * be used to interpolate values in a tween point.
      *
      * **Example**:
      *
