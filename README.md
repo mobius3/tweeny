@@ -51,6 +51,10 @@ You just need to adjust your include path to point to the `include/` folder afte
 
 Tweeny itself is a header only library. You can copy the `include/` folder into your project folder and then include from it: `#include "tweeny/tweeny.h"`
 
+**Copying the `tweeny-<version>.h` header**
+
+Since version 3.1.1 tweeny releases include a single-header file with all the necessary code glued together. Simply drop it on your project and/or adjust the include path and then `#include "tweeny-3.1.1.h"`.
+
 **CMake subproject**
 
 This is useful if you are using CMake already. Copy the whole tweeny project and include it in a top-level `CMakeLists.txt` file and then use `target_link_libraries` to add it to your target:
