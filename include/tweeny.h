@@ -79,7 +79,6 @@
 #define TWEENY_H
 
 #include "tween.h"
-#include "tween.h"
 #include "easing.h"
 
 /**
