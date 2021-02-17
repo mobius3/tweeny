@@ -27,7 +27,7 @@
 
 cmake_minimum_required(VERSION 3.0)
 cmake_policy(SET CMP0063 NEW)
-project(Tweeny LANGUAGES CXX VERSION 3.1.1)
+project(Tweeny LANGUAGES CXX VERSION 3.2.0)
 
 # Setup variables and options
 option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" OFF)
