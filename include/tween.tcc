@@ -204,7 +204,7 @@ namespace tweeny {
     template<size_t I>
     inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) const {
         auto & p = points.at(point);
-        uint32_t pointDuration = p.duration() - (p.stacked - (prog * static_cast<float>(total)));
+        auto pointDuration = uint32_t(p.duration() - (p.stacked - (prog * static_cast<float>(total))));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration(I));
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<I>(p.easings);
@@ -215,7 +215,7 @@ namespace tweeny {
     template<typename T, typename... Ts>
     inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) const {
         auto & p = points.at(point);
-        uint32_t pointDuration = p.duration() - (p.stacked - (prog * static_cast<float>(total)));
+        auto pointDuration = uint32_t(p.duration() - (p.stacked - (prog * static_cast<float>(total))));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration(0));
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<0>(p.easings);
@@ -325,9 +325,9 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
-    inline const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::jump(int32_t p, bool suppress) {
-        p = detail::clip(p, 0, points.size() -1);
-        return seek(points.at(p).stacked, suppress);
+    inline const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::jump(std::size_t p, bool suppress) {
+        p = detail::clip(p, static_cast<size_t>(0), points.size() -1);
+        return seek(static_cast<int32_t>(points.at(p).stacked), suppress);
     }
 
     template<typename T, typename... Ts> inline uint16_t tween<T, Ts...>::point() const {
