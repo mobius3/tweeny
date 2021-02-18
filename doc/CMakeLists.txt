@@ -44,7 +44,8 @@ if(DOXYGEN_FOUND)
             COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
     if (TWEENY_BUILD_DOCUMENTATION)
-        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc/Tweeny)
+        include(GNUInstallDirs)
+        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION ${CMAKE_INSTALL_DOCDIR})
     endif()
 
 endif(DOXYGEN_FOUND)
