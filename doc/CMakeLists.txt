@@ -22,29 +22,20 @@
 
 # This cmake file creates and builds doxygen documentation. It also sets it in the install list.
 
-find_package(Doxygen)
-if (TWEENY_BUILD_DOCUMENTATION)
-    set(DOC_ADD_TO_ALL ALL)
-else()
-    set(DOC_ADD_TO_ALL "")
-endif()
+find_package(Doxygen REQUIRED)
 
-if(DOXYGEN_FOUND)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-    file(COPY
-            ${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml
-            ${CMAKE_CURRENT_SOURCE_DIR}/MANUAL.dox
-         DESTINATION
-            ${CMAKE_CURRENT_BINARY_DIR}
-    )
-    add_custom_target(doc ${DOC_ADD_TO_ALL}
-            ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-            COMMENT "Generating API documentation with Doxygen" VERBATIM)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY
+        ${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml
+        ${CMAKE_CURRENT_SOURCE_DIR}/MANUAL.dox
+     DESTINATION
+        ${CMAKE_CURRENT_BINARY_DIR}
+)
+add_custom_target(doc ALL
+        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        COMMENT "Generating API documentation with Doxygen" VERBATIM)
 
-    if (TWEENY_BUILD_DOCUMENTATION)
-        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION share/doc/Tweeny)
-    endif()
-
-endif(DOXYGEN_FOUND)
+include(GNUInstallDirs)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION ${CMAKE_INSTALL_DOCDIR})
