@@ -324,6 +324,7 @@ namespace tweeny {
 
 
     template<typename T> inline uint16_t tween<T>::pointAt(float progress) const {
+        progress = detail::clip(progress, 0.0f, 1.0f);
         auto t = static_cast<uint32_t>(progress * total);
         uint16_t point = 0;
         while (t > points.at(point).stacked) point++;
