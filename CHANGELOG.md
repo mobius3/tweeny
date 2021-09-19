@@ -1,4 +1,7 @@
 # Tweeny Changelog
+- Version 3.2.1
+  - Adds `<string>` as dependency
+
 - Version 3.2.0
   -  Fixed installation on other than Ubuntu distributions. (@xvitaly)
   -  Consider interpolation duration in the right place (fix #19)
