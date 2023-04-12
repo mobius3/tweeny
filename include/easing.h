@@ -516,7 +516,7 @@ namespace tweeny {
             static constexpr struct bounceInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
-                    return (end - start) - bounceOut.run((1 - position), T(), end) + start;
+                    return (end - start) - bounceOut.run((1 - position), T(), (end - start)) + start;//modify by  lwm 2023 0303
                 }
             } bounceIn = bounceInEasing{};
 
@@ -550,8 +550,8 @@ namespace tweeny {
             static constexpr struct bounceInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
-                    if (position < 0.5f) return static_cast<T>(bounceIn.run(position * 2, T(), end) * .5f + start);
-                    else return static_cast<T>(bounceOut.run((position * 2 - 1), T(), end) * .5f + (end - start) * .5f + start);
+                    if (position < 0.5f) return static_cast<T>(bounceIn.run(position * 2, T(), (end - start)) * .5f + start);
+                    else return static_cast<T>(bounceOut.run((position * 2 - 1), T(), (end - start)) * .5f + (end - start) * .5f + start);
                 }
             } bounceInOut = bounceInOutEasing{};
 
