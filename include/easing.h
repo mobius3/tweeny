@@ -516,7 +516,7 @@ namespace tweeny {
             static constexpr struct bounceInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
-                    return (end - start) - bounceOut.run((1 - position), T(), (end - start)) + start;//modify by  lwm 2023 0303
+                    return (end - start) - bounceOut.run((1 - position), T(), (end - start)) + start;
                 }
             } bounceIn = bounceInEasing{};
 
