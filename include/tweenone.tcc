@@ -202,6 +202,7 @@ namespace tweeny {
         auto & p = points.at(point);
         auto pointDuration = uint32_t(p.duration() - (p.stacked - (prog * static_cast<float>(total))));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());
+        if (pointDuration == 0) pointTotal = 0.0f;
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<0>(p.easings);
         value = easing(pointTotal, std::get<0>(p.values), std::get<0>(points.at(point+1).values));
