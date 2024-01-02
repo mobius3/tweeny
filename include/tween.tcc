@@ -154,14 +154,19 @@ namespace tweeny {
     template<typename T, typename... Ts>
     template<typename... Ds>
     inline tween<T, Ts...> & tween<T, Ts...>::during(Ds... ds) {
-        total = 0;
         points.at(points.size() - 2).during(ds...);
-        for (detail::tweenpoint<T, Ts...> & p : points) {
-            total += p.duration();
-            p.stacked = total;
-        }
+		calculateTotal();
         return *this;
     }
+
+	template<typename T, typename... Ts>
+	template<typename... Ds>
+	inline tween<T, Ts...>& tween<T, Ts...>::wait(Ds... ds) {
+		points.emplace_back(points.back());
+		points.at(points.size() - 2).during(ds...);
+		calculateTotal();
+		return *this;
+	}
 
     template<typename T, typename... Ts>
     inline const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::step(int32_t dt, bool suppress) {
@@ -211,6 +216,16 @@ namespace tweeny {
         std::get<I>(values) = easing(pointTotal, std::get<I>(p.values), std::get<I>(points.at(point+1).values));
         interpolate(prog, point, values, detail::int2type<I-1>{ });
     }
+
+	template<typename T, typename... Ts>
+	inline void tween<T, Ts...>::calculateTotal()
+	{
+		total = 0;
+		for(detail::tweenpoint<T, Ts...>& p : points) {
+			total += p.duration();
+			p.stacked = total;
+		}
+	}
 
     template<typename T, typename... Ts>
     inline void tween<T, Ts...>::interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) const {

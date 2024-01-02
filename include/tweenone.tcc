@@ -146,14 +146,19 @@ namespace tweeny {
     template<typename T>
     template<typename... Ds>
     inline tween<T> & tween<T>::during(Ds... ds) {
-        total = 0;
         points.at(points.size() - 2).during(ds...);
-        for (detail::tweenpoint<T> & p : points) {
-            total += p.duration();
-            p.stacked = total;
-        }
-        return *this;
+		calculateTotal();
+		return *this;
     }
+
+	template<typename T>
+	template<typename... Ds>
+	inline tween<T>& tween<T>::wait(Ds... ds) {
+		points.emplace_back(points.back());
+		points.at(points.size() - 2).during(ds...);
+		calculateTotal();
+		return *this;
+	}
 
     template<typename T>
     inline const T & tween<T>::step(int32_t dt, bool suppress) {
@@ -206,6 +211,16 @@ namespace tweeny {
         auto easing = std::get<0>(p.easings);
         value = easing(pointTotal, std::get<0>(p.values), std::get<0>(points.at(point+1).values));
     }
+
+	template<typename T>
+	inline void tween<T>::calculateTotal()
+	{
+		total = 0;
+		for(detail::tweenpoint<T>& p : points) {
+			total += p.duration();
+			p.stacked = total;
+		}
+	}
 
     template<typename T>
     inline void tween<T>::render(float p) {

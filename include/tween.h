@@ -197,6 +197,24 @@ namespace tweeny {
              */
             template<typename... Ds> tween<T, Ts...> & during(Ds... ds);
 
+			/**
+			 * @brief Specifies the duration, typically in milliseconds, for the delay at the last point.
+			 *
+			 * You can either specify a single duration for all values or give every value its own duration. Value types
+			 * must be convertible to the uint16_t type.
+			 *
+			 * **Example**:
+			 *
+			 * @code
+			 * // Specify waiting at the first point (0, 0) for 100 milliseconds and then continue to (200, 300).
+			 * auto tween = tweeny::from(0, 0).wait(100).to(200, 300).during(100, 500);
+			 * @endcode
+			 *
+			 * @param ds Duration values
+			 * @returns *this
+			 */
+			template<typename... Ds> tween<T, Ts...>& wait(Ds... ds);
+
             /**
              * @brief Steps the animation by the designated delta amount.
              *
@@ -579,6 +597,7 @@ namespace tweeny {
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
             uint16_t pointAt(float progress) const;
+			void calculateTotal();
     };
 
     /**
@@ -605,7 +624,8 @@ namespace tweeny {
             template<typename... Fs> tween<T> & via(const std::string & easing, Fs... fs); ///< @sa tween::via
             template<typename... Fs> tween<T> & via(const char * easing, Fs... fs); ///< @sa tween::via
             template<typename... Ds> tween<T> & during(Ds... ds); ///< @sa tween::during
-            const T & step(int32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(int32_t dt, bool suppressCallbacks)
+			template<typename... Ds> tween<T> & wait(Ds... ds); ///< @sa tween::wait
+			const T & step(int32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(int32_t dt, bool suppressCallbacks)
             const T & step(uint32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(uint32_t dt, bool suppressCallbacks)
             const T & step(float dp, bool suppressCallbacks = false); ///< @sa tween::step(float dp, bool suppressCallbacks)
             const T & seek(float p, bool suppressCallbacks = false); ///< @sa tween::seek(float p, bool suppressCallbacks)
@@ -648,7 +668,8 @@ namespace tweeny {
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
             uint16_t pointAt(float progress) const;
-    };
+			void calculateTotal();
+	};
 }
 
 #include "tween.tcc"
