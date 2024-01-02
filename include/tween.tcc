@@ -37,7 +37,7 @@ namespace tweeny {
     namespace detail {
         template<typename T>
         T clip(const T & n, const T & lower, const T & upper) {
-            return std::max(lower, std::min(n, upper));
+            return std::max<T>(lower, std::min<T>(n, upper));
         }
     }
 
