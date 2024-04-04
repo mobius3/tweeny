@@ -250,7 +250,8 @@ namespace tweeny {
              * @param suppressCallbacks (Optional) Suppress callbacks registered with tween::onStep()
              * @returns std::tuple<Ts...> with the current tween values.
              */
-            //const typename detail::tweentraits<T, Ts...>::valuesType & step(float dp, bool suppressCallbacks = false);
+            const typename detail::tweentraits<T, Ts...>::valuesType &step(
+                float dp, bool suppressCallbacks = false);
 
             /**
              * @brief Seeks to a specified point in time based on the currentProgress.
@@ -261,7 +262,8 @@ namespace tweeny {
              * @param suppressCallbacks (Optional) Suppress callbacks registered with tween::onSeek()
              * @returns std::tuple<Ts...> with the current tween values.
              */
-            //const typename detail::tweentraits<T, Ts...>::valuesType & seek(float p, bool suppressCallbacks = false);
+            const typename detail::tweentraits<T, Ts...>::valuesType &seek(
+                float p, bool suppressCallbacks = false);
 
             /**
              * @brief Seeks to a specified point in time.
@@ -632,7 +634,9 @@ namespace tweeny {
             const T &step(float dp,
                           bool suppressCallbacks
                           = false); ///< @sa tween::step(float dp, bool suppressCallbacks)
-            //const T & seek(float p, bool suppressCallbacks = false); ///< @sa tween::seek(float p, bool suppressCallbacks)
+            const T &seek(float p,
+                          bool suppressCallbacks
+                          = false); ///< @sa tween::seek(float p, bool suppressCallbacks)
             const T & seek(int32_t d, bool suppressCallbacks = false); ///< @sa tween::seek(int32_t d, bool suppressCallbacks)
             const T & seek(uint32_t d, bool suppressCallbacks = false); ///< @sa tween::seek(uint32_t d, bool suppressCallbacks)
             tween<T> & onStep(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onStep

@@ -175,10 +175,11 @@ namespace tweeny {
         return step(static_cast<int32_t>(dp * total), suppress);
     }
 
-    // template<typename T>
-    // inline const T & tween<T>::seek(float p, bool suppress) {
-
-    // }
+    template<typename T>
+    inline const T &tween<T>::seek(float p, bool suppress)
+    {
+        return seek(static_cast<int32_t>(p * total), suppress);
+    }
 
     template<typename T>
     inline const T & tween<T>::seek(int32_t t, bool suppress) {
@@ -281,15 +282,14 @@ namespace tweeny {
     template<typename T>
     T tween<T>::peek(float progress) const {
         T value;
-        interpolate(progress, pointAt(progress), value);
+        interpolate(progress * total, pointAt(progress * total), value);
         return value;
     }
 
     template<typename T>
     T tween<T>::peek(uint32_t time) const {
         T value;
-        float progress = static_cast<float>(time) / static_cast<float>(total);
-        interpolate(progress, pointAt(progress), value);
+        interpolate(time, pointAt(time), value);
         return value;
     }
 
