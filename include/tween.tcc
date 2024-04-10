@@ -202,10 +202,10 @@ namespace tweeny {
         return seek(static_cast<uint32_t>(std::abs(t)), suppress);
     }
 
-    template<typename T, typename... Ts>
-    inline const detail::tweentraits<T, Ts...>::valuesType &tween<T, Ts...>::seek(float p,
-                                                                                  bool suppress)
-    {
+	template<typename T, typename... Ts>
+	inline const typename detail::tweentraits<T, Ts...>::valuesType &tween<T, Ts...>::seek(
+		float p, bool suppress)
+	{
         return seek(static_cast<int32_t>(p * total), suppress);
     }
 
