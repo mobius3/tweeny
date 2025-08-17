@@ -130,39 +130,7 @@ namespace tweeny {
              */
             template<typename... Fs> tween<T, Ts...> & via(easing::enumerated enumerated, Fs... fs);
 
-            /**
-             * @brief Specifies the easing function for the last added point, accepting an easing name as a `std::string` value.
-             *
-             * This will specify the easing between the last tween point added by @p to and its previous step.
-             * You can mix-and-match enumerated easings, functions and easing names.
-             *
-             * **Example**:
-             *
-             * @code
-             * auto tween = tweeny::from(0.0f, 100.0f).to(100.0f, 0.0f).via(tweeny::easing::linear, "backOut");
-             *
-             * @param fs The functions
-             * @returns *this
-             * @see tweeny::easing
-             */
-            template<typename... Fs> tween<T, Ts...> & via(const std::string & easing, Fs... fs);
 
-        /**
-            * @brief Specifies the easing function for the last added point, accepting an easing name as a `const char *` value.
-            *
-            * This will specify the easing between the last tween point added by @p to and its previous step.
-            * You can mix-and-match enumerated easings, functions and easing names.
-            *
-            * **Example**:
-            *
-            * @code
-            * auto tween = tweeny::from(0.0f, 100.0f).to(100.0f, 0.0f).via(tweeny::easing::linear, "backOut");
-            *
-            * @param fs The functions
-            * @returns *this
-            * @see tweeny::easing
-            */
-            template<typename... Fs> tween<T, Ts...> & via(const char * easing, Fs... fs);
 
             /**
              * @brief Specifies the easing function for a specific point.
@@ -602,8 +570,6 @@ namespace tweeny {
             template<typename... Fs> tween<T> & via(Fs... fs); ///< @sa tween::via
             template<typename... Fs> tween<T> & via(int index, Fs... fs); ///< @sa tween::via
             template<typename... Fs> tween<T> & via(tweeny::easing::enumerated enumerated, Fs... fs); ///< @sa tween::via
-            template<typename... Fs> tween<T> & via(const std::string & easing, Fs... fs); ///< @sa tween::via
-            template<typename... Fs> tween<T> & via(const char * easing, Fs... fs); ///< @sa tween::via
             template<typename... Ds> tween<T> & during(Ds... ds); ///< @sa tween::during
             const T & step(int32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(int32_t dt, bool suppressCallbacks)
             const T & step(uint32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(uint32_t dt, bool suppressCallbacks)

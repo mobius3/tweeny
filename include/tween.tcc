@@ -107,49 +107,7 @@ namespace tweeny {
         }
     }
 
-    template<typename T, typename... Ts>
-    template<typename... Fs>
-    tween<T, Ts...> & tween<T, Ts...>::via(const std::string & easing, Fs... vs) {
-        if (easing == "stepped") return via(easing::stepped, vs...);
-        if (easing == "linear") return via(easing::linear, vs...);
-        if (easing == "quadraticIn") return via(easing::quadraticIn, vs...);
-        if (easing == "quadraticOut") return via(easing::quadraticOut, vs...);
-        if (easing == "quadraticInOut") return via(easing::quadraticInOut, vs...);
-        if (easing == "cubicIn") return via(easing::cubicIn, vs...);
-        if (easing == "cubicOut") return via(easing::cubicOut, vs...);
-        if (easing == "cubicInOut") return via(easing::cubicInOut, vs...);
-        if (easing == "quarticIn") return via(easing::quarticIn, vs...);
-        if (easing == "quarticOut") return via(easing::quarticOut, vs...);
-        if (easing == "quarticInOut") return via(easing::quarticInOut, vs...);
-        if (easing == "quinticIn") return via(easing::quinticIn, vs...);
-        if (easing == "quinticOut") return via(easing::quinticOut, vs...);
-        if (easing == "quinticInOut") return via(easing::quinticInOut, vs...);
-        if (easing == "sinusoidalIn") return via(easing::sinusoidalIn, vs...);
-        if (easing == "sinusoidalOut") return via(easing::sinusoidalOut, vs...);
-        if (easing == "sinusoidalInOut") return via(easing::sinusoidalInOut, vs...);
-        if (easing == "exponentialIn") return via(easing::exponentialIn, vs...);
-        if (easing == "exponentialOut") return via(easing::exponentialOut, vs...);
-        if (easing == "exponentialInOut") return via(easing::exponentialInOut, vs...);
-        if (easing == "circularIn") return via(easing::circularIn, vs...);
-        if (easing == "circularOut") return via(easing::circularOut, vs...);
-        if (easing == "circularInOut") return via(easing::circularInOut, vs...);
-        if (easing == "bounceIn") return via(easing::bounceIn, vs...);
-        if (easing == "bounceOut") return via(easing::bounceOut, vs...);
-        if (easing == "bounceInOut") return via(easing::bounceInOut, vs...);
-        if (easing == "elasticIn") return via(easing::elasticIn, vs...);
-        if (easing == "elasticOut") return via(easing::elasticOut, vs...);
-        if (easing == "elasticInOut") return via(easing::elasticInOut, vs...);
-        if (easing == "backIn") return via(easing::backIn, vs...);
-        if (easing == "backOut") return via(easing::backOut, vs...);
-        if (easing == "backInOut") return via(easing::backInOut, vs...);
-        return via(easing::def, vs...);
-    }
 
-    template<typename T, typename... Ts>
-    template<typename... Fs>
-    tween <T, Ts...> & tween<T, Ts...>::via(const char * easing, Fs... vs) {
-        return via(std::string(easing));
-    }
 
     template<typename T, typename... Ts>
     template<typename... Ds>
