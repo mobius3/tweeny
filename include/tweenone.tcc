@@ -29,31 +29,28 @@
 #ifndef TWEENY_TWEENONE_TCC
 #define TWEENY_TWEENONE_TCC
 
-#include "tween.h"
-#include "dispatcher.h"
-
 namespace tweeny {
-    template<typename T> inline tween<T> tween<T>::from(T t) { return tween<T>(t); }
-    template<typename T> inline tween<T>::tween() { }
-    template<typename T> inline tween<T>::tween(T t) {
+    template<typename T> tween<T> tween<T>::from(T t) { return tween(t); }
+    template<typename T> tween<T>::tween() = default;
+    template<typename T> tween<T>::tween(T t) {
         points.emplace_back(t);
     }
 
-    template<typename T> inline tween<T> & tween<T>::to(T t) {
+    template<typename T> tween<T> & tween<T>::to(T t) {
         points.emplace_back(t);
         return *this;
     }
 
     template<typename T>
     template<typename... Fs>
-    inline tween<T> & tween<T>::via(Fs... fs) {
+    tween<T> & tween<T>::via(Fs... fs) {
         points.at(points.size() - 2).via(fs...);
         return *this;
     }
 
     template<typename T>
     template<typename... Fs>
-    inline tween<T> & tween<T>::via(int index, Fs... fs) {
+    tween<T> & tween<T>::via(const int index, Fs... fs) {
         points.at(static_cast<size_t>(index)).via(fs...);
         return *this;
     }
@@ -63,7 +60,7 @@ namespace tweeny {
 
     template<typename T>
     template<typename... Ds>
-    inline tween<T> & tween<T>::during(Ds... ds) {
+    tween<T> & tween<T>::during(Ds... ds) {
         total = 0;
         points.at(points.size() - 2).during(ds...);
         for (detail::tweenpoint<T> & p : points) {
@@ -74,51 +71,51 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline const T & tween<T>::step(int32_t dt, bool suppress) {
-        return step(static_cast<float>(dt)/static_cast<float>(total), suppress);
+    const T & tween<T>::step(const int32_t dt, const bool suppressCallbacks) {
+        return step(static_cast<float>(dt)/static_cast<float>(total), suppressCallbacks);
     }
 
     template<typename T>
-    inline const T & tween<T>::step(uint32_t dt, bool suppress) {
-        return step(static_cast<int32_t>(dt), suppress);
+    const T & tween<T>::step(const uint32_t dt, const bool suppressCallbacks) {
+        return step(static_cast<int32_t>(dt), suppressCallbacks);
     }
 
     template<typename T>
-    inline const T & tween<T>::step(float dp, bool suppress) {
+    const T & tween<T>::step(float dp, const bool suppressCallbacks) {
         dp *= currentDirection;
         seek(currentProgress + dp, true);
-        if (!suppress) dispatch(onStepCallbacks);
+        if (!suppressCallbacks) dispatch(onStepCallbacks);
         return current;
     }
 
     template<typename T>
-    inline const T & tween<T>::seek(float p, bool suppress) {
+    const T & tween<T>::seek(float p, const bool suppressCallbacks) {
         p = detail::clip(p, 0.0f, 1.0f);
         currentProgress = p;
         render(p);
-        if (!suppress) dispatch(onSeekCallbacks);
+        if (!suppressCallbacks) dispatch(onSeekCallbacks);
         return current;
     }
 
     template<typename T>
-    inline const T & tween<T>::seek(int32_t t, bool suppress) {
-        return seek(static_cast<float>(t) / static_cast<float>(total), suppress);
+    const T & tween<T>::seek(const int32_t d, const bool suppressCallbacks) {
+        return seek(static_cast<float>(d) / static_cast<float>(total), suppressCallbacks);
     }
 
     template<typename T>
-    inline const T & tween<T>::seek(uint32_t t, bool suppress) {
-        return seek(static_cast<float>(t) / static_cast<float>(total), suppress);
+    const T & tween<T>::seek(const uint32_t t, const bool suppressCallbacks) {
+        return seek(static_cast<float>(t) / static_cast<float>(total), suppressCallbacks);
     }
 
     template<typename T>
-    inline uint32_t tween<T>::duration() const {
+    uint32_t tween<T>::duration() const {
         return total;
     }
 
     template<typename T>
-    inline void tween<T>::interpolate(float prog, unsigned point, T & value) const {
+    void tween<T>::interpolate(const float prog, unsigned point, T & value) const {
         auto & p = points.at(point);
-        auto pointDuration = uint32_t(p.duration() - (p.stacked - (prog * static_cast<float>(total))));
+        auto pointDuration = uint32_t(p.duration() - (p.stacked - prog * static_cast<float>(total)));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<0>(p.easings);
@@ -126,7 +123,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline void tween<T>::render(float p) {
+    void tween<T>::render(const float p) {
         currentPoint = pointAt(p);
         interpolate(p, currentPoint, current);
     }
@@ -139,13 +136,13 @@ namespace tweeny {
 
     template<typename T>
     tween<T> & tween<T>::onStep(typename detail::tweentraits<T>::noValuesCallbackType callback) {
-        onStepCallbacks.push_back([callback](tween<T> & tween, T) { return callback(tween); });
+        onStepCallbacks.push_back([callback](tween & tween, T) { return callback(tween); });
         return *this;
     }
 
     template<typename T>
     tween<T> & tween<T>::onStep(typename detail::tweentraits<T>::noTweenCallbackType callback) {
-        onStepCallbacks.push_back([callback](tween<T> &, T v) { return callback(v); });
+        onStepCallbacks.push_back([callback](tween &, T v) { return callback(v); });
         return *this;
     }
 
@@ -157,13 +154,13 @@ namespace tweeny {
 
     template<typename T>
     tween<T> & tween<T>::onSeek(typename detail::tweentraits<T>::noValuesCallbackType callback) {
-        onSeekCallbacks.push_back([callback](tween<T> & t, T) { return callback(t); });
+        onSeekCallbacks.push_back([callback](tween & t, T) { return callback(t); });
         return *this;
     }
 
     template<typename T>
     tween<T> & tween<T>::onSeek(typename detail::tweentraits<T>::noTweenCallbackType callback) {
-        onSeekCallbacks.push_back([callback](tween<T> &, T v) { return callback(v); });
+        onSeekCallbacks.push_back([callback](tween &, T v) { return callback(v); });
         return *this;
     }
 
@@ -172,11 +169,10 @@ namespace tweeny {
         std::vector<size_t> dismissed;
         for (size_t i = 0; i < cbVector.size(); ++i) {
             auto && cb = cbVector[i];
-            bool dismiss = cb(*this, current);
-            if (dismiss) dismissed.push_back(i);
+            if (cb(*this, current)) dismissed.push_back(i);
         }
 
-        if (dismissed.size() > 0) {
+        if (!dismissed.empty()) {
             for (size_t i = 0; i < dismissed.size(); ++i) {
                 size_t index = dismissed[i];
                 cbVector[index] = cbVector.at(cbVector.size() - 1 - i);
@@ -199,7 +195,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    T tween<T>::peek(uint32_t time) const {
+    T tween<T>::peek(const uint32_t time) const {
         T value;
         float progress = static_cast<float>(time) / static_cast<float>(total);
         interpolate(progress, pointAt(progress), value);
@@ -230,18 +226,16 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline const T & tween<T>::jump(size_t p, bool suppress) {
-        p = detail::clip(p, static_cast<size_t>(0), points.size() -1);
-        return seek(points.at(p).stacked, suppress);
+    const T & tween<T>::jump(size_t point, bool suppressCallbacks) {
+        point = detail::clip(point, static_cast<size_t>(0), points.size() -1);
+        return seek(points.at(point).stacked, suppressCallbacks);
     }
 
-    template<typename T> inline uint16_t tween<T>::point() const {
+    template<typename T> uint16_t tween<T>::point() const {
         return currentPoint;
     }
 
-
-
-    template<typename T> inline uint16_t tween<T>::pointAt(float progress) const {
+    template<typename T> uint16_t tween<T>::pointAt(float progress) const {
         progress = detail::clip(progress, 0.0f, 1.0f);
         auto t = static_cast<uint32_t>(progress * total);
         uint16_t point = 0;

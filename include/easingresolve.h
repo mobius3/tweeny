@@ -34,8 +34,8 @@
 #include <tuple>
 #include "easing.h"
 
-namespace tweeny {
-    namespace detail {
+
+    namespace tweeny::detail {
         using std::get;
 
         template<int I, typename TypeTuple, typename FunctionTuple, typename... Fs>
@@ -122,6 +122,6 @@ namespace tweeny {
         DECLARE_EASING_RESOLVE(elastic);
         DECLARE_EASING_RESOLVE(back);
     }
-}
+
 
 #endif //TWEENY_EASINGRESOLVE_H
