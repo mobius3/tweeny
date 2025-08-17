@@ -31,51 +31,47 @@
 #ifndef TWEENY_TWEENPOINT_H
 #define TWEENY_TWEENPOINT_H
 
-
-#include <tuple>
-#include <array>
-
 #include "tweentraits.h"
 
-namespace tweeny {
-    namespace detail {
-        /*
-         * The tweenpoint class aids in the management of a tweening point by the tween class.
-         * This class is private.
-         */
-        template<typename... Ts>
-        struct tweenpoint {
-            typedef detail::tweentraits<Ts...> traits;
 
-            typename traits::valuesType values;
-            typename traits::durationsArrayType durations;
-            typename traits::easingCollection easings;
-            typename traits::callbackType onEnterCallbacks;
-            uint32_t stacked;
+  namespace tweeny::detail {
+      /*
+       * The tweenpoint class aids in the management of a tweening point by the tween class.
+       * This class is private.
+       */
+      template<typename... Ts>
+      struct tweenpoint {
+          typedef tweentraits<Ts...> traits;
 
-            /* Constructs a tweenpoint from a set of values, filling their durations and easings */
-            tweenpoint(Ts... vs);
+          typename traits::valuesType values;
+          typename traits::durationsArrayType durations;
+          typename traits::easingCollection easings;
+          typename traits::callbackType onEnterCallbacks;
+          uint32_t stacked{};
 
-            /* Set the duration for all the values in this point */
-            template<typename D> void during(D milis);
+          /* Constructs a tweenpoint from a set of values, filling their durations and easings */
+          explicit tweenpoint(Ts... vs);
 
-            /* Sets the duration for each value in this point */
-            template<typename... Ds> void during(Ds... vs);
+          /* Set the duration for all the values at this point */
+          template<typename D> void during(D duration);
 
-            /* Sets the easing functions of each value */
-            template<typename... Fs> void via(Fs... fs);
+          /* Sets the duration for each value in this point */
+          template<typename... Ds> void during(Ds... duration);
 
-            /* Sets the same easing function for all values */
-            template<typename F> void via(F f);
+          /* Sets the easing functions of each value */
+          template<typename... Fs> void via(Fs... fs);
 
-            /* Returns the highest value in duration array */
-            uint16_t duration() const;
+          /* Sets the same easing function for all values */
+          template<typename F> void via(F f);
 
-            /* Returns the value of that specific value */
-            uint16_t duration(size_t i) const;
-        };
-    }
-}
+          /* Returns the highest duration value in the duration array */
+          [[nodiscard]] uint16_t duration() const;
+
+          /* Returns the tween duration of that specific value */
+          [[nodiscard]] uint16_t duration(size_t valueIndex) const;
+      };
+  }
+
 
 #include "tweenpoint.tcc"
 
