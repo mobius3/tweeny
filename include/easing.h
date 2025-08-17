@@ -136,6 +136,8 @@ namespace tweeny {
             static constexpr struct steppedEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
+                    (void) position;
+                    (void) end;
                     return start;
                 }
             } stepped = steppedEasing{};
@@ -148,7 +150,7 @@ namespace tweeny {
                 template<class...> struct voidify { using type = void; };
                 template<class... Ts> using void_t = typename voidify<Ts...>::type;
 
-                template<class T, class = void>
+                template<class, class = void>
                 struct supports_arithmetic_operations : std::false_type {};
 
                 template<class T>
@@ -162,7 +164,7 @@ namespace tweeny {
 
 
                 template<typename T>
-                static typename std::enable_if<std::is_integral<T>::value, T>::type run(float position, T start, T end) {
+                static std::enable_if_t<std::is_integral_v<T>, T> run(float position, T start, T end) {
                     return static_cast<T>(roundf((end - start) * position + start));
                 }
 
@@ -172,7 +174,9 @@ namespace tweeny {
                 }
 
                 template<typename T>
-                static typename std::enable_if<!supports_arithmetic_operations<T>::value, T>::type run(float position, T start, T end) {
+                static std::enable_if_t<!supports_arithmetic_operations<T>::value, T> run(float position, T start, T end) {
+                    (void) position;
+                    (void) end;
                     return start;
                 }
             } def = defaultEasing{};
@@ -183,12 +187,12 @@ namespace tweeny {
              */
             static constexpr struct linearEasing {
                 template<typename T>
-                static typename std::enable_if<std::is_integral<T>::value, T>::type run(float position, T start, T end) {
+                static std::enable_if_t<std::is_integral_v<T>, T> run(float position, T start, T end) {
                     return static_cast<T>(roundf((end - start) * position + start));
                 }
 
                 template<typename T>
-                static typename std::enable_if<!std::is_integral<T>::value, T>::type run(float position, T start, T end) {
+                static std::enable_if_t<!std::is_integral_v<T>, T> run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position + start);
                 }
             } linear = linearEasing{};
@@ -224,11 +228,11 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     position *= 2;
                     if (position < 1) {
-                        return static_cast<T>(((end - start) / 2) * position * position + start);
+                        return static_cast<T>((end - start) / 2 * position * position + start);
                     }
 
                     --position;
-                    return static_cast<T>((-(end - start) / 2) * (position * (position - 2) - 1) + start);
+                    return static_cast<T>(-(end - start) / 2 * (position * (position - 2) - 1) + start);
                 }
             } quadraticInOut = quadraticInOutEasing{};
 
@@ -264,10 +268,10 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     position *= 2;
                     if (position < 1) {
-                        return static_cast<T>(((end - start) / 2) * position * position * position + start);
+                        return static_cast<T>((end - start) / 2 * position * position * position + start);
                     }
                     position -= 2;
-                    return static_cast<T>(((end - start) / 2) * (position * position * position + 2) + start);
+                    return static_cast<T>((end - start) / 2 * (position * position * position + 2) + start);
                 }
             } cubicInOut = cubicInOutEasing{};
 
@@ -303,11 +307,11 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     position *= 2;
                     if (position < 1) {
-                        return static_cast<T>(((end - start) / 2) * (position * position * position * position) +
+                        return static_cast<T>((end - start) / 2 * (position * position * position * position) +
                                               start);
                     }
                     position -= 2;
-                    return static_cast<T>((-(end - start) / 2) * (position * position * position * position - 2) +
+                    return static_cast<T>(-(end - start) / 2 * (position * position * position * position - 2) +
                                           start);
                 }
             } quarticInOut = quarticInOutEasing{};
@@ -346,12 +350,12 @@ namespace tweeny {
                     position *= 2;
                     if (position < 1) {
                         return static_cast<T>(
-                            ((end - start) / 2) * (position * position * position * position * position) +
+                            (end - start) / 2 * (position * position * position * position * position) +
                             start);
                     }
                     position -= 2;
                     return static_cast<T>(
-                        ((end - start) / 2) * (position * position * position * position * position + 2) +
+                        (end - start) / 2 * (position * position * position * position * position + 2) +
                         start);
                 }
             } quinticInOut = quinticInOutEasing{};
@@ -362,7 +366,7 @@ namespace tweeny {
               */
             static constexpr struct sinusoidalInEasing {
                 template<typename T>
-                static T run(float position, T start, T end) {
+                static T run(const float position, T start, T end) {
                     return static_cast<T>(-(end - start) * cosf(position * static_cast<float>(M_PI) / 2) + (end - start) + start);
                 }
             } sinusoidalIn = sinusoidalInEasing{};
@@ -373,7 +377,7 @@ namespace tweeny {
               */
             static constexpr struct sinusoidalOutEasing {
                 template<typename T>
-                static T run(float position, T start, T end) {
+                static T run(const float position, T start, T end) {
                     return static_cast<T>((end - start) * sinf(position * static_cast<float>(M_PI) / 2) + start);
                 }
             } sinusoidalOut = sinusoidalOutEasing{};
@@ -384,8 +388,8 @@ namespace tweeny {
               */
             static constexpr struct sinusoidalInOutEasing {
                 template<typename T>
-                static T run(float position, T start, T end) {
-                    return static_cast<T>((-(end - start) / 2) * (cosf(position * static_cast<float>(M_PI)) - 1) + start);
+                static T run(const float position, T start, T end) {
+                    return static_cast<T>(-(end - start) / 2 * (cosf(position * static_cast<float>(M_PI)) - 1) + start);
                 }
             } sinusoidalInOut = sinusoidalInOutEasing{};
 
@@ -395,7 +399,7 @@ namespace tweeny {
               */
             static constexpr struct exponentialInEasing {
                 template<typename T>
-                static T run(float position, T start, T end) {
+                static T run(const float position, T start, T end) {
                     return static_cast<T>((end - start) * powf(2, 10 * (position - 1)) + start);
                 }
             } exponentialIn = exponentialInEasing{};
@@ -406,7 +410,7 @@ namespace tweeny {
               */
             static constexpr struct exponentialOutEasing {
                 template<typename T>
-                static T run(float position, T start, T end) {
+                static T run(const float position, T start, T end) {
                     return static_cast<T>((end - start) * (-powf(2, -10 * position) + 1) + start);
                 }
             } exponentialOut = exponentialOutEasing{};
@@ -420,10 +424,10 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     position *= 2;
                     if (position < 1) {
-                        return static_cast<T>(((end - start) / 2) * powf(2, 10 * (position - 1)) + start);
+                        return static_cast<T>((end - start) / 2 * powf(2, 10 * (position - 1)) + start);
                     }
                     --position;
-                    return static_cast<T>(((end - start) / 2) * (-powf(2, -10 * position) + 2) + start);
+                    return static_cast<T>((end - start) / 2 * (-powf(2, -10 * position) + 2) + start);
                 }
             } exponentialInOut = exponentialInOutEasing{};
 
@@ -433,7 +437,7 @@ namespace tweeny {
               */
             static constexpr struct circularInEasing {
                 template<typename T>
-                static T run(float position, T start, T end) {
+                static T run(const float position, T start, T end) {
                     return static_cast<T>( -(end - start) * (sqrtf(1 - position * position) - 1) + start );
                 }
             } circularIn = circularInEasing{};
@@ -446,7 +450,7 @@ namespace tweeny {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     --position;
-                    return static_cast<T>((end - start) * (sqrtf(1 - position * position)) + start);
+                    return static_cast<T>((end - start) * sqrtf(1 - position * position) + start);
                 }
             } circularOut = circularOutEasing{};
 
@@ -459,11 +463,11 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     position *= 2;
                     if (position < 1) {
-                        return static_cast<T>((-(end - start) / 2) * (sqrtf(1 - position * position) - 1) + start);
+                        return static_cast<T>(-(end - start) / 2 * (sqrtf(1 - position * position) - 1) + start);
                     }
 
                     position -= 2;
-                    return static_cast<T>(((end - start) / 2) * (sqrtf(1 - position * position) + 1) + start);
+                    return static_cast<T>((end - start) / 2 * (sqrtf(1 - position * position) + 1) + start);
                 }
             } circularInOut = circularInOutEasing{};
 
@@ -474,7 +478,7 @@ namespace tweeny {
             static constexpr struct bounceInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
-                    return (end - start) - bounceOut.run((1 - position), T(), (end - start)) + start;
+                    return end - start - bounceOut.run(1 - position, T(), (end - start)) + start;
                 }
             } bounceIn = bounceInEasing{};
 
@@ -486,18 +490,19 @@ namespace tweeny {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     T c = end - start;
-                    if (position < (1 / 2.75f)) {
+                    if (position < 1 / 2.75f) {
                         return static_cast<T>(c * (7.5625f * position * position) + start);
-                    } else if (position < (2.0f / 2.75f)) {
+                    }
+                    if (position < 2.0f / 2.75f) {
                         float postFix = position -= (1.5f / 2.75f);
                         return static_cast<T>(c * (7.5625f * (postFix) * position + .75f) + start);
-                    } else if (position < (2.5f / 2.75f)) {
+                    }
+                    if (position < 2.5f / 2.75f) {
                         float postFix = position -= (2.25f / 2.75f);
                         return static_cast<T>(c * (7.5625f * (postFix) * position + .9375f) + start);
-                    } else {
-                        float postFix = position -= (2.625f / 2.75f);
-                        return static_cast<T>(c * (7.5625f * (postFix) * position + .984375f) + start);
                     }
+                    const float postFix = position -= (2.625f / 2.75f);
+                    return static_cast<T>(c * (7.5625f * postFix * position + .984375f) + start);
                 }
             } bounceOut = bounceOutEasing{};
 
@@ -508,8 +513,8 @@ namespace tweeny {
             static constexpr struct bounceInOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
-                    if (position < 0.5f) return static_cast<T>(bounceIn.run(position * 2, T(), (end - start)) * .5f + start);
-                    else return static_cast<T>(bounceOut.run((position * 2 - 1), T(), (end - start)) * .5f + (end - start) * .5f + start);
+                    if (position < 0.5f) return static_cast<T>(bounceIn.run(position * 2, T(), end - start) * .5f + start);
+                    return static_cast<T>(bounceOut.run(position * 2 - 1, T(), end - start) * .5f + (end - start) * .5f + start);
                 }
             } bounceInOut = bounceInOutEasing{};
 
@@ -522,9 +527,9 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     if (position <= 0.00001f) return start;
                     if (position >= 0.999f) return end;
-                    float p = .3f;
+                    const float p = .3f;
                     auto a = end - start;
-                    float s = p / 4;
+                    const float s = p / 4;
                     float postFix =
                         a * powf(2, 10 * (position -= 1)); // this is a fix, again, with post-increment operators
                     return static_cast<T>(-(postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p)) + start);
@@ -537,7 +542,7 @@ namespace tweeny {
               */
             static constexpr struct elasticOutEasing {
                 template<typename T>
-                static T run(float position, T start, T end) {
+                static T run(const float position, T start, T end) {
                     if (position <= 0.00001f) return start;
                     if (position >= 0.999f) return end;
                     float p = .3f;
@@ -557,7 +562,7 @@ namespace tweeny {
                     if (position <= 0.00001f) return start;
                     if (position >= 0.999f) return end;
                     position *= 2;
-                    float p = (.3f * 1.5f);
+                    float p = .3f * 1.5f;
                     auto a = end - start;
                     float s = p / 4;
                     float postFix;
@@ -578,9 +583,9 @@ namespace tweeny {
             static constexpr struct backInEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
-                    float s = 1.70158f;
+                    const float s = 1.70158f;
                     float postFix = position;
-                    return static_cast<T>((end - start) * (postFix) * position * ((s + 1) * position - s) + start);
+                    return static_cast<T>((end - start) * postFix * position * ((s + 1) * position - s) + start);
                 }
             } backIn = backInEasing{};
 
@@ -591,7 +596,7 @@ namespace tweeny {
             static constexpr struct backOutEasing {
                 template<typename T>
                 static T run(float position, T start, T end) {
-                    float s = 1.70158f;
+                    const float s = 1.70158f;
                     position -= 1;
                     return static_cast<T>((end - start) * ((position) * position * ((s + 1) * position + s) + 1) + start);
                 }
@@ -609,10 +614,10 @@ namespace tweeny {
                     auto b = start;
                     auto c = end - start;
                     float d = 1;
-                    s *= (1.525f);
-                    if ((t /= d / 2) < 1) return static_cast<T>(c / 2 * (t * t * (((s) + 1) * t - s)) + b);
-                    float postFix = t -= 2;
-                    return static_cast<T>(c / 2 * ((postFix) * t * (((s) + 1) * t + s) + 2) + b);
+                    s *= 1.525f;
+                    if ((t /= d / 2) < 1) return static_cast<T>(c / 2 * (t * t * ((s + 1) * t - s)) + b);
+                    const float postFix = t -= 2;
+                    return static_cast<T>(c / 2 * (postFix * t * ((s + 1) * t + s) + 2) + b);
                 }
             } backInOut = backInOutEasing{};
     };
