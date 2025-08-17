@@ -66,46 +66,6 @@ namespace tweeny {
         return *this;
     }
 
-    template<typename T, typename... Ts>
-    template<typename... Fs>
-    tween<T, Ts...> & tween<T, Ts...>::via(easing::enumerated enumerated, Fs... vs) {
-        switch (enumerated) {
-            case easing::enumerated::def: return via(easing::def, vs...);
-            case easing::enumerated::linear: return via(easing::linear, vs...);
-            case easing::enumerated::stepped: return via(easing::stepped, vs...);
-            case easing::enumerated::quadraticIn: return via(easing::quadraticIn, vs...);
-            case easing::enumerated::quadraticOut: return via(easing::quadraticOut, vs...);
-            case easing::enumerated::quadraticInOut: return via(easing::quadraticInOut, vs...);
-            case easing::enumerated::cubicIn: return via(easing::cubicIn, vs...);
-            case easing::enumerated::cubicOut: return via(easing::cubicOut, vs...);
-            case easing::enumerated::cubicInOut: return via(easing::cubicInOut, vs...);
-            case easing::enumerated::quarticIn: return via(easing::quarticIn, vs...);
-            case easing::enumerated::quarticOut: return via(easing::quarticOut, vs...);
-            case easing::enumerated::quarticInOut: return via(easing::quarticInOut, vs...);
-            case easing::enumerated::quinticIn: return via(easing::quinticIn, vs...);
-            case easing::enumerated::quinticOut: return via(easing::quinticOut, vs...);
-            case easing::enumerated::quinticInOut: return via(easing::quinticInOut, vs...);
-            case easing::enumerated::sinusoidalIn: return via(easing::sinusoidalIn, vs...);
-            case easing::enumerated::sinusoidalOut: return via(easing::sinusoidalOut, vs...);
-            case easing::enumerated::sinusoidalInOut: return via(easing::sinusoidalInOut, vs...);
-            case easing::enumerated::exponentialIn: return via(easing::exponentialIn, vs...);
-            case easing::enumerated::exponentialOut: return via(easing::exponentialOut, vs...);
-            case easing::enumerated::exponentialInOut: return via(easing::exponentialInOut, vs...);
-            case easing::enumerated::circularIn: return via(easing::circularIn, vs...);
-            case easing::enumerated::circularOut: return via(easing::circularOut, vs...);
-            case easing::enumerated::circularInOut: return via(easing::circularInOut, vs...);
-            case easing::enumerated::bounceIn: return via(easing::bounceIn, vs...);
-            case easing::enumerated::bounceOut: return via(easing::bounceOut, vs...);
-            case easing::enumerated::bounceInOut: return via(easing::bounceInOut, vs...);
-            case easing::enumerated::elasticIn: return via(easing::elasticIn, vs...);
-            case easing::enumerated::elasticOut: return via(easing::elasticOut, vs...);
-            case easing::enumerated::elasticInOut: return via(easing::elasticInOut, vs...);
-            case easing::enumerated::backIn: return via(easing::backIn, vs...);
-            case easing::enumerated::backOut: return via(easing::backOut, vs...);
-            case easing::enumerated::backInOut: return via(easing::backInOut, vs...);
-            default: return via(easing::def, vs...);
-        }
-    }
 
 
 

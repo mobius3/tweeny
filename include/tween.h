@@ -110,25 +110,6 @@ namespace tweeny {
             template<typename... Fs> tween<T, Ts...> & via(Fs... fs);
 
 
-            /**
-             * @brief Specifies the easing function for the last added point, accepting an enumeration.
-             *
-             * This will specify the easing between the last tween point added by @p to and its previous step. You can
-             * use a value from the @p tweeny::easing::enumerated enum. You can then have an enumeration of your own
-             * poiting to this enumerated enums, or use it directly. You can mix-and-match enumerated easings, functions
-             * and easing names.
-             *
-             * **Example**:
-             *
-             * @code
-             * auto tween1 = tweeny::from(0).to(100).via(tweeny::easing::enumerated::linear);
-             * auto tween2 = tweeny::from(0.0f, 100.0f).to(100.0f, 0.0f).via(tweeny::easing::linear, "backOut");
-             *
-             * @param fs The functions
-             * @returns *this
-             * @see tweeny::easing
-             */
-            template<typename... Fs> tween<T, Ts...> & via(easing::enumerated enumerated, Fs... fs);
 
 
 
@@ -569,7 +550,6 @@ namespace tweeny {
             tween<T> & to(T t); ///< @sa tween::to
             template<typename... Fs> tween<T> & via(Fs... fs); ///< @sa tween::via
             template<typename... Fs> tween<T> & via(int index, Fs... fs); ///< @sa tween::via
-            template<typename... Fs> tween<T> & via(tweeny::easing::enumerated enumerated, Fs... fs); ///< @sa tween::via
             template<typename... Ds> tween<T> & during(Ds... ds); ///< @sa tween::during
             const T & step(int32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(int32_t dt, bool suppressCallbacks)
             const T & step(uint32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(uint32_t dt, bool suppressCallbacks)
