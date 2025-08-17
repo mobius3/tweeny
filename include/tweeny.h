@@ -38,7 +38,7 @@
  *
  * * The Fine @ref manual
  * * The tweeny::from global function, to start a new tween.
- * * The tweeny::tween class itself, that has all the interesting methods for a tween.
+ * * The tweeny::tween class itself that has all the interesting methods for a tween.
  * * The <a href="modules.html">modules page</a> has a list of type of easings.
  *
  * This is how the API looks like:
@@ -99,4 +99,4 @@ namespace tweeny {
 
 #include "tweeny.tcc"
 
-#endif //TWEENY_TWEENY_H
+#endif //TWEENY_H
