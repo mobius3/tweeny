@@ -25,9 +25,14 @@
 # target that uses tweeny, a simple `target_link_libraries(target tweeny)` is sufficient to set up include and link
 # instructions.
 
-cmake_minimum_required(VERSION 3.0...3.28)
+cmake_minimum_required(VERSION 3.23...3.28)
 cmake_policy(SET CMP0063 NEW)
 project(Tweeny LANGUAGES CXX VERSION 3.2.0)
+
+# Enforce C++17 for targets built in this project
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Setup variables and options
 option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" OFF)
@@ -37,21 +42,11 @@ option(TWEENY_BUILD_SANDBOX "Adds a 'sandbox' target that links to tweeny. Usefu
 # The library target
 add_library(tweeny INTERFACE)
 
-# Specify the C++ features a compiler should have to use this library.
-if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
-    target_compile_features(tweeny
-        INTERFACE
-        cxx_auto_type
-        cxx_variadic_templates
-        cxx_lambdas
-        cxx_nullptr
-        cxx_right_angle_brackets
-        cxx_static_assert
-        cxx_template_template_parameters
-    )
-else()
-    list(APPEND CMAKE_CXX_FLAGS -std=c++11)
-endif()
+# Require C++17 for consumers of this interface library.
+target_compile_features(tweeny INTERFACE cxx_std_17)
+
+# Provide namespaced alias for consumers.
+add_library(tweeny::tweeny ALIAS tweeny)
 
 # Set up include directories
 target_include_directories(tweeny INTERFACE
@@ -59,10 +54,29 @@ target_include_directories(tweeny INTERFACE
     $<INSTALL_INTERFACE:include/tweeny>
 )
 
+# Attach headers to the interface target for IDEs and installation
+target_sources(tweeny
+    INTERFACE
+        FILE_SET HEADERS
+        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include
+        FILES
+            include/tweeny.h
+            include/tweeny.tcc
+            include/tween.h
+            include/tween.tcc
+            include/tweenone.tcc
+            include/tweenpoint.h
+            include/tweenpoint.tcc
+            include/tweentraits.h
+            include/easing.h
+            include/easingresolve.h
+            include/int2type.h
+            include/dispatcher.h
+)
+
 # Set up install
 include(GNUInstallDirs)
-install(TARGETS tweeny EXPORT TweenyTargets)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tweeny)
+install(TARGETS tweeny EXPORT TweenyTargets FILE_SET HEADERS)
 
 # Set up export and config
 include(cmake/SetupExports.cmake)
@@ -70,22 +84,6 @@ include(cmake/SetupExports.cmake)
 if (TWEENY_BUILD_DOCUMENTATION)
     add_subdirectory(doc)
 endif()
-
-# This library is a convenience library to force files appear in the IDE properly.
-add_library(tweeny-dummy
-        include/tweeny.h
-        include/tweeny.tcc
-        include/tween.h
-        include/tween.tcc
-        include/tweenone.tcc
-        include/tweenpoint.h
-        include/tweenpoint.tcc
-        include/tweentraits.h
-        include/easing.h
-        include/easingresolve.h
-        include/int2type.h
-        include/dispatcher.h)
-set_target_properties(tweeny-dummy PROPERTIES LINKER_LANGUAGE CXX EXCLUDE_FROM_ALL TRUE)
 
 if (TWEENY_BUILD_SINGLE_HEADER)
     include(cmake/GenerateSingleHeader.cmake)

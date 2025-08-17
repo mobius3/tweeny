@@ -1,14 +1,14 @@
 # This cmake script is used to generate a single header file with all of tweeny
-find_package(Python 3.6 QUIET)
+find_package(Python3 3.6 COMPONENTS Interpreter QUIET)
 
-if (NOT PYTHON_FOUND)
-  message(STATUS "Python 3.6 not found. Single-header include file will NOT be created")
+if (NOT Python3_Interpreter_FOUND)
+  message(STATUS "Python 3.6+ interpreter not found. Single-header include file will NOT be created")
   return()
 endif()
 
 find_program(QUOM_EXECUTABLE NAMES quom)
-if (QUOM_EXECUTABLE-NOTFOUND)
-  message(STATUS "quom program not found. Install it with pip or easy_install")
+if (NOT QUOM_EXECUTABLE)
+  message(STATUS "quom program not found. Install it with: pip3 install quom")
   return()
 endif()
 

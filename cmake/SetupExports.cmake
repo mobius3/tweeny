@@ -27,13 +27,17 @@ include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
 # Setup install of exported targets
-install(EXPORT TweenyTargets DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Tweeny)
+install(
+    EXPORT TweenyTargets
+    NAMESPACE tweeny::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tweeny
+)
 
 # Macro to write config
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/TweenyConfigVersion.cmake"
     VERSION ${Tweeny_VERSION}
-    COMPATIBILITY AnyNewerVersion
+    COMPATIBILITY SameMajorVersion
 )
 
 # Setup install of version config
