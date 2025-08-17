@@ -29,9 +29,9 @@
 #ifndef TWEENY_INT2TYPE_H
 #define TWEENY_INT2TYPE_H
 
-namespace tweeny {
-    namespace detail {
-        template<std::size_t> struct int2type { };
-    }
-}
+
+  namespace tweeny::detail {
+      template<std::size_t> struct int2type { };
+  }
+
 #endif //TWEENY_INT2TYPE_H
