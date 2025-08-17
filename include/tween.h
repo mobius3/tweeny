@@ -81,7 +81,7 @@ namespace tweeny {
              * @param t, vs Point values
              * @returns *this
              */
-            tween<T, Ts...> & to(T t, Ts... vs);
+            tween & to(T t, Ts... vs);
 
             /**
              * @brief Specifies the easing function for the last added point.
@@ -107,7 +107,7 @@ namespace tweeny {
              * @returns *this
              * @see tweeny::easing
              */
-            template<typename... Fs> tween<T, Ts...> & via(Fs... fs);
+            template<typename... Fs> tween & via(Fs... fs);
 
 
 

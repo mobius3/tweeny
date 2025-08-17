@@ -54,15 +54,15 @@ namespace tweeny {
 
     template<typename T, typename... Ts>
     template<typename... Fs>
-    inline tween<T, Ts...> & tween<T, Ts...>::via(Fs... vs) {
-        points.at(points.size() - 2).via(vs...);
+    inline tween<T, Ts...> & tween<T, Ts...>::via(Fs... fs) {
+        points.at(points.size() - 2).via(fs...);
         return *this;
     }
 
     template<typename T, typename... Ts>
     template<typename... Fs>
-    inline tween<T, Ts...> & tween<T, Ts...>::via(int index, Fs... vs) {
-        points.at(static_cast<size_t>(index)).via(vs...);
+    inline tween<T, Ts...> & tween<T, Ts...>::via(const int index, Fs... fs) {
+        points.at(static_cast<size_t>(index)).via(fs...);
         return *this;
     }
 
