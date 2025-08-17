@@ -30,9 +30,7 @@
 #ifndef TWEENY_TWEEN_H
 #define TWEENY_TWEEN_H
 
-#include <tuple>
 #include <vector>
-#include <functional>
 #include <string>
 
 #include "tweentraits.h"
@@ -55,9 +53,8 @@ namespace tweeny {
              * @p t The first value in the point
              * @p vs The remaining values
              */
-            static tween<T, Ts...> from(T t, Ts... vs);
+            static tween from(T t, Ts... vs);
 
-        public:
             /**
              * @brief Default constructor for a tween
              *
@@ -78,7 +75,8 @@ namespace tweeny {
              * auto t = tweeny::from(0).to(100).to(200);
              * @endcode
              *
-             * @param t, vs Point values
+             * @param t The first point value
+             * @param vs Point values
              * @returns *this
              */
             tween & to(T t, Ts... vs);
@@ -90,7 +88,7 @@ namespace tweeny {
              * use any callable object. Additionally, you can use the easing objects specified in the class @p easing.
              *
              * If it is a multi-value point, you can either specify a single easing function that will be used for
-             * every value or you can specify an easing function for each value. You can mix and match callable objects,
+             * every value, or you can specify an easing function for each value. You can mix and match callable objects,
              * lambdas and bundled easing objects.
              *
              * **Example**:
@@ -109,26 +107,22 @@ namespace tweeny {
              */
             template<typename... Fs> tween & via(Fs... fs);
 
-
-
-
-
             /**
              * @brief Specifies the easing function for a specific point.
              *
-             * Points starts at index 0. The index 0 refers to the first @p to call.
+             * Points start at index 0. Index 0 refers to the first @p to call.
              * Using this function without adding a point with @p to leads to undefined
-             * behaviour.
+             * behavior.
              *
              * @param index The tween point index
              * @param fs The functions
              * @returns *this
              * @see tweeny::easing
              */
-            template<typename... Fs> tween<T, Ts...> & via(int index, Fs... fs);
+            template<typename... Fs> tween & via(int index, Fs... fs);
 
             /**
-             * @brief Specifies the duration, typically in milliseconds, for the tweening of values in last point.
+             * @brief Specifies the duration, typically in milliseconds, for the tweening of values in the last point.
              *
              * You can either specify a single duration for all values or give every value its own duration. Value types
              * must be convertible to the uint16_t type.
@@ -137,14 +131,14 @@ namespace tweeny {
              *
              * @code
              * // Specify that the first point will be reached in 100 milliseconds and the first value in the second
-             * // point in 100, whereas the second value will be reached in 500.
+             * // point in 100, whereas the second value in the second point will be reached in 500.
              * auto tween = tweeny::from(0, 0).to(100, 200).during(100).to(200, 300).during(100, 500);
              * @endcode
              *
              * @param ds Duration values
              * @returns *this
              */
-            template<typename... Ds> tween<T, Ts...> & during(Ds... ds);
+            template<typename... Ds> tween & during(Ds... ds);
 
             /**
              * @brief Steps the animation by the designated delta amount.
@@ -155,10 +149,10 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * // tween duration is 100ms
+             * // tween duration is 100 ms
              * auto tween = tweeny::from(0).to(100).during(100);
              *
-             * // steps for 16ms
+             * // steps for 16 ms
              * tween.step(16);
              * @endcode
              *
@@ -188,10 +182,10 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * // tween duration is 100ms
+             * // tween duration is 100 ms
              * auto tween = tweeny::from(0).to(100).during(100);
              *
-             * // steps for 16ms
+             * // steps for 16 ms
              * tween.step(0.001f);
              * @endcode
              *
@@ -240,7 +234,7 @@ namespace tweeny {
              * @brief Adds a callback that will be called when stepping occurs, accepting both the tween and
              * its values.
              *
-             * You can add as many callbacks as you want. Its arguments types must be equal to the argument types
+             * You can add as many callbacks as you want. Its argument types must be equal to the argument types
              * of a tween instance, preceded by a variable of the tween type. Callbacks can be of any callable type. It will only be called
              * via tween::step() functions. For seek callbacks, see tween::onSeek().
              *
@@ -253,13 +247,13 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * auto t = tweeny:from(0).to(100).during(100);
+             * auto t = tweeny::from(0).to(100).during(100);
              *
              * // pass a lambda
-             * t.onStep([](tweeny::tween<int> & t, int v) { printf("%d ", v); return false; });
+             * t.onStep([](tweeny::tween<int> & t, int v) { printf("%d", v); return false; });
              *
              * // pass a functor instance
-             * struct ftor { void operator()(tweeny::tween<int> & t, int v) { printf("%d ", v); return false; } };
+             * struct ftor { void operator()(tweeny::tween<int> & t, int v) { printf("%d", v); return false; } };
              * t.onStep(ftor());
              * @endcode
              * @sa step
@@ -267,7 +261,7 @@ namespace tweeny {
              * @sa onSeek
              * @param callback A callback in with the prototype `bool callback(tween<Ts...> & t, Ts...)`
              */
-            tween<T, Ts...> & onStep(typename detail::tweentraits<T, Ts...>::callbackType callback);
+            tween & onStep(typename detail::tweentraits<T, Ts...>::callbackType callback);
 
             /**
              * @brief Adds a callback that will be called when stepping occurs, accepting only the tween.
@@ -285,13 +279,13 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * auto t = tweeny:from(0).to(100).during(100);
+             * auto t = tweeny::from(0).to(100).during(100);
              *
              * // pass a lambda
-             * t.onStep([](tweeny::tween<int> & t) { printf("%d ", t.value()); return false; });
+             * t.onStep([](tweeny::tween<int> & t) { printf("%d", t.value()); return false; });
              *
              * // pass a functor instance
-             * struct ftor { void operator()(tweeny::tween<int> & t) { printf("%d ", t.values()); return false; } };
+             * struct ftor { void operator()(tweeny::tween<int> & t) { printf("%d", t.values()); return false; } };
              * t.onStep(ftor());
              * @endcode
              * @sa step
@@ -299,7 +293,7 @@ namespace tweeny {
              * @sa onSeek
              * @param callback A callback in the form `bool f(tween<Ts...> & t)`
              */
-            tween<T, Ts...> & onStep(typename detail::tweentraits<T, Ts...>::noValuesCallbackType callback);
+            tween & onStep(typename detail::tweentraits<T, Ts...>::noValuesCallbackType callback);
 
             /**
              * @brief Adds a callback that will be called when stepping occurs, accepting only the tween values.
@@ -317,13 +311,13 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * auto t = tweeny:from(0).to(100).during(100);
+             * auto t = tweeny::from(0).to(100).during(100);
              *
              * // pass a lambda
-             * t.onStep([](int v) { printf("%d ", v); return false; });
+             * t.onStep([](int v) { printf("%d", v); return false; });
              *
              * // pass a functor instance
-             * struct ftor { void operator()(int x) { printf("%d ", x); return false; } };
+             * struct ftor { void operator ()(int x) { printf("%d", x); return false; } };
              * t.onStep(ftor());
              * @endcode
              * @sa step
@@ -331,12 +325,12 @@ namespace tweeny {
              * @sa onSeek
              * @param callback A callback in the form `bool f(Ts...)`
              */
-            tween<T, Ts...> & onStep(typename detail::tweentraits<T, Ts...>::noTweenCallbackType callback);
+            tween & onStep(typename detail::tweentraits<T, Ts...>::noTweenCallbackType callback);
 
             /**
-             * @brief Adds a callback for that will be called when seeking occurs
+             * @brief Adds a callback for that will be called when seeking
              *
-             * You can add as many callbacks as you want. Its arguments types must be equal to the argument types
+             * You can add as many callbacks as you want. Its argument types must be equal to the argument types
              * of a tween instance, preceded by a variable of the tween typve. Callbacks can be of any callable type. It will be called
              * via tween::seek() functions. For step callbacks, see tween::onStep().
              *
@@ -349,18 +343,18 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * auto t = t:from(0).to(100).during(100);
+             * auto t = tweeny::from(0).to(100).during(100);
              *
              * // pass a lambda
-             * t.onSeek([](tweeny::tween<int> & t, int v) { printf("%d ", v); });
+             * t.onSeek([](tweeny::tween<int> & t, int v) { printf("%d", v); });
              *
              * // pass a functor instance
-             * struct ftor { void operator()(tweeny::tween<int> & t, int v) { printf("%d ", v); } };
+             * struct ftor { void operator()(tweeny::tween<int> & t, int v) { printf("%d", v); } };
              * t.onSeek(ftor());
              * @endcode
              * @param callback A callback in with the prototype `bool callback(tween<Ts...> & t, Ts...)`
              */
-            tween<T, Ts...> & onSeek(typename detail::tweentraits<T, Ts...>::callbackType callback);
+            tween & onSeek(typename detail::tweentraits<T, Ts...>::callbackType callback);
 
             /**
              * @brief Adds a callback for that will be called when seeking occurs, accepting only the tween values.
@@ -378,18 +372,18 @@ namespace tweeny {
              * **Example**:
              *
              * @code
-             * auto t = t:from(0).to(100).during(100);
+             * auto t = tweeny::from(0).to(100).during(100);
              *
              * // pass a lambda
-             * t.onSeek([](int v) { printf("%d ", v); });
+             * t.onSeek([](int v) { printf("%d", v); });
              *
              * // pass a functor instance
-             * struct ftor { void operator()(int v) { printf("%d ", v); return false; } };
+             * struct ftor { void operator ()(int v) { printf("%d", v); return false; } };
              * t.onSeek(ftor());
              * @endcode
              * @param callback A callback in the form `bool f(Ts...)`
              */
-            tween<T, Ts...> & onSeek(typename detail::tweentraits<T, Ts...>::noTweenCallbackType callback);
+            tween & onSeek(typename detail::tweentraits<T, Ts...>::noTweenCallbackType callback);
 
             /**
              * @brief Adds a callback for that will be called when seeking occurs, accepting only the tween.
@@ -418,14 +412,14 @@ namespace tweeny {
              * @endcode
              * @param callback A callback in the form `bool f(tween<Ts...> & t)`
              */
-            tween<T, Ts...> & onSeek(typename detail::tweentraits<T, Ts...>::noValuesCallbackType callback);
+            tween & onSeek(typename detail::tweentraits<T, Ts...>::noValuesCallbackType callback);
 
             /**
              * @brief Returns the total duration of this tween
              *
              * @returns The duration of all the tween points.
              */
-            uint32_t duration() const;
+            [[nodiscard]] uint32_t duration() const;
 
             /**
              * @brief Returns the current tween values
@@ -458,35 +452,35 @@ namespace tweeny {
             /**
              * @brief Returns the current currentProgress of the interpolation.
              *
-             * 0 means its at the values passed in the construction, 1 means the last step.
+             * 0 means it's at the values passed in the construction; 1 means the last step.
              * @returns the current currentProgress between 0 and 1 (inclusive)
              */
-            float progress() const;
+            [[nodiscard]] float progress() const;
 
             /**
              * @brief Sets the direction of this tween forward.
              *
-             * Note that this only affects tween::step() function.
+             * Note that this only affects the tween::step () function.
              * @returns *this
              * @sa backward
              */
-            tween<T, Ts...> & forward();
+            tween & forward();
 
             /**
              * @brief Sets the direction of this tween backward.
              *
-             * Note that this only affects tween::step() function.
+             * Note that this only affects the tween::step () function.
              * @returns *this
              * @sa forward
              */
-            tween<T, Ts...> & backward();
+            tween & backward();
 
             /**
              * @brief Returns the current direction of this tween
              *
-             * @returns -1 If it is mobin backwards in time, 1 if it is moving forward in time
+             * @returns -1 If it is moving backwards in time, 1 if it is moving forward in time
              */
-            int direction() const;
+            [[nodiscard]] int direction() const;
 
             /**
              * @brief Jumps to a specific tween point
@@ -505,12 +499,10 @@ namespace tweeny {
              *
              * @returns Current tween point
              */
-            uint16_t point() const;
+            [[nodiscard]] uint16_t point() const;
 
-        private /* member types */:
+        private:
             using traits = detail::tweentraits<T, Ts...>;
-
-        private /* member variables */:
             uint32_t total = 0; // total runtime
             uint16_t currentPoint = 0; // current point
             float currentProgress = 0; // current progress
@@ -520,14 +512,13 @@ namespace tweeny {
             std::vector<typename traits::callbackType> onSeekCallbacks;
             int8_t currentDirection = 1;
 
-        private:
             /* member functions */
-            tween(T t, Ts... vs);
+            explicit tween(T t, Ts... vs);
             template<size_t I> void interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) const;
             void interpolate(float prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) const;
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
-            uint16_t pointAt(float progress) const;
+            [[nodiscard]] uint16_t pointAt(float progress) const;
     };
 
     /**
@@ -543,41 +534,37 @@ namespace tweeny {
     template<typename T>
     class tween<T> {
         public:
-            static tween<T> from(T t);
-
-        public:
+            static tween from(T t);
             tween(); ///< @sa tween::tween
-            tween<T> & to(T t); ///< @sa tween::to
-            template<typename... Fs> tween<T> & via(Fs... fs); ///< @sa tween::via
-            template<typename... Fs> tween<T> & via(int index, Fs... fs); ///< @sa tween::via
-            template<typename... Ds> tween<T> & during(Ds... ds); ///< @sa tween::during
+            tween & to(T t); ///< @sa tween::to
+            template<typename... Fs> tween & via(Fs... fs); ///< @sa tween::via
+            template<typename... Fs> tween & via(int index, Fs... fs); ///< @sa tween::via
+            template<typename... Ds> tween & during(Ds... ds); ///< @sa tween::during
             const T & step(int32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(int32_t dt, bool suppressCallbacks)
             const T & step(uint32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(uint32_t dt, bool suppressCallbacks)
             const T & step(float dp, bool suppressCallbacks = false); ///< @sa tween::step(float dp, bool suppressCallbacks)
             const T & seek(float p, bool suppressCallbacks = false); ///< @sa tween::seek(float p, bool suppressCallbacks)
             const T & seek(int32_t d, bool suppressCallbacks = false); ///< @sa tween::seek(int32_t d, bool suppressCallbacks)
             const T & seek(uint32_t d, bool suppressCallbacks = false); ///< @sa tween::seek(uint32_t d, bool suppressCallbacks)
-            tween<T> & onStep(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onStep
-            tween<T> & onStep(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onStep
-            tween<T> & onStep(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onStep
-            tween<T> & onSeek(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onSeek
-            tween<T> & onSeek(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onSeek
-            tween<T> & onSeek(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onSeek
+            tween & onStep(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onStep
+            tween & onStep(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onStep
+            tween & onStep(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onStep
+            tween & onSeek(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onSeek
+            tween & onSeek(typename detail::tweentraits<T>::noValuesCallbackType callback); ///< @sa tween::onSeek
+            tween & onSeek(typename detail::tweentraits<T>::noTweenCallbackType callback); ///< @sa tween::onSeek
             const T & peek() const; ///< @sa tween::peek
             T peek(float progress) const; ///< @sa tween::peek
             T peek(uint32_t time) const; ///< @sa tween::peek
-            uint32_t duration() const; ///< @sa tween::duration
-            float progress() const; ///< @sa tween::progress
-            tween<T> & forward(); ///< @sa tween::forward
-            tween<T> & backward(); ///< @sa tween::backward
-            int direction() const; ///< @sa tween::direction
+            [[nodiscard]] uint32_t duration() const; ///< @sa tween::duration
+            [[nodiscard]] float progress() const; ///< @sa tween::progress
+            tween & forward(); ///< @sa tween::forward
+            tween & backward(); ///< @sa tween::backward
+            [[nodiscard]] int direction() const; ///< @sa tween::direction
             const T & jump(size_t point, bool suppressCallbacks = false); ///< @sa tween::jump
-            uint16_t point() const; ///< @sa tween::point
+            [[nodiscard]] uint16_t point() const; ///< @sa tween::point
 
-        private /* member types */:
+        private:
             using traits = detail::tweentraits<T>;
-
-        private /* member variables */:
             uint32_t total = 0; // total runtime
             uint16_t currentPoint = 0; // current point
             float currentProgress = 0; // current progress
@@ -587,13 +574,12 @@ namespace tweeny {
             std::vector<typename traits::callbackType> onSeekCallbacks;
             int8_t currentDirection = 1;
 
-        private:
             /* member functions */
-            tween(T t);
+            explicit tween(T t);
             void interpolate(float prog, unsigned point, T & value) const;
             void render(float p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
-            uint16_t pointAt(float progress) const;
+            [[nodiscard]] uint16_t pointAt(float progress) const;
     };
 }
 

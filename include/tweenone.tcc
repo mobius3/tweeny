@@ -103,8 +103,8 @@ namespace tweeny {
     }
 
     template<typename T>
-    const T & tween<T>::seek(const uint32_t t, const bool suppressCallbacks) {
-        return seek(static_cast<float>(t) / static_cast<float>(total), suppressCallbacks);
+    const T & tween<T>::seek(const uint32_t d, const bool suppressCallbacks) {
+        return seek(static_cast<float>(d) / static_cast<float>(total), suppressCallbacks);
     }
 
     template<typename T>
@@ -115,7 +115,7 @@ namespace tweeny {
     template<typename T>
     void tween<T>::interpolate(const float prog, unsigned point, T & value) const {
         auto & p = points.at(point);
-        auto pointDuration = uint32_t(p.duration() - (p.stacked - prog * static_cast<float>(total)));
+        const auto pointDuration = static_cast<uint32_t>(p.duration() - (p.stacked - prog * static_cast<float>(total)));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());
         if (pointTotal > 1.0f) pointTotal = 1.0f;
         auto easing = std::get<0>(p.easings);
@@ -188,7 +188,7 @@ namespace tweeny {
 
 
     template<typename T>
-    T tween<T>::peek(float progress) const {
+    T tween<T>::peek(const float progress) const {
         T value;
         interpolate(progress, pointAt(progress), value);
         return value;
@@ -197,7 +197,7 @@ namespace tweeny {
     template<typename T>
     T tween<T>::peek(const uint32_t time) const {
         T value;
-        float progress = static_cast<float>(time) / static_cast<float>(total);
+        const float progress = static_cast<float>(time) / static_cast<float>(total);
         interpolate(progress, pointAt(progress), value);
         return value;
     }
