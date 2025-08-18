@@ -38,7 +38,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" OFF)
 option(TWEENY_BUILD_SINGLE_HEADER "Joins together all header files in a single one. Needs Python 3.6 and quom installed" OFF)
 option(TWEENY_BUILD_SANDBOX "Adds a 'sandbox' target that links to tweeny. Useful when exploring tweeny" OFF)
-option(TWEENY_BUILD_TESTS "Build Tweeny tests (requires Catch2 v3 to be findable)" OFF)
+option(TWEENY_BUILD_TESTS "Build Tweeny tests (requires Catch2 v3 to be findable via CMake)" OFF)
 
 # The library target
 add_library(tweeny INTERFACE)

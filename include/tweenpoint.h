@@ -47,7 +47,7 @@
           typename traits::durationsArrayType durations;
           typename traits::easingCollection easings;
           typename traits::callbackType onEnterCallbacks;
-          uint32_t stacked{};
+          uint32_t start{};
 
           /* Constructs a tweenpoint from a set of values, filling their durations and easings */
           explicit tweenpoint(Ts... vs);
