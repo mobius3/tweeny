@@ -1,6 +1,10 @@
 #include "tweeny.h"
 
 int main() {
-  auto tween1 = tweeny::from(0.0, 1.0f).to(1.0f, 0.0f).via(tweeny::easing::stepped, tweeny::easing::linear);
+  auto builder = tweeny::from(0.0f).to(1.0f).via(tweeny::easing::linear).during(100U);
+  auto x = builder.build();
+
+  auto v = x.step(50);
+
   return 0;
 }

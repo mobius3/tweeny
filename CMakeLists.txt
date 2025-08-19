@@ -51,28 +51,27 @@ add_library(tweeny::tweeny ALIAS tweeny)
 
 # Set up include directories
 target_include_directories(tweeny INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include/tweeny>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+  $<INSTALL_INTERFACE:include/tweeny>
+  $<INSTALL_INTERFACE:src/tweeny>
 )
 
 # Attach headers to the interface target for IDEs and installation
-target_sources(tweeny
-    INTERFACE
-        FILE_SET HEADERS
-        BASE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include
-        FILES
-            include/tweeny.h
-            include/tweeny.tcc
-            include/tween.h
-            include/tween.tcc
-            include/tweenone.tcc
-            include/tweenpoint.h
-            include/tweenpoint.tcc
-            include/tweentraits.h
-            include/easing.h
-            include/easingresolve.h
-            include/int2type.h
-            include/dispatcher.h
+target_sources(tweeny INTERFACE
+  FILE_SET HEADERS
+  BASE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/tweeny
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/tweeny
+  FILES
+    include/tweeny/tweeny.h
+    include/tweeny/tween.h
+    src/tweeny/tween.tcc
+    include/tweeny/detail/key-frame.h
+    include/tweeny/detail/traits.h
+    include/tweeny/detail/value-container.h
+    include/tweeny/detail/easing.h
+    include/tweeny/detail/easing-resolve.h
 )
 
 # Set up install
@@ -83,19 +82,19 @@ install(TARGETS tweeny EXPORT TweenyTargets FILE_SET HEADERS)
 include(cmake/SetupExports.cmake)
 
 if (TWEENY_BUILD_DOCUMENTATION)
-    add_subdirectory(doc)
-endif()
+  add_subdirectory(doc)
+endif ()
 
 if (TWEENY_BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+  enable_testing()
+  add_subdirectory(tests)
+endif ()
 
 if (TWEENY_BUILD_SINGLE_HEADER)
-    include(cmake/GenerateSingleHeader.cmake)
-endif()
+  include(cmake/GenerateSingleHeader.cmake)
+endif ()
 
 if (TWEENY_BUILD_SANDBOX)
-    add_executable(sandbox src/sandbox.cc)
-    target_link_libraries(sandbox tweeny)
-endif()
+  add_executable(sandbox src/sandbox.cc)
+  target_link_libraries(sandbox tweeny)
+endif ()

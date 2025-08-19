@@ -140,6 +140,11 @@ namespace tweeny {
                     (void) end;
                     return start;
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } stepped = steppedEasing{};
 
             /**
@@ -179,6 +184,11 @@ namespace tweeny {
                     (void) end;
                     return start;
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } def = defaultEasing{};
 
             /**
@@ -195,6 +205,11 @@ namespace tweeny {
                 static std::enable_if_t<!std::is_integral_v<T>, T> run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position + start);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } linear = linearEasing{};
 
              /**
@@ -206,6 +221,11 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position * position + start);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } quadraticIn = quadraticInEasing{};
 
             /**
@@ -216,6 +236,11 @@ namespace tweeny {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((-(end - start)) * position * (position - 2) + start);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } quadraticOut = quadraticOutEasing{};
 
@@ -234,6 +259,11 @@ namespace tweeny {
                     --position;
                     return static_cast<T>(-(end - start) / 2 * (position * (position - 2) - 1) + start);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } quadraticInOut = quadraticInOutEasing{};
 
             /**
@@ -244,6 +274,11 @@ namespace tweeny {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return static_cast<T>((end - start) * position * position * position + start);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } cubicIn = cubicInEasing{};
 
@@ -256,6 +291,11 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     --position;
                     return static_cast<T>((end - start) * (position * position * position + 1) + start);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } cubicOut = cubicOutEasing{};
 
@@ -440,6 +480,11 @@ namespace tweeny {
                 static T run(const float position, T start, T end) {
                     return static_cast<T>( -(end - start) * (sqrtf(1 - position * position) - 1) + start );
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } circularIn = circularInEasing{};
 
             /**
@@ -451,6 +496,11 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     --position;
                     return static_cast<T>((end - start) * sqrtf(1 - position * position) + start);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } circularOut = circularOutEasing{};
 
@@ -469,6 +519,11 @@ namespace tweeny {
                     position -= 2;
                     return static_cast<T>((end - start) / 2 * (sqrtf(1 - position * position) + 1) + start);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } circularInOut = circularInOutEasing{};
 
             /**
@@ -479,6 +534,11 @@ namespace tweeny {
                 template<typename T>
                 static T run(float position, T start, T end) {
                     return end - start - bounceOut.run(1 - position, T(), (end - start)) + start;
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } bounceIn = bounceInEasing{};
 
@@ -504,6 +564,11 @@ namespace tweeny {
                     const float postFix = position -= (2.625f / 2.75f);
                     return static_cast<T>(c * (7.5625f * postFix * position + .984375f) + start);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } bounceOut = bounceOutEasing{};
 
             /**
@@ -515,6 +580,11 @@ namespace tweeny {
                 static T run(float position, T start, T end) {
                     if (position < 0.5f) return static_cast<T>(bounceIn.run(position * 2, T(), end - start) * .5f + start);
                     return static_cast<T>(bounceOut.run(position * 2 - 1, T(), end - start) * .5f + (end - start) * .5f + start);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } bounceInOut = bounceInOutEasing{};
 
@@ -534,6 +604,11 @@ namespace tweeny {
                         a * powf(2, 10 * (position -= 1)); // this is a fix, again, with post-increment operators
                     return static_cast<T>(-(postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p)) + start);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } elasticIn = elasticInEasing{};
 
             /**
@@ -549,6 +624,11 @@ namespace tweeny {
                     auto a = end - start;
                     float s = p / 4;
                     return static_cast<T>(a * powf(2, -10 * position) * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p) + end);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } elasticOut = elasticOutEasing{};
 
@@ -574,6 +654,11 @@ namespace tweeny {
                     postFix = a * powf(2, -10 * (position -= 1)); // postIncrement is evil
                     return static_cast<T>(postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p) * .5f + end);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } elasticInOut = elasticInOutEasing{};
 
             /**
@@ -587,6 +672,11 @@ namespace tweeny {
                     float postFix = position;
                     return static_cast<T>((end - start) * postFix * position * ((s + 1) * position - s) + start);
                 }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
+                }
             } backIn = backInEasing{};
 
             /**
@@ -599,6 +689,11 @@ namespace tweeny {
                     const float s = 1.70158f;
                     position -= 1;
                     return static_cast<T>((end - start) * ((position) * position * ((s + 1) * position + s) + 1) + start);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } backOut = backOutEasing{};
 
@@ -618,6 +713,11 @@ namespace tweeny {
                     if ((t /= d / 2) < 1) return static_cast<T>(c / 2 * (t * t * ((s + 1) * t - s)) + b);
                     const float postFix = t -= 2;
                     return static_cast<T>(c / 2 * (postFix * t * ((s + 1) * t + s) + 2) + b);
+                }
+
+                template<typename T>
+                T operator()(float position, T start, T end) const {
+                    return run<T>(position, start, end);
                 }
             } backInOut = backInOutEasing{};
     };
