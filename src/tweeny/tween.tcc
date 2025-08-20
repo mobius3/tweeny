@@ -73,6 +73,14 @@ template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::interpolate() -> tween_value_t {
   constexpr std::size_t ValuesCount = sizeof...(RemainingValueTypes) + 1;
 
+  const auto as_return_value = [](const auto& val) -> tween_value_t {
+    if constexpr (ValuesCount == 1) {
+      return std::get<0>(val);
+    } else {
+      return val;
+    }
+  };
+
   if (key_frames.empty()) {
     if constexpr (ValuesCount == 1) {
       return FirstValueType{};
@@ -85,11 +93,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::interpolate() -> twe
   auto & first_key_frame = key_frames.front();
   if (current_frame <= first_key_frame.position) {
     const auto & v = first_key_frame.values;
-    if constexpr (ValuesCount == 1) {
-      return std::get<0>(v);
-    } else {
-      return v;
-    }
+    return as_return_value(v);
   }
 
   std::size_t keyframe_index = find_key_frame_index(current_frame);
@@ -98,11 +102,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::interpolate() -> twe
   auto & last_key_frame = key_frames.back();
   if (keyframe_index + 1 >= key_frames.size()) {
     const auto & v = last_key_frame.values;
-    if constexpr (ValuesCount == 1) {
-      return std::get<0>(v);
-    } else {
-      return v;
-    }
+    return as_return_value(v);
   }
 
   const key_frame_t & base_key_frame = key_frames[keyframe_index];
@@ -127,11 +127,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::interpolate() -> twe
     std::make_index_sequence<ValuesCount>{}
   );
 
-  if constexpr (ValuesCount == 1) {
-    return std::get<0>(values);
-  } else {
-    return values;
-  }
+  return as_return_value(values);
 }
 
 #endif //TWEENY_TWEEN_TCC
