@@ -42,10 +42,10 @@ namespace tweeny::detail {
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(const key_frames_t & key_frames) : key_frames(key_frames) { }
+tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(const key_frames_t & key_frames_input) : key_frames(key_frames_input) { }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(key_frames_t & key_frames) : key_frames(std::move(key_frames)) { }
+tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(key_frames_t & key_frames_input) : key_frames(std::move(key_frames_input)) { }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::find_key_frame_index(uint32_t frame) -> size_t {
@@ -114,8 +114,8 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::interpolate() -> twe
 
   float tweening_progress = 1.0f;
   if (next_pos > base_pos) {
-    const float numerator = current_frame_i64 - base_pos;
-    const float denominator = next_pos - base_pos;
+    const auto numerator = static_cast<float>(current_frame_i64 - base_pos);
+    const auto denominator = static_cast<float>(next_pos - base_pos);
     tweening_progress = numerator / denominator;
   }
   tweening_progress = detail::clampf(tweening_progress);

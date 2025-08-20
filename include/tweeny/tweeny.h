@@ -55,6 +55,7 @@ namespace tweeny {
          * the intention here is to access the “previous” key frame
          * after you’ve just pushed a new one with to(...), via(...) configures the easing
          * for the segment that starts at the previous frame.
+         * That is why you see -2
          */
         auto & key_frame = key_frames.at(key_frames.size() - 2);
         key_frame.easing_functions = std::make_tuple(easing_functions...);
@@ -87,7 +88,7 @@ namespace tweeny {
         return *this;
       }
 
-      tweeny_builder & during(uint16_t frame_count) {
+      tweeny_builder & during(uint32_t frame_count) {
         auto & key_frame = key_frames.at(key_frames.size() - 2);
         std::fill(
           std::begin(key_frame.tween_frame_counts),
@@ -110,7 +111,7 @@ namespace tweeny {
     private:
       key_frames_t key_frames;
       void fix_frame_positions() {
-        uint16_t key_frame_position = 0;
+        uint32_t key_frame_position = 0;
         for (auto & key_frame : key_frames) {
           key_frame.position = key_frame_position;
           key_frame_position += key_frame.highest_frame_count();

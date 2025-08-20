@@ -120,9 +120,9 @@ namespace tweeny::detail {
      * This function searches through the tween_frame_counts array to find
      * and return the maximum frame count value.
      *
-     * @return The highest frame count as an unsigned 16-bit integer.
+     * @return The highest frame count as an unsigned 32-bit integer.
      */
-    [[nodiscard]] uint16_t highest_frame_count() const {
+    [[nodiscard]] uint32_t highest_frame_count() const {
       return *std::max_element(tween_frame_counts.begin(), tween_frame_counts.end());
     }
   };

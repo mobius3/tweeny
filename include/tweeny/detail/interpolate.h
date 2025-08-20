@@ -25,6 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef TWEENY_INTERPOLATE_H
 #define TWEENY_INTERPOLATE_H
 #include <cstddef>
+#include <tuple>
+#include <utility>
 
 #include "key-frame.h"
 #include "easing/easing.h"
@@ -35,7 +37,20 @@ namespace tweeny::detail {
     float t,
     const key_frame<First, Rest...> & base,
     const key_frame<First, Rest...> & next
-  ) -> decltype(std::get<I>(base.values)) {
+  ) -> std::remove_reference_t<decltype(std::get<I>(base.values))> {
+    const auto & start = std::get<I>(base.values);
+    const auto & end = std::get<I>(next.values);
+    const auto & func = std::get<I>(base.easing_functions);
+    if (func) return func(t, start, end);
+    return easing::def(t, start, end);
+  }
+
+  template <typename Value, std::size_t I>
+  static auto interpolate_one(
+    float t,
+    const key_frame<Value> & base,
+    const key_frame<Value> & next
+  ) -> std::remove_reference_t<decltype(std::get<I>(base.values))> {
     const auto & start = std::get<I>(base.values);
     const auto & end = std::get<I>(next.values);
     const auto & func = std::get<I>(base.easing_functions);

@@ -26,6 +26,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define TWEENY_TWEEN_H
 #include <vector>
 #include <cstdint>
+#include <cstddef>
 
 #include "detail/key-frame.h"
 #include "detail/tween-value.h"
@@ -39,8 +40,8 @@ namespace tweeny {
     public:
       using tween_value_t = detail::tween_value_t<FirstValueType, RemainingValueTypes...>;
 
-      explicit tween(const key_frames_t & key_frames);
-      explicit tween(key_frames_t & key_frames);
+      explicit tween(const key_frames_t & key_frames_input);
+      explicit tween(key_frames_t & key_frames_input);
 
       auto step(int32_t frames) -> tween_value_t;
 

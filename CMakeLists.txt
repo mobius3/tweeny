@@ -97,4 +97,11 @@ endif ()
 if (TWEENY_BUILD_SANDBOX)
   add_executable(sandbox src/sandbox.cc)
   target_link_libraries(sandbox tweeny)
+
+  # Enable very strict warnings and treat warnings as errors for the sandbox target
+  target_compile_options(sandbox PRIVATE
+    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast -Wcast-align -Woverloaded-virtual -Wnull-dereference -Wdouble-promotion -Wformat=2 -Wimplicit-fallthrough -Wswitch-enum -Wzero-as-null-pointer-constant -Wuseless-cast -Werror>
+    $<$<CXX_COMPILER_ID:AppleClang>:-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast -Wcast-align -Woverloaded-virtual -Wnull-dereference -Wformat=2 -Wimplicit-fallthrough -Wswitch-enum -Wzero-as-null-pointer-constant -Wuseless-cast -Werror>
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /permissive->
+  )
 endif ()
