@@ -52,9 +52,7 @@ add_library(tweeny::tweeny ALIAS tweeny)
 # Set up include directories
 target_include_directories(tweeny INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
   $<INSTALL_INTERFACE:include/tweeny>
-  $<INSTALL_INTERFACE:src/tweeny>
 )
 
 # Attach headers to the interface target for IDEs and installation
@@ -62,11 +60,10 @@ target_sources(tweeny INTERFACE
   FILE_SET HEADERS
   BASE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/include/tweeny
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/tweeny
   FILES
     include/tweeny/tweeny.h
     include/tweeny/tween.h
-    src/tweeny/tween.tcc
+    include/tweeny/tween.tcc
     include/tweeny/detail/key-frame.h
     include/tweeny/detail/traits.h
     include/tweeny/detail/value-container.h

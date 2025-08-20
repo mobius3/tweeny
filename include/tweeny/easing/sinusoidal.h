@@ -1,0 +1,78 @@
+/*
+This file is part of the Tweeny library.
+
+Copyright (c) 2016-2025 Leonardo Guilherme Lucena de Freitas
+Copyright (c) 2016 Guilherme R. Costa
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+#
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+#ifndef TWEENY_EASING_SINUSOIDAL_H
+#define TWEENY_EASING_SINUSOIDAL_H
+
+#include <cmath>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
+namespace tweeny::detail {
+  struct sinusoidalInEasing {
+    template <typename T>
+    static T run(const float position, T start, T end) {
+      return static_cast<T>(-(end - start) * cosf(position * static_cast<float>(M_PI) / 2) + (end - start) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct sinusoidalOutEasing {
+    template <typename T>
+    static T run(const float position, T start, T end) {
+      return static_cast<T>((end - start) * sinf(position * static_cast<float>(M_PI) / 2) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct sinusoidalInOutEasing {
+    template <typename T>
+    static T run(const float position, T start, T end) {
+      return static_cast<T>(-(end - start) / 2 * (cosf(position * static_cast<float>(M_PI)) - 1) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+}
+
+namespace tweeny::easing {
+  inline constexpr detail::sinusoidalInEasing sinusoidalIn{};
+  inline constexpr detail::sinusoidalOutEasing sinusoidalOut{};
+  inline constexpr detail::sinusoidalInOutEasing sinusoidalInOut{};
+}
+
+#endif // TWEENY_EASING_SINUSOIDAL_H
