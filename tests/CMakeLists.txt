@@ -3,6 +3,7 @@ find_package(Catch2 3 REQUIRED CONFIG)
 
 add_executable(tweeny_tests
     sanity.cpp
+    events_step.cpp
 )
 
 target_compile_features(tweeny_tests PRIVATE cxx_std_17)

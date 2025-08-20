@@ -76,7 +76,22 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t f
 
   current_frame = target_frame;
   current_value = render(target_frame);
+
+  // trigger step listeners
+  for (auto &cb : step_listeners) {
+    (void)cb(*this);
+  }
+
   return current_value;
+}
+
+template <typename FirstValueType, typename ... RemainingValueTypes>
+template <typename Callback>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::step_t, Callback && cb) -> void {
+  using result_t = std::invoke_result_t<Callback, tween&>;
+  static_assert(std::is_same_v<result_t, event::response>,
+                "step callback must return tweeny::event::response");
+  step_listeners.emplace_back(std::forward<Callback>(cb));
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>

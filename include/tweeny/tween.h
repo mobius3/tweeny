@@ -27,9 +27,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <vector>
 #include <cstdint>
 #include <cstddef>
+#include <functional>
+#include <type_traits>
 
 #include "detail/key-frame.h"
 #include "detail/tween-value.h"
+#include "event.h"
 
 namespace tweeny {
   template<typename FirstValueType, typename... RemainingValueTypes>
@@ -47,10 +50,16 @@ namespace tweeny {
       auto jump(std::size_t target_key_frame) -> tween_value_t;
       auto step(int32_t frames) -> tween_value_t;
 
+      template <typename Callback>
+      auto on(event::step_t, Callback&& cb) -> void ;
+
     private:
+      using step_callback_t = std::function<event::response(tween&)>;
+
       key_frames_t key_frames;
       uint32_t current_frame = 0;
       tween_value_t current_value;
+      std::vector<step_callback_t> step_listeners;
 
       auto render(uint32_t target_frame) -> tween_value_t;
       auto find_key_frame_index(uint32_t frame) -> std::size_t;
