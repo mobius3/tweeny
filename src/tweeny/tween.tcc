@@ -56,17 +56,35 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::find_key_frame_index
 
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t frames) -> tween_value_t {
-  if (frames < 0) {
-    const auto dec = static_cast<uint32_t>(-frames);
-    if (dec > current_frame) current_frame = 0;
-    else current_frame -= dec;
-  } else {
-    current_frame += static_cast<uint32_t>(frames);
-  }
-
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::seek(uint32_t frame) -> tween_value_t {
+  current_frame = frame;
   current_value = interpolate();
   return current_value;
+}
+
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::jump(std::size_t key_frame) -> tween_value_t {
+  if (key_frames.empty()) {
+    return seek(0);
+  }
+  if (key_frame >= key_frames.size()) {
+    key_frame = key_frames.size() - 1;
+  }
+  const auto frame = static_cast<uint32_t>(key_frames[key_frame].position);
+  return seek(frame);
+}
+
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t frames) -> tween_value_t {
+  uint32_t target_frame = current_frame;
+  if (frames < 0) {
+    const auto dec = static_cast<uint32_t>(-frames);
+    if (dec > target_frame) target_frame = 0;
+    else target_frame -= dec;
+  } else {
+    target_frame += static_cast<uint32_t>(frames);
+  }
+  return seek(target_frame);
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>

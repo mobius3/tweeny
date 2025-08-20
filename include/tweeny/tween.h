@@ -43,6 +43,8 @@ namespace tweeny {
       explicit tween(const key_frames_t & key_frames_input);
       explicit tween(key_frames_t & key_frames_input);
 
+      auto seek(uint32_t frame) -> tween_value_t;
+      auto jump(std::size_t key_frame) -> tween_value_t;
       auto step(int32_t frames) -> tween_value_t;
 
     private:
