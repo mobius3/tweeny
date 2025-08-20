@@ -50,17 +50,21 @@ namespace tweeny {
       auto jump(std::size_t target_key_frame) -> tween_value_t;
       auto step(int32_t frames) -> tween_value_t;
 
-      template <typename Callback>
-      auto on(event::step_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(event::step_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(event::seek_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(event::jump_t, Callback&& cb) -> void ;
 
     private:
-      using step_callback_t = std::function<event::response(tween&)>;
+      using callback_t = std::function<event::response(tween&)>;
 
       key_frames_t key_frames;
       uint32_t current_frame = 0;
       tween_value_t current_value;
-      std::vector<step_callback_t> step_listeners;
+      std::vector<callback_t> step_listeners;
+      std::vector<callback_t> seek_listeners;
+      std::vector<callback_t> jump_listeners;
 
+      auto invoke_listeners(const std::vector<callback_t>& listeners) -> void;
       auto render(uint32_t target_frame) -> tween_value_t;
       auto find_key_frame_index(uint32_t frame) -> std::size_t;
   };

@@ -51,15 +51,21 @@ template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::seek(const uint32_t target_frame) -> tween_value_t {
   current_frame = target_frame;
   current_value = render(target_frame);
+
+  invoke_listeners(seek_listeners);
+
   return current_value;
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::jump(std::size_t target_key_frame) -> tween_value_t {
-  target_key_frame = std::clamp(target_key_frame, 0, key_frames.size() - 1);
+  target_key_frame = std::clamp(target_key_frame, static_cast<size_t>(0), key_frames.size() - 1);
   const auto target_frame = static_cast<uint32_t>(key_frames[target_key_frame].position);
   current_frame = target_frame;
   current_value = render(target_frame);
+
+  invoke_listeners(jump_listeners);
+
   return current_value;
 }
 
@@ -77,10 +83,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t f
   current_frame = target_frame;
   current_value = render(target_frame);
 
-  // trigger step listeners
-  for (auto &cb : step_listeners) {
-    (void)cb(*this);
-  }
+  invoke_listeners(step_listeners);
 
   return current_value;
 }
@@ -92,6 +95,31 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::step_t, Ca
   static_assert(std::is_same_v<result_t, event::response>,
                 "step callback must return tweeny::event::response");
   step_listeners.emplace_back(std::forward<Callback>(cb));
+}
+
+template <typename FirstValueType, typename ... RemainingValueTypes>
+template <typename Callback>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::seek_t, Callback && cb) -> void {
+  using result_t = std::invoke_result_t<Callback, tween&>;
+  static_assert(std::is_same_v<result_t, event::response>,
+                "seek callback must return tweeny::event::response");
+  seek_listeners.emplace_back(std::forward<Callback>(cb));
+}
+
+template <typename FirstValueType, typename ... RemainingValueTypes>
+template <typename Callback>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::jump_t, Callback && cb) -> void {
+  using result_t = std::invoke_result_t<Callback, tween&>;
+  static_assert(std::is_same_v<result_t, event::response>,
+                "jump callback must return tweeny::event::response");
+  jump_listeners.emplace_back(std::forward<Callback>(cb));
+}
+
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::invoke_listeners(const std::vector<callback_t>& listeners) -> void {
+  for (const auto &cb : listeners) {
+    (void)cb(*this);
+  }
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
