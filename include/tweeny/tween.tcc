@@ -116,9 +116,22 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::jump_t, Ca
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::invoke_listeners(const std::vector<callback_t>& listeners) -> void {
-  for (const auto &cb : listeners) {
-    (void)cb(*this);
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::invoke_listeners(std::vector<callback_t>& listeners) -> void {
+  std::vector<std::size_t> to_remove;
+  to_remove.reserve(listeners.size());
+
+  for (std::size_t i = 0; i < listeners.size(); ++i) {
+    const auto resp = listeners[i](*this);
+    if (resp == event::response::unsubscribe) {
+      to_remove.push_back(i);
+    }
+  }
+
+  if (!to_remove.empty()) {
+    using diff_t = typename std::vector<callback_t>::difference_type;
+    for (auto it = to_remove.rbegin(); it != to_remove.rend(); ++it) {
+      listeners.erase(listeners.begin() + static_cast<diff_t>(*it));
+    }
   }
 }
 

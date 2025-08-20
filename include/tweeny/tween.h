@@ -64,7 +64,7 @@ namespace tweeny {
       std::vector<callback_t> seek_listeners;
       std::vector<callback_t> jump_listeners;
 
-      auto invoke_listeners(const std::vector<callback_t>& listeners) -> void;
+      auto invoke_listeners(std::vector<callback_t>& listeners) -> void;
       auto render(uint32_t target_frame) -> tween_value_t;
       auto find_key_frame_index(uint32_t frame) -> std::size_t;
   };
