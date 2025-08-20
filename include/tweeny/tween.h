@@ -43,8 +43,8 @@ namespace tweeny {
       explicit tween(const key_frames_t & key_frames_input);
       explicit tween(key_frames_t & key_frames_input);
 
-      auto seek(uint32_t frame) -> tween_value_t;
-      auto jump(std::size_t key_frame) -> tween_value_t;
+      auto seek(uint32_t target_frame) -> tween_value_t;
+      auto jump(std::size_t target_key_frame) -> tween_value_t;
       auto step(int32_t frames) -> tween_value_t;
 
     private:
@@ -52,7 +52,7 @@ namespace tweeny {
       uint32_t current_frame = 0;
       tween_value_t current_value;
 
-      auto interpolate() -> tween_value_t;
+      auto render(uint32_t target_frame) -> tween_value_t;
       auto find_key_frame_index(uint32_t frame) -> std::size_t;
   };
 }

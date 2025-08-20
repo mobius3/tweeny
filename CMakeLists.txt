@@ -61,6 +61,7 @@ target_sources(tweeny INTERFACE
   BASE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/include/tweeny
   FILES
+    include/tweeny/event.h
     include/tweeny/tweeny.h
     include/tweeny/tween.h
     include/tweeny/tween.tcc

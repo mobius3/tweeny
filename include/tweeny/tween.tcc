@@ -33,14 +33,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "detail/interpolate.h"
 #include "tweeny/easing/easing.h"
 
-namespace tweeny::detail {
-  static float clampf(const float v, const float min = 0.0f, const float max = 1.0f) {
-    if (v < min) return min;
-    if (v > max) return max;
-    return v;
-  }
-}
-
 template <typename FirstValueType, typename... RemainingValueTypes>
 tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(const key_frames_t & key_frames_input) : key_frames(key_frames_input) { }
 
@@ -56,22 +48,19 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::find_key_frame_index
 
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::seek(uint32_t frame) -> tween_value_t {
-  current_frame = frame;
-  current_value = interpolate();
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::seek(const uint32_t target_frame) -> tween_value_t {
+  current_frame = target_frame;
+  current_value = render(target_frame);
   return current_value;
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::jump(std::size_t key_frame) -> tween_value_t {
-  if (key_frames.empty()) {
-    return seek(0);
-  }
-  if (key_frame >= key_frames.size()) {
-    key_frame = key_frames.size() - 1;
-  }
-  const auto frame = static_cast<uint32_t>(key_frames[key_frame].position);
-  return seek(frame);
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::jump(std::size_t target_key_frame) -> tween_value_t {
+  target_key_frame = std::clamp(target_key_frame, 0, key_frames.size() - 1);
+  const auto target_frame = static_cast<uint32_t>(key_frames[target_key_frame].position);
+  current_frame = target_frame;
+  current_value = render(target_frame);
+  return current_value;
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
@@ -84,14 +73,19 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t f
   } else {
     target_frame += static_cast<uint32_t>(frames);
   }
-  return seek(target_frame);
+
+  current_frame = target_frame;
+  current_value = render(target_frame);
+  return current_value;
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::interpolate() -> tween_value_t {
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::render(uint32_t target_frame) -> tween_value_t {
   constexpr std::size_t ValuesCount = sizeof...(RemainingValueTypes) + 1;
 
-  const auto as_return_value = [](const auto& val) -> tween_value_t {
+  if (target_frame == current_frame) return current_value;
+
+  const auto as_return_value = [](const auto & val) -> tween_value_t {
     if constexpr (ValuesCount == 1) {
       return std::get<0>(val);
     } else {
@@ -107,39 +101,44 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::interpolate() -> twe
     }
   }
 
-  // If before or at the first key frame, return its value
   auto & first_key_frame = key_frames.front();
-  if (current_frame <= first_key_frame.position) {
-    const auto & v = first_key_frame.values;
-    return as_return_value(v);
-  }
-
-  std::size_t keyframe_index = find_key_frame_index(current_frame);
-
-  // If next at or past the last key frame, return its value
   auto & last_key_frame = key_frames.back();
-  if (keyframe_index + 1 >= key_frames.size()) {
-    const auto & v = last_key_frame.values;
-    return as_return_value(v);
+
+  // note to future self: we don't need to add the frame count
+  // to the last_key_frame.position because there's no interpolation
+  // beyond it (duh)
+  target_frame = std::clamp(
+    target_frame,
+    first_key_frame.position,
+    last_key_frame.position
+  );
+
+  if (target_frame <= first_key_frame.position) return as_return_value(first_key_frame.values);
+  if (target_frame >= last_key_frame.position) return as_return_value(last_key_frame.values);
+
+  std::size_t base_key_key_frame_idx = find_key_frame_index(target_frame);
+
+  if (base_key_key_frame_idx + 1 >= key_frames.size()) {
+    return as_return_value(last_key_frame.values);
   }
 
-  const key_frame_t & base_key_frame = key_frames[keyframe_index];
-  const key_frame_t & next_key_frame = key_frames[keyframe_index + 1];
+  const key_frame_t & base_key_frame = key_frames[base_key_key_frame_idx];
+  const key_frame_t & next_key_frame = key_frames[base_key_key_frame_idx + 1];
 
-  const int64_t base_pos = base_key_frame.position;
-  const uint32_t next_pos = next_key_frame.position;
-  const int64_t current_frame_i64 = current_frame;
+  const int64_t base_kf_position = base_key_frame.position;
+  const uint32_t target_kf_position = next_key_frame.position;
+  const int64_t target_frame_i64 = target_frame;
 
-  float tweening_progress = 1.0f;
-  if (next_pos > base_pos) {
-    const auto numerator = static_cast<float>(current_frame_i64 - base_pos);
-    const auto denominator = static_cast<float>(next_pos - base_pos);
-    tweening_progress = numerator / denominator;
+  float inbetween_progress = 1.0f;
+  if (target_kf_position > base_kf_position) {
+    const auto numerator = static_cast<float>(target_frame_i64 - base_kf_position);
+    const auto denominator = static_cast<float>(target_kf_position - base_kf_position);
+    inbetween_progress = numerator / denominator;
   }
-  tweening_progress = detail::clampf(tweening_progress);
+  inbetween_progress = std::clamp(inbetween_progress, 0.0f, 1.0f);
 
   auto values = detail::interpolate_values<FirstValueType, RemainingValueTypes...>(
-    tweening_progress,
+    inbetween_progress,
     base_key_frame,
     next_key_frame,
     std::make_index_sequence<ValuesCount>{}
