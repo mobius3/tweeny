@@ -34,10 +34,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "tweeny/easing/easing.h"
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(const key_frames_t & key_frames_input) : key_frames(key_frames_input) { }
+tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(const key_frames_t & key_frames_input) : key_frames(key_frames_input), current_value(render(0)) { }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(key_frames_t & key_frames_input) : key_frames(std::move(key_frames_input)) { }
+tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(key_frames_t && key_frames_input) : key_frames(std::move(key_frames_input)), current_value(render(0)) { }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::find_key_frame_index(uint32_t frame) -> size_t {
@@ -49,8 +49,8 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::find_key_frame_index
 
 template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::seek(const uint32_t target_frame) -> tween_value_t {
-  current_frame = target_frame;
   current_value = render(target_frame);
+  current_frame = target_frame;
 
   invoke_listeners(seek_listeners);
 
@@ -61,8 +61,8 @@ template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::jump(std::size_t target_key_frame) -> tween_value_t {
   target_key_frame = std::clamp(target_key_frame, static_cast<size_t>(0), key_frames.size() - 1);
   const auto target_frame = static_cast<uint32_t>(key_frames[target_key_frame].position);
-  current_frame = target_frame;
   current_value = render(target_frame);
+  current_frame = target_frame;
 
   invoke_listeners(jump_listeners);
 
@@ -80,8 +80,8 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t f
     target_frame += static_cast<uint32_t>(frames);
   }
 
-  current_frame = target_frame;
   current_value = render(target_frame);
+  current_frame = target_frame;
 
   invoke_listeners(step_listeners);
 
@@ -160,9 +160,6 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::render(uint32_t targ
   auto & first_key_frame = key_frames.front();
   auto & last_key_frame = key_frames.back();
 
-  // note to future self: we don't need to add the frame count
-  // to the last_key_frame.position because there's no interpolation
-  // beyond it (duh)
   target_frame = std::clamp(
     target_frame,
     first_key_frame.position,

@@ -44,7 +44,7 @@ namespace tweeny {
       using tween_value_t = detail::tween_value_t<FirstValueType, RemainingValueTypes...>;
 
       explicit tween(const key_frames_t & key_frames_input);
-      explicit tween(key_frames_t & key_frames_input);
+      explicit tween(key_frames_t && key_frames_input);
 
       auto seek(uint32_t target_frame) -> tween_value_t;
       auto jump(std::size_t target_key_frame) -> tween_value_t;
