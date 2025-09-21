@@ -159,8 +159,7 @@ namespace tweeny {
     inline const T & tween<T>::step(int32_t dt, bool suppress) {
         dt *= currentDirection;
         seek(currentProgress + dt, true);
-        if (!suppress)
-            dispatch(onStepCallbacks);
+        if (!suppress) dispatch(onStepCallbacks);
         return current;
     }
 
@@ -170,14 +169,12 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline const T &tween<T>::step(float dp, bool suppress)
-    {
+    inline const T & tween<T>::step(float dp, bool suppress) {
         return step(static_cast<int32_t>(dp * total), suppress);
     }
 
     template<typename T>
-    inline const T &tween<T>::seek(float p, bool suppress)
-    {
+    inline const T & tween<T>::seek(float p, bool suppress) {
         return seek(static_cast<int32_t>(p * total), suppress);
     }
 
@@ -186,8 +183,7 @@ namespace tweeny {
         t = detail::clip(t, 0, (int32_t) total);
         currentProgress = t;
         render(t);
-        if (!suppress)
-            dispatch(onSeekCallbacks);
+        if (!suppress) dispatch(onSeekCallbacks);
         return current;
     }
 
@@ -202,8 +198,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline void tween<T>::interpolate(uint32_t prog, unsigned point, T &value) const
-    {
+    inline void tween<T>::interpolate(uint32_t prog, unsigned point, T & value) const {
         auto & p = points.at(point);
         auto pointDuration = uint32_t(p.duration() - (p.stacked - prog));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration());
@@ -213,8 +208,7 @@ namespace tweeny {
     }
 
     template<typename T>
-    inline void tween<T>::render(uint32_t p)
-    {
+    inline void tween<T>::render(uint32_t p) {
         currentPoint = pointAt(p);
         interpolate(p, currentPoint, current);
     }
@@ -294,26 +288,22 @@ namespace tweeny {
     }
 
     template<typename T>
-    uint32_t tween<T>::currentTimePoint() const
-    {
+    uint32_t tween<T>::currentTimePoint() const {
         return currentProgress;
     }
 
     template<typename T>
-    float tween<T>::progress() const
-    {
+    float tween<T>::progress() const {
         return static_cast<float>(currentProgress) / static_cast<float>(total);
     }
 
     template<typename T>
-    bool tween<T>::isFinished() const
-    {
+    bool tween<T>::isFinished() const {
         return currentProgress == total;
     }
 
     template<typename T>
-    tween<T> &tween<T>::forward()
-    {
+    tween<T> & tween<T>::forward() {
         currentDirection = 1;
         return *this;
     }
@@ -339,9 +329,7 @@ namespace tweeny {
         return currentPoint;
     }
 
-    template<typename T>
-    inline uint16_t tween<T>::pointAt(uint32_t timePoint) const
-    {
+    template<typename T> inline uint16_t tween<T>::pointAt(uint32_t timePoint) const {
         timePoint = detail::clip(timePoint, 0u, total);
         auto t = static_cast<uint32_t>(timePoint);
         uint16_t point = 0;

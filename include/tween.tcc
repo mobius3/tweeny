@@ -29,9 +29,8 @@
 #ifndef TWEENY_TWEEN_TCC
 #define TWEENY_TWEEN_TCC
 
-#include "dispatcher.h"
 #include "tween.h"
-#include <cstdlib>
+#include "dispatcher.h"
 
 namespace tweeny {
 
@@ -179,21 +178,16 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
-    inline const typename detail::tweentraits<T, Ts...>::valuesType &tween<T, Ts...>::step(
-        float dp, bool suppress)
-    {
+    inline const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::step(float dp, bool suppress) {
         return step(static_cast<int32_t>(dp * total), suppress);
     }
 
     template<typename T, typename... Ts>
-    inline const typename detail::tweentraits<T, Ts...>::valuesType &tween<T, Ts...>::seek(
-        uint32_t p, bool suppress)
-    {
+    inline const typename detail::tweentraits<T, Ts...>::valuesType & tween<T, Ts...>::seek(uint32_t p, bool suppress) {
         p = detail::clip(p, 0u, total);
         currentProgress = p;
         render(p);
-        if (!suppress)
-            dispatch(onSeekCallbacks);
+        if (!suppress) dispatch(onSeekCallbacks);
         return current;
     }
 
@@ -203,9 +197,7 @@ namespace tweeny {
     }
 
 	template<typename T, typename... Ts>
-	inline const typename detail::tweentraits<T, Ts...>::valuesType &tween<T, Ts...>::seek(
-		float p, bool suppress)
-	{
+	inline const typename detail::tweentraits<T, Ts...>::valuesType &tween<T, Ts...>::seek(float p, bool suppress) {
         return seek(static_cast<int32_t>(p * total), suppress);
     }
 
@@ -216,11 +208,7 @@ namespace tweeny {
 
     template<typename T, typename... Ts>
     template<size_t I>
-    inline void tween<T, Ts...>::interpolate(uint32_t prog,
-                                             unsigned point,
-                                             typename traits::valuesType &values,
-                                             detail::int2type<I>) const
-    {
+    inline void tween<T, Ts...>::interpolate(uint32_t prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) const {
         auto & p = points.at(point);
         auto pointDuration = uint32_t(p.duration() - (p.stacked - prog));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration(I));
@@ -231,11 +219,7 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
-    inline void tween<T, Ts...>::interpolate(uint32_t prog,
-                                             unsigned point,
-                                             typename traits::valuesType &values,
-                                             detail::int2type<0>) const
-    {
+    inline void tween<T, Ts...>::interpolate(uint32_t prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) const {
         auto & p = points.at(point);
         auto pointDuration = uint32_t(p.duration() - (p.stacked - prog));
         float pointTotal = static_cast<float>(pointDuration) / static_cast<float>(p.duration(0));
@@ -245,8 +229,7 @@ namespace tweeny {
     }
 
     template<typename T, typename... Ts>
-    inline void tween<T, Ts...>::render(uint32_t p)
-    {
+    inline void tween<T, Ts...>::render(uint32_t p) {
         currentPoint = pointAt(p);
         interpolate(p, currentPoint, current, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
     }
@@ -314,38 +297,29 @@ namespace tweeny {
     const typename detail::tweentraits<T, Ts...>::valuesType tween<T, Ts...>::peek(float progress) const {
         typename detail::tweentraits<T, Ts...>::valuesType values;
         uint32_t time = progress * total;
-        interpolate(time,
-                    pointAt(time),
-                    values,
-                    detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{});
+        interpolate(time, pointAt(time), values, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
         return values;
     }
 
     template<typename T, typename... Ts>
     const typename detail::tweentraits<T, Ts...>::valuesType tween<T, Ts...>::peek(uint32_t time) const {
         typename detail::tweentraits<T, Ts...>::valuesType values;
-        interpolate(time,
-                    pointAt(time),
-                    values,
-                    detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{});
+        interpolate(time, pointAt(time), values, detail::int2type<sizeof...(Ts) - 1 + 1 /* +1 for the T */>{ });
         return values;
     }
 
     template<typename T, typename... Ts>
-    uint32_t tween<T, Ts...>::currentTimePoint() const
-    {
+    uint32_t tween<T, Ts...>::currentTimePoint() const {
         return currentProgress;
     }
 
     template<typename T, typename... Ts>
-    float tween<T, Ts...>::progress() const
-    {
+    float tween<T, Ts...>::progress() const {
         return static_cast<float>(currentProgress) / static_cast<float>(total);
     }
 
     template<typename T, typename... Ts>
-    bool tween<T, Ts...>::isFinished() const
-    {
+    bool tween<T, Ts...>::isFinished() const {
         return currentProgress == total;
     }
 
@@ -376,15 +350,11 @@ namespace tweeny {
         return currentPoint;
     }
 
-    template<typename T, typename... Ts>
-    inline uint16_t tween<T, Ts...>::pointAt(uint32_t progress) const
-    {
+    template<typename T, typename... Ts> inline uint16_t tween<T, Ts...>::pointAt(uint32_t progress) const {
         progress = detail::clip(progress, 0u, total);
         uint16_t point = 0;
-        while (progress > points.at(point).stacked)
-            point++;
-        if (point > 0 && progress <= points.at(point - 1u).stacked)
-            point--;
+        while (progress > points.at(point).stacked) point++;
+        if (point > 0 && progress <= points.at(point - 1u).stacked) point--;
         return point;
     }
 }

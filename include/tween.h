@@ -250,8 +250,7 @@ namespace tweeny {
              * @param suppressCallbacks (Optional) Suppress callbacks registered with tween::onStep()
              * @returns std::tuple<Ts...> with the current tween values.
              */
-            const typename detail::tweentraits<T, Ts...>::valuesType &step(
-                float dp, bool suppressCallbacks = false);
+            const typename detail::tweentraits<T, Ts...>::valuesType & step(float dp, bool suppressCallbacks = false);
 
             /**
              * @brief Seeks to a specified point in time based on the currentProgress.
@@ -262,8 +261,7 @@ namespace tweeny {
              * @param suppressCallbacks (Optional) Suppress callbacks registered with tween::onSeek()
              * @returns std::tuple<Ts...> with the current tween values.
              */
-            const typename detail::tweentraits<T, Ts...>::valuesType &seek(
-                float p, bool suppressCallbacks = false);
+            const typename detail::tweentraits<T, Ts...>::valuesType & seek(float p, bool suppressCallbacks = false);
 
             /**
              * @brief Seeks to a specified point in time.
@@ -287,8 +285,7 @@ namespace tweeny {
              * @returns std::tuple<Ts...> with the current tween values.
              * @see duration
              */
-            const typename detail::tweentraits<T, Ts...>::valuesType &seek(
-                uint32_t d, bool suppressCallbacks = false);
+            const typename detail::tweentraits<T, Ts...>::valuesType & seek(uint32_t d, bool suppressCallbacks = false);
 
             /**
              * @brief Adds a callback that will be called when stepping occurs, accepting both the tween and
@@ -591,15 +588,8 @@ namespace tweeny {
         private:
             /* member functions */
             tween(T t, Ts... vs);
-            template<size_t I>
-            void interpolate(uint32_t prog,
-                             unsigned point,
-                             typename traits::valuesType &values,
-                             detail::int2type<I>) const;
-            void interpolate(uint32_t prog,
-                             unsigned point,
-                             typename traits::valuesType &values,
-                             detail::int2type<0>) const;
+            template<size_t I> void interpolate(uint32_t prog, unsigned point, typename traits::valuesType & values, detail::int2type<I>) const;
+            void interpolate(uint32_t prog, unsigned point, typename traits::valuesType & values, detail::int2type<0>) const;
             void render(uint32_t p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
             uint16_t pointAt(uint32_t progress) const;
@@ -631,12 +621,8 @@ namespace tweeny {
             template<typename... Ds> tween<T> & during(Ds... ds); ///< @sa tween::during
             const T & step(int32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(int32_t dt, bool suppressCallbacks)
             const T & step(uint32_t dt, bool suppressCallbacks = false); ///< @sa tween::step(uint32_t dt, bool suppressCallbacks)
-            const T &step(float dp,
-                          bool suppressCallbacks
-                          = false); ///< @sa tween::step(float dp, bool suppressCallbacks)
-            const T &seek(float p,
-                          bool suppressCallbacks
-                          = false); ///< @sa tween::seek(float p, bool suppressCallbacks)
+            const T & step(float dp, bool suppressCallbacks = false); ///< @sa tween::step(float dp, bool suppressCallbacks)
+            const T & seek(float p, bool suppressCallbacks = false); ///< @sa tween::seek(float p, bool suppressCallbacks)
             const T & seek(int32_t d, bool suppressCallbacks = false); ///< @sa tween::seek(int32_t d, bool suppressCallbacks)
             const T & seek(uint32_t d, bool suppressCallbacks = false); ///< @sa tween::seek(uint32_t d, bool suppressCallbacks)
             tween<T> & onStep(typename detail::tweentraits<T>::callbackType callback); ///< @sa tween::onStep
@@ -650,8 +636,8 @@ namespace tweeny {
             T peek(uint32_t time) const; ///< @sa tween::peek
             uint32_t duration() const; ///< @sa tween::duration
             uint32_t currentTimePoint() const; ///< @sa tween::currenttimepoint
-            float progress() const;            ///< @sa tween::progress
-            bool isFinished() const;           ///< @sa tween::isFinished
+            float progress() const; ///< @sa tween::progress
+            bool isFinished() const; ///< @sa tween::isFinished
             tween<T> & forward(); ///< @sa tween::forward
             tween<T> & backward(); ///< @sa tween::backward
             int direction() const; ///< @sa tween::direction
@@ -674,7 +660,7 @@ namespace tweeny {
         private:
             /* member functions */
             tween(T t);
-            void interpolate(uint32_t prog, unsigned point, T &value) const;
+            void interpolate(uint32_t prog, unsigned point, T & value) const;
             void render(uint32_t p);
             void dispatch(std::vector<typename traits::callbackType> & cbVector);
             uint16_t pointAt(uint32_t progress) const;
