@@ -1,4 +1,7 @@
 # Tweeny
+
+**Request for comments**: Tweeny is going through a major rewrite. If you're interested in contributing, please see [this PR](https://github.com/mobius3/tweeny/pull/49).
+
 <a href="https://repology.org/project/tweeny/versions">
     <img src="https://repology.org/badge/vertical-allrepos/tweeny.svg" alt="Packaging status" align="right" style="padding-left: 20px">
 </a>
