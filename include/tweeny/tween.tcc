@@ -54,6 +54,10 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::seek(const uint32_t 
 
   invoke_listeners(seek_listeners);
 
+  if (progress() >= 1.0f) {
+    invoke_listeners(complete_listeners);
+  }
+
   return current_value;
 }
 
@@ -65,6 +69,10 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::jump(std::size_t tar
   current_frame = target_frame;
 
   invoke_listeners(jump_listeners);
+
+  if (progress() >= 1.0f) {
+    invoke_listeners(complete_listeners);
+  }
 
   return current_value;
 }
@@ -84,6 +92,10 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t f
   current_frame = target_frame;
 
   invoke_listeners(step_listeners);
+
+  if (progress() >= 1.0f) {
+    invoke_listeners(complete_listeners);
+  }
 
   return current_value;
 }
@@ -113,6 +125,15 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::jump_t, Ca
   static_assert(std::is_same_v<result_t, event::response>,
                 "jump callback must return tweeny::event::response");
   jump_listeners.emplace_back(std::forward<Callback>(cb));
+}
+
+template <typename FirstValueType, typename ... RemainingValueTypes>
+template <typename Callback>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::complete_t, Callback && cb) -> void {
+  using result_t = std::invoke_result_t<Callback, tween&>;
+  static_assert(std::is_same_v<result_t, event::response>,
+                "complete callback must return tweeny::event::response");
+  complete_listeners.emplace_back(std::forward<Callback>(cb));
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
