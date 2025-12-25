@@ -32,11 +32,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "easing/easing.h"
 
 namespace tweeny::detail {
-  template <typename First, typename... Rest, std::size_t I>
+  template <std::size_t I, typename... ValueTypes>
   static auto interpolate_one(
     float t,
-    const key_frame<First, Rest...> & base,
-    const key_frame<First, Rest...> & next
+    const key_frame<ValueTypes...> & base,
+    const key_frame<ValueTypes...> & next
   ) -> std::remove_reference_t<decltype(std::get<I>(base.values))> {
     const auto & start = std::get<I>(base.values);
     const auto & end = std::get<I>(next.values);
@@ -45,29 +45,16 @@ namespace tweeny::detail {
     return easing::def(t, start, end);
   }
 
-  template <typename Value, std::size_t I>
-  static auto interpolate_one(
-    float t,
-    const key_frame<Value> & base,
-    const key_frame<Value> & next
-  ) -> std::remove_reference_t<decltype(std::get<I>(base.values))> {
-    const auto & start = std::get<I>(base.values);
-    const auto & end = std::get<I>(next.values);
-    const auto & func = std::get<I>(base.easing_functions);
-    if (func) return func(t, start, end);
-    return easing::def(t, start, end);
-  }
-
-  template <typename First, typename... Rest, std::size_t... I>
+  template <typename... ValueTypes, std::size_t... I>
   static auto interpolate_values(
     float t,
-    const key_frame<First, Rest...> & base,
-    const key_frame<First, Rest...> & next,
+    const key_frame<ValueTypes...> & base,
+    const key_frame<ValueTypes...> & next,
     std::index_sequence<I...>
-  ) -> typename key_frame<First, Rest...>::values_t {
-    using values_t = typename key_frame<First, Rest...>::values_t;
+  ) -> typename key_frame<ValueTypes...>::values_t {
+    using values_t = typename key_frame<ValueTypes...>::values_t;
     values_t out{};
-    ((std::get<I>(out) = interpolate_one<First, Rest..., I>(t, base, next)), ...);
+    ((std::get<I>(out) = interpolate_one<I>(t, base, next)), ...);
     return out;
   }
 }

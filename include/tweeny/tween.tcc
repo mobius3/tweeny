@@ -40,7 +40,7 @@ template <typename FirstValueType, typename... RemainingValueTypes>
 tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(key_frames_t && key_frames_input) : key_frames(std::move(key_frames_input)), current_value(render(0)) { }
 
 template <typename FirstValueType, typename... RemainingValueTypes>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::find_key_frame_index(uint32_t frame) -> size_t {
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::find_key_frame_index(uint32_t frame) const -> size_t {
   std::size_t i = 0;
   while (i + 1 < key_frames.size() && frame >= key_frames[i + 1].position) { ++i; }
   return i;
@@ -139,8 +139,6 @@ template <typename FirstValueType, typename... RemainingValueTypes>
 auto tweeny::tween<FirstValueType, RemainingValueTypes...>::render(uint32_t target_frame) -> tween_value_t {
   constexpr std::size_t ValuesCount = sizeof...(RemainingValueTypes) + 1;
 
-  if (target_frame == current_frame) return current_value;
-
   const auto as_return_value = [](const auto & val) -> tween_value_t {
     if constexpr (ValuesCount == 1) {
       return std::get<0>(val);
@@ -198,6 +196,93 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::render(uint32_t targ
   );
 
   return as_return_value(values);
+}
+
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::render(uint32_t target_frame) const -> tween_value_t {
+  constexpr std::size_t ValuesCount = sizeof...(RemainingValueTypes) + 1;
+
+  const auto as_return_value = [](const auto & val) -> tween_value_t {
+    if constexpr (ValuesCount == 1) {
+      return std::get<0>(val);
+    } else {
+      return val;
+    }
+  };
+
+  if (key_frames.empty()) {
+    if constexpr (ValuesCount == 1) {
+      return FirstValueType{};
+    } else {
+      return typename key_frame_t::values_t{};
+    }
+  }
+
+  const auto & first_key_frame = key_frames.front();
+  const auto & last_key_frame = key_frames.back();
+
+  target_frame = std::clamp(
+    target_frame,
+    first_key_frame.position,
+    last_key_frame.position
+  );
+
+  if (target_frame <= first_key_frame.position) return as_return_value(first_key_frame.values);
+  if (target_frame >= last_key_frame.position) return as_return_value(last_key_frame.values);
+
+  std::size_t base_key_key_frame_idx = find_key_frame_index(target_frame);
+
+  if (base_key_key_frame_idx + 1 >= key_frames.size()) {
+    return as_return_value(last_key_frame.values);
+  }
+
+  const key_frame_t & base_key_frame = key_frames[base_key_key_frame_idx];
+  const key_frame_t & next_key_frame = key_frames[base_key_key_frame_idx + 1];
+
+  const int64_t base_kf_position = base_key_frame.position;
+  const uint32_t target_kf_position = next_key_frame.position;
+  const int64_t target_frame_i64 = target_frame;
+
+  float inbetween_progress = 1.0f;
+  if (target_kf_position > base_kf_position) {
+    const auto numerator = static_cast<float>(target_frame_i64 - base_kf_position);
+    const auto denominator = static_cast<float>(target_kf_position - base_kf_position);
+    inbetween_progress = numerator / denominator;
+  }
+  inbetween_progress = std::clamp(inbetween_progress, 0.0f, 1.0f);
+
+  auto values = detail::interpolate_values<FirstValueType, RemainingValueTypes...>(
+    inbetween_progress,
+    base_key_frame,
+    next_key_frame,
+    std::make_index_sequence<ValuesCount>{}
+  );
+
+  return as_return_value(values);
+}
+
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::peek() const -> tween_value_t {
+  return current_value;
+}
+
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::peek(uint32_t target_frame) const -> tween_value_t {
+  return render(target_frame);
+}
+
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::progress() const -> float {
+  if (key_frames.empty()) return 0.0f;
+
+  const auto & first_key_frame = key_frames.front();
+  const auto & last_key_frame = key_frames.back();
+
+  const uint32_t total_frames = last_key_frame.position - first_key_frame.position;
+  if (total_frames == 0) return 1.0f;
+
+  const uint32_t current_offset = current_frame - first_key_frame.position;
+  return std::clamp(static_cast<float>(current_offset) / static_cast<float>(total_frames), 0.0f, 1.0f);
 }
 
 #endif //TWEENY_TWEEN_TCC
