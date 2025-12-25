@@ -69,9 +69,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::quadraticInEasing quadraticIn{};
-  inline constexpr detail::quadraticOutEasing quadraticOut{};
-  inline constexpr detail::quadraticInOutEasing quadraticInOut{};
-}
 #endif // TWEENY_DETAIL_EASING_QUADRATIC_H

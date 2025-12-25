@@ -69,10 +69,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::cubicInEasing cubicIn{};
-  inline constexpr detail::cubicOutEasing cubicOut{};
-  inline constexpr detail::cubicInOutEasing cubicInOut{};
-}
-
 #endif // TWEENY_DETAIL_EASING_CUBIC_H

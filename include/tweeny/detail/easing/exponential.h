@@ -70,10 +70,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::exponentialInEasing exponentialIn{};
-  inline constexpr detail::exponentialOutEasing exponentialOut{};
-  inline constexpr detail::exponentialInOutEasing exponentialInOut{};
-}
-
 #endif // TWEENY_DETAIL_EASING_EXPONENTIAL_H

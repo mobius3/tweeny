@@ -78,10 +78,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::bounceInEasing bounceIn{};
-  inline constexpr detail::bounceOutEasing bounceOut{};
-  inline constexpr detail::bounceInOutEasing bounceInOut{};
-}
-
 #endif // TWEENY_DETAIL_EASING_BOUNCE_H

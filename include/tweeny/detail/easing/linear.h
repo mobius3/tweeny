@@ -47,8 +47,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::linearEasing linear{};
-}
-
 #endif // TWEENY_DETAIL_EASING_LINEAR_H

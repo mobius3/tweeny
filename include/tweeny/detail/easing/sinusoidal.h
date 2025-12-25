@@ -69,10 +69,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::sinusoidalInEasing sinusoidalIn{};
-  inline constexpr detail::sinusoidalOutEasing sinusoidalOut{};
-  inline constexpr detail::sinusoidalInOutEasing sinusoidalInOut{};
-}
-
 #endif // TWEENY_DETAIL_EASING_SINUSOIDAL_H

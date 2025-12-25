@@ -72,8 +72,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::defaultEasing def{};
-}
-
 #endif // TWEENY_DETAIL_EASING_DEF_H

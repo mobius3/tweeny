@@ -68,7 +68,7 @@ target_sources(tweeny INTERFACE
     include/tweeny/detail/key-frame.h
     include/tweeny/detail/traits.h
     include/tweeny/detail/value-container.h
-    include/tweeny/detail/easing.h
+    include/tweeny/easing.h
     include/tweeny/detail/easing-resolve.h
 )
 

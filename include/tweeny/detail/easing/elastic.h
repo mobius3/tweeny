@@ -95,10 +95,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::elasticInEasing elasticIn{};
-  inline constexpr detail::elasticOutEasing elasticOut{};
-  inline constexpr detail::elasticInOutEasing elasticInOut{};
-}
-
 #endif // TWEENY_DETAIL_EASING_ELASTIC_H

@@ -72,10 +72,6 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::circularInEasing circularIn{};
-  inline constexpr detail::circularOutEasing circularOut{};
-  inline constexpr detail::circularInOutEasing circularInOut{};
-}
+
 
 #endif // TWEENY_DETAIL_EASING_CIRCULAR_H

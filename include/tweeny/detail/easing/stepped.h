@@ -39,8 +39,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::steppedEasing stepped{};
-}
-
 #endif // TWEENY_DETAIL_EASING_STEPPED_H

@@ -69,10 +69,4 @@ namespace tweeny::detail {
   };
 }
 
-namespace tweeny::easing {
-  inline constexpr detail::quinticInEasing quinticIn{};
-  inline constexpr detail::quinticOutEasing quinticOut{};
-  inline constexpr detail::quinticInOutEasing quinticInOut{};
-}
-
 #endif // TWEENY_DETAIL_EASING_QUINTIC_H

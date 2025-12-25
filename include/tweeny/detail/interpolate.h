@@ -29,7 +29,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <utility>
 
 #include "key-frame.h"
-#include "easing.h"
+#include "../easing.h"
 
 namespace tweeny::detail {
   template <std::size_t I, typename... ValueTypes>
