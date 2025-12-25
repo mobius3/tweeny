@@ -10,7 +10,7 @@ the Software without restriction, including without limitation the rights to
 use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
 the Software, and to permit persons to whom the Software is furnished to do so,
 subject to the following conditions:
-#
+
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
@@ -21,6 +21,18 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
+/**
+ * @file tweeny.h
+ * @brief Builder API for creating tweens.
+ *
+ * This file provides the fluent builder interface for constructing tween animations.
+ * The typical workflow is: from() → to() → via() → during() → build()
+ *
+ * @code
+ * auto tween = tweeny::from(0.0f).to(100.0f).via(easing::linear).during(60U).build();
+ * @endcode
+ */
 
 #ifndef TWEENY_TWEENY_H
 #define TWEENY_TWEENY_H
@@ -70,11 +82,26 @@ namespace tweeny {
       explicit tweeny_builder(key_frames_t && frames) : key_frames(std::move(frames)) {}
       explicit tweeny_builder(const key_frames_t & frames) : key_frames(frames) {}
 
+      /**
+       * @brief Adds a target keyframe to the tween.
+       *
+       * Specifies the destination value(s) for the animation. After calling this,
+       * you can configure easing and duration with via() and during().
+       *
+       * @param firstValue Target value for the first component
+       * @param remainingValues Target values for remaining components (if multi-value tween)
+       * @return Builder in a configurable state (can call via(), during(), to(), or build())
+       *
+       * @code
+       * auto t = tweeny::from(0).to(100).during(60U).build();
+       * @endcode
+       */
       tweeny_builder<true, FirstValue, RemainingValues...> to(const FirstValue & firstValue, const RemainingValues &... remainingValues) & {
         key_frames.emplace_back(firstValue, remainingValues...);
         return tweeny_builder<true, FirstValue, RemainingValues...>(key_frames);
       }
 
+      /// @overload
       tweeny_builder<true, FirstValue, RemainingValues...> to(const FirstValue & firstValue, const RemainingValues &... remainingValues) && {
         key_frames.emplace_back(firstValue, remainingValues...);
         return tweeny_builder<true, FirstValue, RemainingValues...>(std::move(key_frames));
@@ -108,16 +135,53 @@ namespace tweeny {
       explicit tweeny_builder(key_frames_t && frames) : key_frames(std::move(frames)) {}
       explicit tweeny_builder(const key_frames_t & frames) : key_frames(frames) {}
 
+      /**
+       * @brief Adds another keyframe to create multipoint animations.
+       *
+       * Call `to()` multiple times to create complex animations with multiple segments,
+       * each with its own easing and duration.
+       *
+       * @param firstValue Target value for the first component
+       * @param remainingValues Target values for remaining components
+       * @return Reference to this builder for method chaining
+       *
+       * @code
+       * // Three-point animation: 0 → 50 → 100
+       * auto t = tweeny::from(0)
+       *   .to(50).via(easing::quadraticOut).during(30U)
+       *   .to(100).via(easing::bounceOut).during(30U)
+       *   .build();
+       * @endcode
+       */
       tweeny_builder to(const FirstValue & firstValue, const RemainingValues &... remainingValues) & {
         key_frames.emplace_back(firstValue, remainingValues...);
         return tweeny_builder(key_frames);
       }
 
+      /// @overload
       tweeny_builder to(const FirstValue & firstValue, const RemainingValues &... remainingValues) && {
         key_frames.emplace_back(firstValue, remainingValues...);
         return tweeny_builder(std::move(key_frames));
       }
 
+      /**
+       * @brief Specifies per-component easing functions for the last keyframe segment.
+       *
+       * Each tween component gets its own easing function. The number of easing
+       * functions must match the number of tween components (compile-time checked).
+       *
+       * @param easing_functions One easing function per tween component
+       * @return Reference to this builder for method chaining
+       *
+       * @code
+       * // Two components with different easings
+       * auto t = tweeny::from(0, 0.0f)
+       *   .to(100, 50.0f)
+       *   .via(easing::linear, easing::bounceOut)
+       *   .during(60U)
+       *   .build();
+       * @endcode
+       */
       template<typename... EasingFunctionTypes>
       tweeny_builder & via(EasingFunctionTypes... easing_functions) {
         static_assert(sizeof...(EasingFunctionTypes) == value_count,
@@ -127,6 +191,18 @@ namespace tweeny {
         return *this;
       }
 
+      /**
+       * @brief Specifies a single easing function for all components.
+       *
+       * Applies the same easing to all tween components. This is the most common usage.
+       *
+       * @param easing_function Easing function to apply to all components
+       * @return Reference to this builder for method chaining
+       *
+       * @code
+       * auto t = tweeny::from(0, 0.0f).to(100, 100.0f).via(easing::quadraticInOut).during(60U).build();
+       * @endcode
+       */
       template<typename EasingFunctionType>
       tweeny_builder & via(EasingFunctionType easing_function) {
         auto & key_frame = key_frames.at(key_frames.size() - 2);
@@ -134,6 +210,21 @@ namespace tweeny {
         return *this;
       }
 
+      /**
+       * @brief Specifies per-component frame durations for the last keyframe segment.
+       *
+       * Each component can have its own animation duration in frames. The number of
+       * durations must match the number of components (compile-time checked).
+       * All parameters must be uint32_t.
+       *
+       * @param frame_counts Duration in frames for each component
+       * @return Reference to this builder for method chaining
+       *
+       * @code
+       * // X animates over 60 frames, Y over 120 frames
+       * auto t = tweeny::from(0, 0).to(100, 100).during(60U, 120U).build();
+       * @endcode
+       */
       template<typename... FrameCountsType>
       tweeny_builder & during(FrameCountsType... frame_counts) {
         static_assert(sizeof...(FrameCountsType) == value_count,
@@ -150,6 +241,20 @@ namespace tweeny {
         return *this;
       }
 
+      /**
+       * @brief Specifies a uniform frame duration for all components.
+       *
+       * All tween components will animate over the same number of frames.
+       * This is the most common usage.
+       *
+       * @param frame_count Duration in frames for the animation segment
+       * @return Reference to this builder for method chaining
+       *
+       * @code
+       * // Animate from 0 to 100 over 60 frames
+       * auto t = tweeny::from(0, 0).to(100, 100).during(60U).build();
+       * @endcode
+       */
       tweeny_builder & during(uint32_t frame_count) {
         auto & key_frame = key_frames.at(key_frames.size() - 2);
         std::fill(
@@ -161,7 +266,31 @@ namespace tweeny {
         return *this;
       }
 
+      /**
+       * @brief Constructs a tween object from the configured keyframes.
+       *
+       * Creates a tween with all configured keyframes, easings, and durations.
+       * The builder can be reused to create multiple tween instances with the same
+       * configuration or modified further to create variations.
+       *
+       * @return A tween object ready for animation
+       *
+       * @code
+       * // Direct use (builder discarded after build)
+       * auto t1 = tweeny::from(0).to(100).via(easing::linear).during(60U).build();
+       *
+       * // Reusable builder
+       * auto builder = tweeny::from(0).to(100).via(easing::linear).during(60U);
+       * auto t2 = builder.build();  // First tween
+       * auto t3 = builder.build();  // Second tween with same config
+       *
+       * // Create variations
+       * auto t4 = builder.to(200).during(120U).build();  // Extended animation
+       * @endcode
+       */
       tween_t build() const & { return tween(key_frames); }
+
+      /// @overload
       tween_t build() && { return tween(std::move(key_frames)); }
 
     private:
@@ -175,6 +304,27 @@ namespace tweeny {
       }
   };
 
+  /**
+   * @brief Creates a new tween builder starting from the specified value(s).
+   *
+   * This is the entry point for creating all tweens. It deduces types automatically
+   * and supports single values, multiple values, and heterogeneous types.
+   *
+   * @param first_value Initial value for the first component
+   * @param remaining_values Initial values for additional components (optional)
+   * @return A builder in the initial state (must call to() next)
+   *
+   * @code
+   * // Single value
+   * auto t1 = tweeny::from(0).to(100).during(60U).build();
+   *
+   * // Multiple homogeneous values
+   * auto t2 = tweeny::from(0, 0).to(100, 100).during(60U).build();
+   *
+   * // Heterogeneous types
+   * auto t3 = tweeny::from(0, 0.0f, 0u).to(10, 5.0f, 100u).during(60U).build();
+   * @endcode
+   */
   template <typename FirstValue, typename... RemainingValues>
   tweeny_builder<false, FirstValue, RemainingValues...> from(FirstValue first_value, RemainingValues... remaining_values) {
     return tweeny_builder<false, FirstValue, RemainingValues...>(first_value, remaining_values...);
