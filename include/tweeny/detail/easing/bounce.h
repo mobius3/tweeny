@@ -22,16 +22,39 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_CIRCULAR_H
-#define TWEENY_EASING_CIRCULAR_H
-
-#include <cmath>
+#ifndef TWEENY_DETAIL_EASING_BOUNCE_H
+#define TWEENY_DETAIL_EASING_BOUNCE_H
 
 namespace tweeny::detail {
-  struct circularInEasing {
+  struct bounceOutEasing {
+    template <typename T>
+    static T run(float position, T start, T end) {
+      T c = end - start;
+      if (position < 1 / 2.75f) {
+        return static_cast<T>(c * (7.5625f * position * position) + start);
+      }
+      if (position < 2.0f / 2.75f) {
+        const float postFix = position -= 1.5f / 2.75f;
+        return static_cast<T>(c * (7.5625f * (postFix) * position + .75f) + start);
+      }
+      if (position < 2.5f / 2.75f) {
+        const float postFix = position -= 2.25f / 2.75f;
+        return static_cast<T>(c * (7.5625f * postFix * position + .9375f) + start);
+      }
+      const float postFix = position -= (2.625f / 2.75f);
+      return static_cast<T>(c * (7.5625f * postFix * position + .984375f) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct bounceInEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
-      return static_cast<T>(-(end - start) * (sqrtf(1 - position * position) - 1) + start);
+      return end - start - bounceOutEasing::run(1 - position, T(), (end - start)) + start;
     }
 
     template <typename T>
@@ -40,29 +63,12 @@ namespace tweeny::detail {
     }
   };
 
-  struct circularOutEasing {
+  struct bounceInOutEasing {
     template <typename T>
-    static T run(float position, T start, T end) {
-      --position;
-      return static_cast<T>((end - start) * sqrtf(1 - position * position) + start);
-    }
-
-    template <typename T>
-    T operator()(const float position, T start, T end) const {
-      return run<T>(position, start, end);
-    }
-  };
-
-  struct circularInOutEasing {
-    template <typename T>
-    static T run(float position, T start, T end) {
-      position *= 2;
-      if (position < 1) {
-        return static_cast<T>(-(end - start) / 2 * (sqrtf(1 - position * position) - 1) + start);
-      }
-
-      position -= 2;
-      return static_cast<T>((end - start) / 2 * (sqrtf(1 - position * position) + 1) + start);
+    static T run(const float position, T start, T end) {
+      if (position < 0.5f) return static_cast<T>(bounceInEasing::run(position * 2, T(), end - start) * .5f + start);
+      return static_cast<T>(bounceOutEasing::run(position * 2 - 1, T(), end - start) * .5f + (end - start) * .5f +
+        start);
     }
 
     template <typename T>
@@ -73,9 +79,9 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::circularInEasing circularIn{};
-  inline constexpr detail::circularOutEasing circularOut{};
-  inline constexpr detail::circularInOutEasing circularInOut{};
+  inline constexpr detail::bounceInEasing bounceIn{};
+  inline constexpr detail::bounceOutEasing bounceOut{};
+  inline constexpr detail::bounceInOutEasing bounceInOut{};
 }
 
-#endif // TWEENY_EASING_CIRCULAR_H
+#endif // TWEENY_DETAIL_EASING_BOUNCE_H

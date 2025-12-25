@@ -24,11 +24,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #ifndef TWEENY_TWEEN_H
 #define TWEENY_TWEEN_H
+
 #include <vector>
 #include <cstdint>
 #include <cstddef>
 #include <functional>
-#include <type_traits>
 
 #include "detail/key-frame.h"
 #include "detail/tween-value.h"
@@ -50,9 +50,9 @@ namespace tweeny {
       auto jump(std::size_t target_key_frame) -> tween_value_t;
       auto step(int32_t frames) -> tween_value_t;
 
-      auto peek() const -> tween_value_t;
-      auto peek(uint32_t target_frame) const -> tween_value_t;
-      auto progress() const -> float;
+      [[nodiscard]] auto peek() const -> tween_value_t;
+      [[nodiscard]] auto peek(uint32_t target_frame) const -> tween_value_t;
+      [[nodiscard]] auto progress() const -> float;
 
       template <typename Callback> auto on(event::step_t, Callback&& cb) -> void ;
       template <typename Callback> auto on(event::seek_t, Callback&& cb) -> void ;
@@ -71,7 +71,7 @@ namespace tweeny {
       auto invoke_listeners(std::vector<callback_t>& listeners) -> void;
       auto render(uint32_t target_frame) -> tween_value_t;
       auto render(uint32_t target_frame) const -> tween_value_t;
-      auto find_key_frame_index(uint32_t frame) const -> std::size_t;
+      [[nodiscard]] auto find_key_frame_index(uint32_t frame) const -> std::size_t;
   };
 }
 

@@ -31,7 +31,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <utility>
 
 #include "detail/interpolate.h"
-#include "tweeny/easing/easing.h"
+#include "detail/easing.h"
 
 template <typename FirstValueType, typename... RemainingValueTypes>
 tweeny::tween<FirstValueType, RemainingValueTypes...>::tween(const key_frames_t & key_frames_input) : key_frames(key_frames_input), current_value(render(0)) { }

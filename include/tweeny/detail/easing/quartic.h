@@ -22,14 +22,44 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_STEPPED_H
-#define TWEENY_EASING_STEPPED_H
+#ifndef TWEENY_DETAIL_EASING_QUARTIC_H
+#define TWEENY_DETAIL_EASING_QUARTIC_H
 
 namespace tweeny::detail {
-  struct steppedEasing {
+  struct quarticInEasing {
     template <typename T>
-    static T run(float /*position*/, T start, T /*end*/) {
-      return start;
+    static T run(const float position, T start, T end) {
+      return static_cast<T>((end - start) * position * position * position * position + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct quarticOutEasing {
+    template <typename T>
+    static T run(float position, T start, T end) {
+      --position;
+      return static_cast<T>(-(end - start) * (position * position * position * position - 1) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct quarticInOutEasing {
+    template <typename T>
+    static T run(float position, T start, T end) {
+      position *= 2;
+      if (position < 1) {
+        return static_cast<T>((end - start) / 2 * (position * position * position * position) + start);
+      }
+      position -= 2;
+      return static_cast<T>(-(end - start) / 2 * (position * position * position * position - 2) + start);
     }
 
     template <typename T>
@@ -40,7 +70,9 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::steppedEasing stepped{};
+  inline constexpr detail::quarticInEasing quarticIn{};
+  inline constexpr detail::quarticOutEasing quarticOut{};
+  inline constexpr detail::quarticInOutEasing quarticInOut{};
 }
 
-#endif // TWEENY_EASING_STEPPED_H
+#endif // TWEENY_DETAIL_EASING_QUARTIC_H

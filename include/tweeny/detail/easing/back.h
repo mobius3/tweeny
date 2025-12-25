@@ -22,45 +22,50 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_EXPONENTIAL_H
-#define TWEENY_EASING_EXPONENTIAL_H
-
-#include <cmath>
+#ifndef TWEENY_DETAIL_EASING_BACK_H
+#define TWEENY_DETAIL_EASING_BACK_H
 
 namespace tweeny::detail {
-  struct exponentialInEasing {
-    template <typename T>
-    static T run(const float position, T start, T end) {
-      return static_cast<T>((end - start) * powf(2, 10 * (position - 1)) + start);
-    }
-
-    template <typename T>
-    T operator()(const float position, T start, T end) const {
-      return run<T>(position, start, end);
-    }
-  };
-
-  struct exponentialOutEasing {
-    template <typename T>
-    static T run(const float position, T start, T end) {
-      return static_cast<T>((end - start) * (-powf(2, -10 * position) + 1) + start);
-    }
-
-    template <typename T>
-    T operator()(const float position, T start, T end) const {
-      return run<T>(position, start, end);
-    }
-  };
-
-  struct exponentialInOutEasing {
+  struct backInEasing {
     template <typename T>
     static T run(float position, T start, T end) {
-      position *= 2;
-      if (position < 1) {
-        return static_cast<T>((end - start) / 2 * powf(2, 10 * (position - 1)) + start);
-      }
-      --position;
-      return static_cast<T>((end - start) / 2 * (-powf(2, -10 * position) + 2) + start);
+      constexpr float s = 1.70158f;
+      float postFix = position;
+      return static_cast<T>((end - start) * postFix * position * ((s + 1) * position - s) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct backOutEasing {
+    template <typename T>
+    static T run(float position, T start, T end) {
+      constexpr float s = 1.70158f;
+      position -= 1;
+      return static_cast<T>((end - start) * ((position) * position * ((s + 1) * position + s) + 1) + start);
+    }
+
+    template <typename T>
+    T operator()(float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct backInOutEasing {
+    template <typename T>
+    static T run(float position, T start, T end) {
+      float s = 1.70158f;
+      float t = position;
+      auto b = start;
+      auto c = end - start;
+      constexpr float d = 1;
+      s *= 1.525f;
+      if ((t /= d / 2) < 1) return static_cast<T>(c / 2 * (t * t * ((s + 1) * t - s)) + b);
+      const float postFix = t -= 2;
+      return static_cast<T>(c / 2 * (postFix * t * ((s + 1) * t + s) + 2) + b);
     }
 
     template <typename T>
@@ -71,9 +76,9 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::exponentialInEasing exponentialIn{};
-  inline constexpr detail::exponentialOutEasing exponentialOut{};
-  inline constexpr detail::exponentialInOutEasing exponentialInOut{};
+  inline constexpr detail::backInEasing backIn{};
+  inline constexpr detail::backOutEasing backOut{};
+  inline constexpr detail::backInOutEasing backInOut{};
 }
 
-#endif // TWEENY_EASING_EXPONENTIAL_H
+#endif // TWEENY_DETAIL_EASING_BACK_H

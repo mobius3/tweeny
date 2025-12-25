@@ -25,25 +25,25 @@
 /**
  * @file easing.h
  * The purpose of this file is to list all bundled easings. Each easing is defined
- * in its own header under include/tweeny/easing/. Users may include individual
+ * in its own header under include/tweeny/detail/easing/. Users may include individual
  * easing headers or this header to get all easings.
  */
 
-#ifndef TWEENY_EASING_H
-#define TWEENY_EASING_H
+#ifndef TWEENY_DETAIL_EASING_H
+#define TWEENY_DETAIL_EASING_H
 
-#include "tweeny/easing/stepped.h"
-#include "tweeny/easing/def.h"
-#include "tweeny/easing/linear.h"
-#include "tweeny/easing/quadratic.h"
-#include "tweeny/easing/cubic.h"
-#include "tweeny/easing/quartic.h"
-#include "tweeny/easing/quintic.h"
-#include "tweeny/easing/sinusoidal.h"
-#include "tweeny/easing/exponential.h"
-#include "tweeny/easing/circular.h"
-#include "tweeny/easing/bounce.h"
-#include "tweeny/easing/elastic.h"
-#include "tweeny/easing/back.h"
+#include "tweeny/detail/easing/stepped.h"
+#include "tweeny/detail/easing/def.h"
+#include "tweeny/detail/easing/linear.h"
+#include "tweeny/detail/easing/quadratic.h"
+#include "tweeny/detail/easing/cubic.h"
+#include "tweeny/detail/easing/quartic.h"
+#include "tweeny/detail/easing/quintic.h"
+#include "tweeny/detail/easing/sinusoidal.h"
+#include "tweeny/detail/easing/exponential.h"
+#include "tweeny/detail/easing/circular.h"
+#include "tweeny/detail/easing/bounce.h"
+#include "tweeny/detail/easing/elastic.h"
+#include "tweeny/detail/easing/back.h"
 
-#endif //TWEENY_EASING_H
+#endif //TWEENY_DETAIL_EASING_H

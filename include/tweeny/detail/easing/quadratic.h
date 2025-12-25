@@ -22,45 +22,14 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_ELASTIC_H
-#define TWEENY_EASING_ELASTIC_H
-
-#include <cmath>
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+#ifndef TWEENY_DETAIL_EASING_QUADRATIC_H
+#define TWEENY_DETAIL_EASING_QUADRATIC_H
 
 namespace tweeny::detail {
-  struct elasticInEasing {
-    template <typename T>
-    static T run(float position, T start, T end) {
-      if (position <= 0.00001f) return start;
-      if (position >= 0.999f) return end;
-      const float p = .3f;
-      auto a = end - start;
-      const float s = p / 4;
-      const float postFix = a * powf(2, 10 * (position -= 1));
-      return static_cast<T>(-(postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p)) + start);
-    }
-
-    template <typename T>
-    T operator()(const float position, T start, T end) const {
-      return run<T>(position, start, end);
-    }
-  };
-
-  struct elasticOutEasing {
+  struct quadraticInEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
-      if (position <= 0.00001f) return start;
-      if (position >= 0.999f) return end;
-      float p = .3f;
-      auto a = end - start;
-      float s = p / 4;
-      return static_cast<T>(a * powf(2, -10 * position) * sinf(
-        (position - s) * (2 * static_cast<float>(M_PI)) / p
-      ) + end);
+      return static_cast<T>((end - start) * position * position + start);
     }
 
     template <typename T>
@@ -69,23 +38,28 @@ namespace tweeny::detail {
     }
   };
 
-  struct elasticInOutEasing {
+  struct quadraticOutEasing {
+    template <typename T>
+    static T run(const float position, T start, T end) {
+      return static_cast<T>((-(end - start)) * position * (position - 2) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct quadraticInOutEasing {
     template <typename T>
     static T run(float position, T start, T end) {
-      if (position <= 0.00001f) return start;
-      if (position >= 0.999f) return end;
       position *= 2;
-      const float p = .3f * 1.5f;
-      auto a = end - start;
-      const float s = p / 4;
-      float postFix;
-
       if (position < 1) {
-        postFix = a * powf(2, 10 * (position -= 1));
-        return static_cast<T>(-0.5f * (postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p)) + start);
+        return static_cast<T>((end - start) / 2 * position * position + start);
       }
-      postFix = a * powf(2, -10 * (position -= 1));
-      return static_cast<T>(postFix * sinf((position - s) * (2 * static_cast<float>(M_PI)) / p) * .5f + end);
+
+      --position;
+      return static_cast<T>(-(end - start) / 2 * (position * (position - 2) - 1) + start);
     }
 
     template <typename T>
@@ -96,9 +70,8 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::elasticInEasing elasticIn{};
-  inline constexpr detail::elasticOutEasing elasticOut{};
-  inline constexpr detail::elasticInOutEasing elasticInOut{};
+  inline constexpr detail::quadraticInEasing quadraticIn{};
+  inline constexpr detail::quadraticOutEasing quadraticOut{};
+  inline constexpr detail::quadraticInOutEasing quadraticInOut{};
 }
-
-#endif // TWEENY_EASING_ELASTIC_H
+#endif // TWEENY_DETAIL_EASING_QUADRATIC_H

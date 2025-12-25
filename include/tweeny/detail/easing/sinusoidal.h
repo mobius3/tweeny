@@ -22,22 +22,44 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_LINEAR_H
-#define TWEENY_EASING_LINEAR_H
+#ifndef TWEENY_DETAIL_EASING_SINUSOIDAL_H
+#define TWEENY_DETAIL_EASING_SINUSOIDAL_H
 
-#include <type_traits>
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 namespace tweeny::detail {
-  struct linearEasing {
+  struct sinusoidalInEasing {
     template <typename T>
-    static std::enable_if_t<std::is_integral_v<T>, T> run(const float position, T start, T end) {
-      return static_cast<T>(roundf((end - start) * position + start));
+    static T run(const float position, T start, T end) {
+      return static_cast<T>(-(end - start) * cosf(position * static_cast<float>(M_PI) / 2) + (end - start) + start);
     }
 
     template <typename T>
-    static std::enable_if_t<!std::is_integral_v<T>, T> run(const float position, T start, T end) {
-      return static_cast<T>((end - start) * position + start);
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct sinusoidalOutEasing {
+    template <typename T>
+    static T run(const float position, T start, T end) {
+      return static_cast<T>((end - start) * sinf(position * static_cast<float>(M_PI) / 2) + start);
+    }
+
+    template <typename T>
+    T operator()(const float position, T start, T end) const {
+      return run<T>(position, start, end);
+    }
+  };
+
+  struct sinusoidalInOutEasing {
+    template <typename T>
+    static T run(const float position, T start, T end) {
+      return static_cast<T>(-(end - start) / 2 * (cosf(position * static_cast<float>(M_PI)) - 1) + start);
     }
 
     template <typename T>
@@ -48,7 +70,9 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::linearEasing linear{};
+  inline constexpr detail::sinusoidalInEasing sinusoidalIn{};
+  inline constexpr detail::sinusoidalOutEasing sinusoidalOut{};
+  inline constexpr detail::sinusoidalInOutEasing sinusoidalInOut{};
 }
 
-#endif // TWEENY_EASING_LINEAR_H
+#endif // TWEENY_DETAIL_EASING_SINUSOIDAL_H

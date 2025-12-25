@@ -22,14 +22,14 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_QUARTIC_H
-#define TWEENY_EASING_QUARTIC_H
+#ifndef TWEENY_DETAIL_EASING_CUBIC_H
+#define TWEENY_DETAIL_EASING_CUBIC_H
 
 namespace tweeny::detail {
-  struct quarticInEasing {
+  struct cubicInEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
-      return static_cast<T>((end - start) * position * position * position * position + start);
+      return static_cast<T>((end - start) * position * position * position + start);
     }
 
     template <typename T>
@@ -38,11 +38,11 @@ namespace tweeny::detail {
     }
   };
 
-  struct quarticOutEasing {
+  struct cubicOutEasing {
     template <typename T>
     static T run(float position, T start, T end) {
       --position;
-      return static_cast<T>(-(end - start) * (position * position * position * position - 1) + start);
+      return static_cast<T>((end - start) * (position * position * position + 1) + start);
     }
 
     template <typename T>
@@ -51,15 +51,15 @@ namespace tweeny::detail {
     }
   };
 
-  struct quarticInOutEasing {
+  struct cubicInOutEasing {
     template <typename T>
     static T run(float position, T start, T end) {
       position *= 2;
       if (position < 1) {
-        return static_cast<T>((end - start) / 2 * (position * position * position * position) + start);
+        return static_cast<T>((end - start) / 2 * position * position * position + start);
       }
       position -= 2;
-      return static_cast<T>(-(end - start) / 2 * (position * position * position * position - 2) + start);
+      return static_cast<T>((end - start) / 2 * (position * position * position + 2) + start);
     }
 
     template <typename T>
@@ -70,9 +70,9 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::quarticInEasing quarticIn{};
-  inline constexpr detail::quarticOutEasing quarticOut{};
-  inline constexpr detail::quarticInOutEasing quarticInOut{};
+  inline constexpr detail::cubicInEasing cubicIn{};
+  inline constexpr detail::cubicOutEasing cubicOut{};
+  inline constexpr detail::cubicInOutEasing cubicInOut{};
 }
 
-#endif // TWEENY_EASING_QUARTIC_H
+#endif // TWEENY_DETAIL_EASING_CUBIC_H

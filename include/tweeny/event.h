@@ -25,6 +25,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef TWEENY_EVENT_H
 #define TWEENY_EVENT_H
 
+#include <cstddef>
+
 namespace tweeny::event {
   struct sectionIn {
     size_t key_frame;

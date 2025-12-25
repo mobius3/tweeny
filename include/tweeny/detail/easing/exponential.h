@@ -22,20 +22,16 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_SINUSOIDAL_H
-#define TWEENY_EASING_SINUSOIDAL_H
+#ifndef TWEENY_DETAIL_EASING_EXPONENTIAL_H
+#define TWEENY_DETAIL_EASING_EXPONENTIAL_H
 
 #include <cmath>
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 namespace tweeny::detail {
-  struct sinusoidalInEasing {
+  struct exponentialInEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
-      return static_cast<T>(-(end - start) * cosf(position * static_cast<float>(M_PI) / 2) + (end - start) + start);
+      return static_cast<T>((end - start) * powf(2, 10 * (position - 1)) + start);
     }
 
     template <typename T>
@@ -44,10 +40,10 @@ namespace tweeny::detail {
     }
   };
 
-  struct sinusoidalOutEasing {
+  struct exponentialOutEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
-      return static_cast<T>((end - start) * sinf(position * static_cast<float>(M_PI) / 2) + start);
+      return static_cast<T>((end - start) * (-powf(2, -10 * position) + 1) + start);
     }
 
     template <typename T>
@@ -56,10 +52,15 @@ namespace tweeny::detail {
     }
   };
 
-  struct sinusoidalInOutEasing {
+  struct exponentialInOutEasing {
     template <typename T>
-    static T run(const float position, T start, T end) {
-      return static_cast<T>(-(end - start) / 2 * (cosf(position * static_cast<float>(M_PI)) - 1) + start);
+    static T run(float position, T start, T end) {
+      position *= 2;
+      if (position < 1) {
+        return static_cast<T>((end - start) / 2 * powf(2, 10 * (position - 1)) + start);
+      }
+      --position;
+      return static_cast<T>((end - start) / 2 * (-powf(2, -10 * position) + 2) + start);
     }
 
     template <typename T>
@@ -70,9 +71,9 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::sinusoidalInEasing sinusoidalIn{};
-  inline constexpr detail::sinusoidalOutEasing sinusoidalOut{};
-  inline constexpr detail::sinusoidalInOutEasing sinusoidalInOut{};
+  inline constexpr detail::exponentialInEasing exponentialIn{};
+  inline constexpr detail::exponentialOutEasing exponentialOut{};
+  inline constexpr detail::exponentialInOutEasing exponentialInOut{};
 }
 
-#endif // TWEENY_EASING_SINUSOIDAL_H
+#endif // TWEENY_DETAIL_EASING_EXPONENTIAL_H

@@ -22,14 +22,14 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#ifndef TWEENY_EASING_QUADRATIC_H
-#define TWEENY_EASING_QUADRATIC_H
+#ifndef TWEENY_DETAIL_EASING_QUINTIC_H
+#define TWEENY_DETAIL_EASING_QUINTIC_H
 
 namespace tweeny::detail {
-  struct quadraticInEasing {
+  struct quinticInEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
-      return static_cast<T>((end - start) * position * position + start);
+      return static_cast<T>((end - start) * position * position * position * position * position + start);
     }
 
     template <typename T>
@@ -38,10 +38,11 @@ namespace tweeny::detail {
     }
   };
 
-  struct quadraticOutEasing {
+  struct quinticOutEasing {
     template <typename T>
-    static T run(const float position, T start, T end) {
-      return static_cast<T>((-(end - start)) * position * (position - 2) + start);
+    static T run(float position, T start, T end) {
+      position--;
+      return static_cast<T>((end - start) * (position * position * position * position * position + 1) + start);
     }
 
     template <typename T>
@@ -50,16 +51,15 @@ namespace tweeny::detail {
     }
   };
 
-  struct quadraticInOutEasing {
+  struct quinticInOutEasing {
     template <typename T>
     static T run(float position, T start, T end) {
       position *= 2;
       if (position < 1) {
-        return static_cast<T>((end - start) / 2 * position * position + start);
+        return static_cast<T>((end - start) / 2 * (position * position * position * position * position) + start);
       }
-
-      --position;
-      return static_cast<T>(-(end - start) / 2 * (position * (position - 2) - 1) + start);
+      position -= 2;
+      return static_cast<T>((end - start) / 2 * (position * position * position * position * position + 2) + start);
     }
 
     template <typename T>
@@ -70,8 +70,9 @@ namespace tweeny::detail {
 }
 
 namespace tweeny::easing {
-  inline constexpr detail::quadraticInEasing quadraticIn{};
-  inline constexpr detail::quadraticOutEasing quadraticOut{};
-  inline constexpr detail::quadraticInOutEasing quadraticInOut{};
+  inline constexpr detail::quinticInEasing quinticIn{};
+  inline constexpr detail::quinticOutEasing quinticOut{};
+  inline constexpr detail::quinticInOutEasing quinticInOut{};
 }
-#endif // TWEENY_EASING_QUADRATIC_H
+
+#endif // TWEENY_DETAIL_EASING_QUINTIC_H
