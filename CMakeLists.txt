@@ -65,11 +65,25 @@ target_sources(tweeny INTERFACE
     include/tweeny/tweeny.h
     include/tweeny/tween.h
     include/tweeny/tween.tcc
-    include/tweeny/detail/key-frame.h
-    include/tweeny/detail/traits.h
-    include/tweeny/detail/value-container.h
     include/tweeny/easing.h
-    include/tweeny/detail/easing-resolve.h
+    include/tweeny/detail/interpolate.h
+    include/tweeny/detail/key-frame.h
+    include/tweeny/detail/tuple-utilities.h
+    include/tweeny/detail/tween-value.h
+    include/tweeny/detail/value-container.h
+    include/tweeny/detail/easing/back.h
+    include/tweeny/detail/easing/bounce.h
+    include/tweeny/detail/easing/circular.h
+    include/tweeny/detail/easing/cubic.h
+    include/tweeny/detail/easing/def.h
+    include/tweeny/detail/easing/elastic.h
+    include/tweeny/detail/easing/exponential.h
+    include/tweeny/detail/easing/linear.h
+    include/tweeny/detail/easing/quadratic.h
+    include/tweeny/detail/easing/quartic.h
+    include/tweeny/detail/easing/quintic.h
+    include/tweeny/detail/easing/sinusoidal.h
+    include/tweeny/detail/easing/stepped.h
 )
 
 # Set up install
