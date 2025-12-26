@@ -1269,9 +1269,169 @@ namespace tweeny::easing {
   * @see exponentialInOut For more extreme motion
   */
  inline constexpr detail::quinticInOutEasing quinticInOut{};
+
+ /**
+  * @brief Sinusoidal easing based on sine wave for smooth acceleration.
+  *
+  * The `sinusoidalIn` easing function uses a sine curve for acceleration, creating
+  * extremely smooth, natural motion. Based on trigonometric functions rather than
+  * polynomials.
+  *
+  * Characteristics:
+  * - Very smooth acceleration
+  * - Natural, organic feel
+  * - No abrupt velocity changes
+  * - Gentle but noticeable
+  *
+  * This easing is ideal for:
+  * - **Natural motion**: Organic, flowing animations
+  * - **Smooth camera moves**: Pans, zooms, orbits
+  * - **Elegant transitions**: Refined, sophisticated feel
+  * - **Accessible animations**: Gentle on motion sensitivity
+  *
+  * Mathematically: `f(t) = 1 - cos(t * π/2)`
+  *
+  * @code
+  * // Smooth camera pan
+  * auto x = tweeny::from(0.0f)
+  *   .to(1000.0f)
+  *   .via(easing::sinusoidalIn)
+  *   .during(60U)
+  *   .build();
+  * @endcode
+  *
+  * @see sinusoidalOut For smooth deceleration
+  * @see sinusoidalInOut For smooth motion at both ends
+  * @see quadraticIn For similar gentleness
+  */
  inline constexpr detail::sinusoidalInEasing sinusoidalIn{};
+
+ /**
+  * @brief Sinusoidal easing based on sine wave for smooth deceleration.
+  *
+  * The `sinusoidalOut` easing function uses a sine curve for deceleration, creating
+  * extremely smooth, natural motion that settles gently.
+  *
+  * Characteristics:
+  * - Very smooth deceleration
+  * - Natural, flowing motion
+  * - Gentle slowdown
+  * - Mathematically elegant
+  *
+  * This easing excels at:
+  * - **Natural UI motion**: Smooth, organic feel
+  * - **Continuous animations**: Loops, cycles, repeated motion
+  * - **Gentle transitions**: Calm, relaxed interfaces
+  * - **Accessible design**: Motion-sensitivity friendly
+  *
+  * SinusoidalOut is excellent when you want smoothness above all else. It's
+  * gentler than quadratic while still providing clear easing.
+  *
+  * Mathematically: `f(t) = sin(t * π/2)`
+  *
+  * @code
+  * // Smooth fade in
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::sinusoidalOut)
+  *   .during(30U)
+  *   .build();
+  * @endcode
+  *
+  * @see sinusoidalIn For smooth acceleration
+  * @see sinusoidalInOut For smooth motion at both ends
+  * @see quadraticOut For similar gentleness
+  */
  inline constexpr detail::sinusoidalOutEasing sinusoidalOut{};
+
+ /**
+  * @brief Sinusoidal easing with smooth acceleration and deceleration.
+  *
+  * The `sinusoidalInOut` easing function uses sine curves for both acceleration
+  * and deceleration, creating the smoothest possible S-curve motion.
+  *
+  * Motion profile:
+  * - First half: Smooth sine-based acceleration
+  * - Midpoint: Maximum velocity
+  * - Second half: Smooth sine-based deceleration
+  * - Creates extremely smooth S-curve
+  *
+  * This easing is appropriate for:
+  * - **Natural, organic motion**: Smoothest easing available
+  * - **Continuous loops**: Seamless repeated animations
+  * - **Calm interfaces**: Relaxed, gentle design systems
+  * - **Accessible animations**: Minimal motion stress
+  *
+  * SinusoidalInOut is the smoothest InOut easing, making it perfect when
+  * fluid, natural motion is the priority.
+  *
+  * Mathematically: `f(t) = (1 - cos(t * π)) / 2`
+  *
+  * @code
+  * // Ultra-smooth transition
+  * auto x = tweeny::from(0.0f)
+  *   .to(100.0f)
+  *   .via(easing::sinusoidalInOut)
+  *   .during(40U)
+  *   .build();
+  * @endcode
+  *
+  * @see sinusoidalIn For only smooth acceleration
+  * @see sinusoidalOut For only smooth deceleration
+  * @see quadraticInOut For similar gentleness
+  */
  inline constexpr detail::sinusoidalInOutEasing sinusoidalInOut{};
+
+ /**
+  * @brief Stepped easing that holds the start value until the keyframe completes.
+  *
+  * The `stepped` easing function returns the starting value throughout the entire
+  * duration of the keyframe segment, only jumping to the target value when moving
+  * to the next keyframe. This creates instant transitions between keyframes without
+  * any interpolation within each segment.
+  *
+  * Characteristics:
+  * - No interpolation within keyframe segments
+  * - Holds start value until keyframe ends
+  * - Instant jumps between keyframes
+  * - Creates discrete, stair-step motion
+  *
+  * This easing is ideal for:
+  * - **Discrete state transitions**: Values that shouldn't interpolate smoothly
+  * - **Keyframe-based animations**: Step through distinct poses or states
+  * - **Frame-by-frame effects**: Hold each frame without blending
+  * - **Boolean-like values**: Properties that need instant changes
+  * - **Sprite switching**: Change sprites at keyframe boundaries
+  * - **Cut transitions**: Instant changes without fading
+  *
+  * Stepped is fundamentally different from other easings because it eliminates
+  * interpolation entirely within each keyframe segment, creating hard cuts between
+  * animation states.
+  *
+  * @code
+  * // Hold value at each keyframe, jump instantly between them
+  * auto value = tweeny::from(0)
+  *   .to(10).via(easing::stepped).during(100U)
+  *   .to(20).via(easing::stepped).during(100U)
+  *   .to(30).via(easing::stepped).during(100U)
+  *   .build();
+  *
+  * // During frames 0-99: returns 0
+  * // During frames 100-199: returns 10
+  * // During frames 200-299: returns 20
+  * // At frame 300: returns 30
+  *
+  * // Useful for sprite animation indices
+  * auto spriteIndex = tweeny::from(0)
+  *   .to(1).via(easing::stepped).during(10U)
+  *   .to(2).via(easing::stepped).during(10U)
+  *   .to(3).via(easing::stepped).during(10U)
+  *   .build();
+  * // Holds each sprite index for 10 frames, then instantly switches
+  * @endcode
+  *
+  * @see linear For smooth constant-velocity interpolation
+  */
  inline constexpr detail::steppedEasing stepped{};
 }
 
