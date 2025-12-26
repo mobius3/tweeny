@@ -1046,8 +1046,116 @@ namespace tweeny::easing {
   * @see cubicInOut For more pronounced motion
   */
  inline constexpr detail::quadraticInOutEasing quadraticInOut{};
+
+ /**
+  * @brief Quartic polynomial easing (t⁴) with strong acceleration.
+  *
+  * The `quarticIn` easing function uses a power-4 curve for acceleration, creating
+  * pronounced easing that's stronger than cubic but less extreme than exponential.
+  *
+  * Characteristics:
+  * - Strong acceleration curve
+  * - Polynomial with power of 4
+  * - Very slow start, rapid finish
+  * - More dramatic than cubic
+  *
+  * This easing is ideal for:
+  * - **Dramatic entrances**: Elements that burst into view
+  * - **Emphasis**: Drawing attention to motion start
+  * - **Game animations**: Action-oriented interfaces
+  * - **Long animations**: Over 500ms where strong curves work
+  *
+  * Mathematically: `f(t) = t⁴`
+  *
+  * @code
+  * // Panel sliding in with emphasis
+  * auto x = tweeny::from(-400.0f)
+  *   .to(0.0f)
+  *   .via(easing::quarticIn)
+  *   .during(50U)
+  *   .build();
+  * @endcode
+  *
+  * @see quarticOut For strong deceleration
+  * @see quarticInOut For strong motion at both ends
+  * @see cubicIn For gentler acceleration
+  * @see quinticIn For even stronger acceleration
+  */
  inline constexpr detail::quarticInEasing quarticIn{};
+
+ /**
+  * @brief Quartic polynomial easing (t⁴) with strong deceleration.
+  *
+  * The `quarticOut` easing function provides pronounced deceleration that's popular
+  * for animations needing clear emphasis without being as extreme as exponential.
+  *
+  * Characteristics:
+  * - Strong deceleration curve
+  * - Smooth, extended slowdown
+  * - Emphasizes final position
+  * - Balanced between cubic and exponential
+  *
+  * This easing excels at:
+  * - **Emphasized arrivals**: Elements settling with impact
+  * - **Current design patterns**: Strong deceleration suitable for emphasized arrivals
+  * - **Medium-length animations**: 300-600ms sweet spot
+  * - **Purposeful motion**: Clear acceleration and deceleration
+  *
+  * QuarticOut provides more "oomph" than cubic while remaining smooth and
+  * professional. It's a good choice when cubic feels too subtle.
+  *
+  * Mathematically: `f(t) = 1 - (1-t)⁴`
+  *
+  * @code
+  * // Card sliding into place with emphasis
+  * auto y = tweeny::from(200.0f)
+  *   .to(0.0f)
+  *   .via(easing::quarticOut)
+  *   .during(40U)
+  *   .build();
+  * @endcode
+  *
+  * @see quarticIn For strong acceleration
+  * @see quarticInOut For strong motion at both ends
+  * @see cubicOut For gentler deceleration
+  * @see quinticOut For even stronger deceleration
+  */
  inline constexpr detail::quarticOutEasing quarticOut{};
+
+ /**
+  * @brief Quartic polynomial easing with strong acceleration and deceleration.
+  *
+  * The `quarticInOut` easing function combines strong acceleration and deceleration
+  * for confident, purposeful motion. More dramatic than cubic, less extreme than quintic.
+  *
+  * Motion profile:
+  * - First half: Strong acceleration (t⁴)
+  * - Midpoint: Maximum velocity
+  * - Second half: Strong deceleration
+  * - Creates pronounced S-curve
+  *
+  * This easing is appropriate for:
+  * - **Emphasized transitions**: Strong acceleration and deceleration
+  * - **Current design patterns**: Strong deceleration curves
+  * - **Important animations**: Focal transitions
+  * - **Medium durations**: 300-600ms range
+  *
+  * Mathematically: Combines quarticIn for t < 0.5 and quarticOut for t >= 0.5
+  *
+  * @code
+  * // Page transition with impact
+  * auto x = tweeny::from(0.0f)
+  *   .to(1920.0f)
+  *   .via(easing::quarticInOut)
+  *   .during(45U)
+  *   .build();
+  * @endcode
+  *
+  * @see quarticIn For only strong acceleration
+  * @see quarticOut For only strong deceleration
+  * @see cubicInOut For gentler motion
+  * @see quinticInOut For more dramatic motion
+  */
  inline constexpr detail::quarticInOutEasing quarticInOut{};
  inline constexpr detail::quinticInEasing quinticIn{};
  inline constexpr detail::quinticOutEasing quinticOut{};
