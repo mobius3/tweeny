@@ -28,7 +28,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
  * This file defines event types and response codes for the tween event system.
  * Events are triggered during tween operations (step, seek, jump, complete) and
- * allow callbacks to react to animation state changes.
+ * allow callbacks to react to animation state changes. Tag types are defined in
+ * detail/event.h and instantiated here with documentation.
  *
  * @code
  * auto t = tweeny::from(0).to(100).during(60U).build();
@@ -42,176 +43,207 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef TWEENY_EVENT_H
 #define TWEENY_EVENT_H
 
-#include <cstddef>
+#include "detail/event.h"
 
 /**
  * @namespace tweeny::event
  * @brief Event types and response codes for tween callbacks.
  *
  * This namespace contains tag types for registering event listeners and
- * response codes for controlling callback behavior.
+ * response codes for controlling callback behavior. Use these tags with
+ * tween::on() to register callbacks for animation lifecycle events.
  */
 namespace tweeny::event {
   /**
-   * @brief Event data passed when entering a new keyframe.
+   * @brief Event triggered after each step() call.
    *
-   * This event is triggered when the tween transitions into a new keyframe section,
-   * providing the index of the keyframe being entered.
+   * Use this event to react to frame-by-frame progression of an animation.
+   * The callback receives a reference to the tween and can query its current
+   * state using peek() or progress().
    *
-   * @code
-   * auto t = tweeny::from(0).to(100).during(60U).build();
-   * t.on(tweeny::event::keyframeEnter, [](auto& tween, tweeny::event::keyframeEnter evt) {
-   *   std::cout << "Entered keyframe " << evt.key_frame << std::endl;
-   *   return tweeny::event::response::ok;
-   * });
-   * @endcode
-   */
-  struct keyframeEnter {
-    size_t key_frame;
-    explicit keyframeEnter(const size_t key_frame_input) : key_frame(key_frame_input) {}
-  };
-
-  /**
-   * @brief Event data passed when leaving a keyframe.
-   *
-   * This event is triggered when the tween transitions out of a keyframe section,
-   * providing the index of the keyframe being exited.
+   * Common use cases:
+   * - Updating visual properties every frame
+   * - Logging animation progress
+   * - Synchronizing with other animations
+   * - Implementing custom timing logic
    *
    * @code
-   * auto t = tweeny::from(0).to(100).during(60U).build();
-   * t.on(tweeny::event::keyframeLeave, [](auto& tween, tweeny::event::keyframeLeave evt) {
-   *   std::cout << "Left keyframe " << evt.key_frame << std::endl;
+   * auto tween = tweeny::from(0).to(100).during(60U).build();
+   * tween.on(tweeny::event::step, [](auto& t) {
+   *   printf("Current value: %d\n", t.peek());
    *   return tweeny::event::response::ok;
    * });
+   *
+   * tween.step(1);  // Triggers the callback
    * @endcode
+   *
+   * @see seek For events when jumping to specific frames
+   * @see complete For events when animation finishes
    */
-  struct keyframeLeave {
-    size_t key_frame;
-    explicit keyframeLeave(const size_t key_frame_input) : key_frame(key_frame_input) {}
-  };
+  inline constexpr detail::event::step_t step{};
 
   /**
-   * @brief Tag type for step events.
+   * @brief Event triggered after each seek() call.
    *
-   * Used with tween::on() to register callbacks triggered after step() calls.
+   * Use this event to react when the tween jumps to a specific frame position.
+   * Unlike step events, seek events fire regardless of the direction or distance
+   * of the movement.
+   *
+   * Common use cases:
+   * - Scrubbing through animations
+   * - Reacting to timeline jumps
+   * - Updating state after non-linear navigation
+   * - Synchronizing with external timeline controls
    *
    * @code
-   * t.on(tweeny::event::step, [](auto& tween) {
+   * auto tween = tweeny::from(0).to(100).during(100U).build();
+   * tween.on(tweeny::event::seek, [](auto& t) {
+   *   printf("Seeked to frame with value: %d\n", t.peek());
    *   return tweeny::event::response::ok;
    * });
+   *
+   * tween.seek(50U);  // Triggers the callback
    * @endcode
    *
-   * @anchor step
+   * @see step For frame-by-frame progression events
+   * @see jump For keyframe-specific navigation
    */
-  inline struct step_t {} step;
+  inline constexpr detail::event::seek_t seek{};
 
   /**
-   * @brief Tag type for seek events.
+   * @brief Event triggered after each jump() call.
    *
-   * Used with tween::on() to register callbacks triggered after seek() calls.
+   * Use this event to react when the tween jumps to a specific keyframe by index.
+   * This is particularly useful for multi-point animations where keyframes represent
+   * distinct animation phases.
+   *
+   * Common use cases:
+   * - Transitioning between animation states
+   * - Triggering phase-specific logic
+   * - Resetting to specific animation checkpoints
+   * - Implementing state machines
    *
    * @code
-   * t.on(tweeny::event::seek, [](auto& tween) {
+   * auto tween = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
+   * tween.on(tweeny::event::jump, [](auto& t) {
+   *   printf("Jumped to keyframe\n");
    *   return tweeny::event::response::ok;
    * });
+   *
+   * tween.jump(1);  // Jump to keyframe 1, triggers callback
    * @endcode
+   *
+   * @see keyframeEnter For detecting keyframe transitions during playback
+   * @see seek For arbitrary frame jumps
    */
-  inline struct seek_t {} seek;
+  inline constexpr detail::event::jump_t jump{};
 
   /**
-   * @brief Tag type for jump events.
+   * @brief Event triggered when the animation is at completion.
    *
-   * Used with tween::on() to register callbacks triggered after jump() calls.
+   * Fires whenever progress() is >= 1.0 (100%) after a step(), seek(), or jump() call.
+   * This means the callback will fire **every time** the tween is navigated to a completed
+   * state, not just the first time.
+   *
+   * Common use cases:
+   * - Cleaning up resources after animation
+   * - Chaining animations sequentially
+   * - Triggering completion callbacks
+   * - Transitioning to next state
+   * - Playing sound effects or particle effects at end
+   *
+   * @note The callback fires every time the tween is at completion (progress >= 1.0).
+   * If you step to completion, then back, then forward to completion again, it will
+   * fire both times. Use response::unsubscribe if you want one-shot behavior.
    *
    * @code
-   * t.on(tweeny::event::jump, [](auto& tween) {
-   *   return tweeny::event::response::ok;
+   * auto tween = tweeny::from(0).to(100).during(60U).build();
+   * tween.on(tweeny::event::complete, [](auto& t) {
+   *   printf("Animation at completion: %d\n", t.peek());
+   *   return tweeny::event::response::unsubscribe;  // One-shot callback
    * });
-   * @endcode
-   */
-  inline struct jump_t {} jump;
-
-  /**
-   * @brief Tag type for update events.
-   * @internal Currently unused - reserved for future implementation.
-   */
-  inline struct update_t {} update;
-
-  /**
-   * @brief Tag type for completion events.
    *
-   * Used with tween::on() to register callbacks triggered when progress reaches 1.0.
-   * Fires after step(), seek(), or jump() when the animation completes.
+   * tween.step(60);   // Fires complete callback
+   * tween.step(-10);  // Now progress < 1.0
+   * tween.step(10);   // Would fire again, but we unsubscribed
+   * @endcode
+   *
+   * @see step For frame-by-frame events during animation
+   * @see response::unsubscribe For one-shot completion handlers
+   */
+  inline constexpr detail::event::complete_t complete{};
+
+  /**
+   * @brief Event triggered when entering a new keyframe segment.
+   *
+   * Fires when the tween transitions into a new keyframe section during playback.
+   * The callback receives both the tween reference and a keyframeEnter struct
+   * containing the keyframe index.
+   *
+   * Common use cases:
+   * - Triggering phase-specific animations
+   * - Playing transition sounds
+   * - Updating UI to reflect animation phase
+   * - Synchronizing multi-part animations
+   * - Implementing animation state machines
+   *
+   * @note Keyframe indices are 0-based. The first keyframe is index 0, second is 1, etc.
    *
    * @code
-   * t.on(tweeny::event::complete, [](auto& tween) {
-   *   printf("Animation done!\n");
+   * auto tween = tweeny::from(0)
+   *   .to(50).during(30U)
+   *   .to(100).during(30U)
+   *   .build();
+   *
+   * tween.on(tweeny::event::keyframeEnter, [](auto& t, tweeny::event::keyframeEnter evt) {
+   *   printf("Entering keyframe %zu\n", evt.key_frame);
    *   return tweeny::event::response::ok;
    * });
+   *
+   * tween.step(31);  // Triggers: "Entering keyframe 1"
    * @endcode
+   *
+   * @see keyframeLeave For detecting when leaving a keyframe
+   * @see keyframeEnter For the event data struct
+   * @see jump For manually jumping to keyframes
    */
-  inline struct complete_t {} complete;
+  inline constexpr detail::event::keyframeEnter_t keyframeEnter{};
 
   /**
-   * @brief Tag type for the keyframeEnter event.
+   * @brief Event triggered when leaving a keyframe segment.
    *
-   * Use this tag with tween::on() to register a callback that fires when the tween
-   * enters a new keyframe section.
+   * Fires when the tween transitions out of a keyframe section during playback.
+   * The callback receives both the tween reference and a keyframeLeave struct
+   * containing the keyframe index being exited.
+   *
+   * Common use cases:
+   * - Cleaning up phase-specific resources
+   * - Stopping phase-specific effects
+   * - Logging animation progression
+   * - Implementing phase exit handlers
+   * - Coordinating complex multi-segment animations
+   *
+   * @note Keyframe indices are 0-based. Leaving keyframe 0 means transitioning
+   * from the first to the second segment.
    *
    * @code
-   * auto t = tweeny::from(0).to(100).during(60U).build();
-   * t.on(tweeny::event::keyframeEnter, [](auto& tween, tweeny::event::keyframeEnter evt) {
-   *   std::cout << "Entered keyframe " << evt.key_frame << std::endl;
+   * auto tween = tweeny::from(0)
+   *   .to(50).during(30U)
+   *   .to(100).during(30U)
+   *   .build();
+   *
+   * tween.on(tweeny::event::keyframeLeave, [](auto& t, tweeny::event::keyframeLeave evt) {
+   *   printf("Leaving keyframe %zu\n", evt.key_frame);
    *   return tweeny::event::response::ok;
    * });
+   *
+   * tween.step(31);  // Triggers: "Leaving keyframe 0"
    * @endcode
-   */
-  inline struct keyframeEnter_t {} keyframeEnter;
-
-  /**
-   * @brief Tag type for the keyframeLeave event.
    *
-   * Use this tag with tween::on() to register a callback that fires when the tween
-   * leaves a keyframe section.
-   *
-   * @code
-   * auto t = tweeny::from(0).to(100).during(60U).build();
-   * t.on(tweeny::event::keyframeLeave, [](auto& tween, tweeny::event::keyframeLeave evt) {
-   *   std::cout << "Left keyframe " << evt.key_frame << std::endl;
-   *   return tweeny::event::response::ok;
-   * });
-   * @endcode
+   * @see keyframeEnter For detecting when entering a keyframe
+   * @see keyframeLeave For the event data struct
    */
-  inline struct keyframeLeave_t {} keyframeLeave;
-
-  /**
-   * @brief Response codes returned by event callbacks.
-   *
-   * Controls whether a callback continues receiving events or is automatically removed.
-   */
-  enum class response {
-    /**
-     * @brief Continue receiving events.
-     *
-     * The callback remains registered and will be invoked on future events.
-     */
-    ok = 0,
-
-    /**
-     * @brief Unsubscribe after this callback.
-     *
-     * The callback is automatically removed after returning and will not
-     * receive future events. Useful for one-shot callbacks.
-     *
-     * @code
-     * t.on(tweeny::event::complete, [](auto& tween) {
-     *   printf("Animation done!\n");
-     *   return tweeny::event::response::unsubscribe;  // Remove this callback
-     * });
-     * @endcode
-     */
-    unsubscribe = 1,
-  };
+  inline constexpr detail::event::keyframeLeave_t keyframeLeave{};
 }
 
 #endif //TWEENY_EVENT_H
