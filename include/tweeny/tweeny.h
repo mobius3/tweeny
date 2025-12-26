@@ -119,17 +119,17 @@ namespace tweeny {
       key_frames_t key_frames;
   };
 
-  template <typename FirstValue, typename... RemainingValues>
   /**
-   * @brief Builder specialization for the stage after at least one to() call.
-   *
-   * In this stage, additional key-frames can be appended with to(), easing functions can be
-   * specified using via(), and per-component or uniform frame counts can be set with during().
-   * Finally, build() materializes the configured tween.
-   *
-   * @tparam FirstValue Type of the first tweened component.
-   * @tparam RemainingValues Types of the remaining tweened components.
-   */
+ * @brief Builder specialization for the stage after at least one to() call.
+ *
+ * In this stage, additional key-frames can be appended with to(), easing functions can be
+ * specified using via(), and per-component or uniform frame counts can be set with during().
+ * Finally, build() materializes the configured tween.
+ *
+ * @tparam FirstValue Type of the first tweened component.
+ * @tparam RemainingValues Types of the remaining tweened components.
+ */
+  template <typename FirstValue, typename... RemainingValues>
   class tweeny_builder<true, FirstValue, RemainingValues...> {
     typedef std::vector<detail::key_frame<FirstValue, RemainingValues...>> key_frames_t;
     typedef tween<FirstValue, RemainingValues...> tween_t;
@@ -160,6 +160,8 @@ namespace tweeny {
        *   .to(100).via(easing::bounceOut).during(30U)
        *   .build();
        * @endcode
+       *
+       * @anchor builder_to
        */
       tweeny_builder to(const FirstValue & firstValue, const RemainingValues &... remainingValues) & {
         key_frames.emplace_back(firstValue, remainingValues...);
@@ -210,6 +212,8 @@ namespace tweeny {
        * @code
        * auto t = tweeny::from(0, 0.0f).to(100, 100.0f).via(easing::quadraticInOut).during(60U).build();
        * @endcode
+       *
+       * @anchor builder_via
        */
       template<typename EasingFunctionType>
       tweeny_builder & via(EasingFunctionType easing_function) {
@@ -232,6 +236,8 @@ namespace tweeny {
        * // X animates over 60 frames, Y over 120 frames
        * auto t = tweeny::from(0, 0).to(100, 100).during(60U, 120U).build();
        * @endcode
+       *
+       * @anchor builder_during
        */
       template<typename... FrameCountsType>
       tweeny_builder & during(FrameCountsType... frame_counts) {
@@ -295,6 +301,8 @@ namespace tweeny {
        * // Create variations
        * auto t4 = builder.to(200).during(120U).build();  // Extended animation
        * @endcode
+       *
+       * @anchor builder_build
        */
       tween_t build() const & { return tween(key_frames); }
 

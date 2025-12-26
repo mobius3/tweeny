@@ -4,235 +4,384 @@ namespace tweeny {
 
  This document is the manual for Tweeny. It walks you through all the important steps when creating and controlling tweens.
 
- @section creating Creating a tween
+ @section creating Creating Tweens
 
- Tweeny can interpolate a single value, a set of values and a set of values with different types. For each of these cases, you create a tween using the same method: tweeny::from. The argument types you pass to it defines the tween itself which in turn defines argument number and types for tween::to, tween::during and tween::via, as well as the callback argument types.
+ @subsection builder_intro The Builder Pattern
 
- Here is how you create a tween:
-
- @code
- // Creates a single-valued tween
- auto tween = tweeny::from(0);
-
- // Creates a multi-valued tween
- auto tween2 = tweeny::from(0, 1, 2);
-
- // Creates a multi-value heterogeneous tween
- auto tween3 = tweeny::from(0, 'a', 1.0f);
- @endcode
-
- @section points Adding tween points
-
- A tween without a target value does nothing. To add a point to a tween, use the method tween::to. Since tweeny::from returns the tween instance itself, you can chain both calls, forming the following:
+ Tweeny uses a fluent builder API to create tweens. The tweeny::from function returns a **builder object**, not a tween directly.
+ You configure the interpolation using the builder's methods (\ref builder_to "to()", \ref builder_via "via()",
+ \ref builder_during "during()") and then call \ref builder_build "build()" to create
+ the actual tween object.
 
  @code
- // For a single value
- auto tween = tweeny::from(0).to(100);
+ // tweeny::from returns a builder
+ auto builder = tweeny::from(0);
 
- // For multiple values
- auto tween = tweeny::from(0, 'a').to(10, 'z');
+ // Configure the builder (methods modify the builder and return a reference)
+ builder.to(100).during(60U);
+
+ // Build the tween
+ auto tween = builder.build();
  @endcode
 
- Notice how arguments to tween::to were of the same type of the arguments to tweeny::from.
-
- @section durations Specifying durations
-
- A tween needs a duration between each point. This duration unit is a unsigned integer that can represent anything you want. Usually I use it as milliseconds (this is relevant when stepping a tween). To specify the duration, call tween::during **after** tween::to:
+ Most commonly, you'll chain all calls together in a single expression:
 
  @code
- auto tween = tweeny::from(0).to(100).during(100);
+ auto tween = tweeny::from(0).to(100).during(60U).build();
  @endcode
 
- When you have a multivalued tween, you can either pass one single duration for all the values or specify a value for each point:
+ @note **Important:** Unlike Tweeny 3.x, you must explicitly call `build()` to create a tween. The builder
+ can be reused and modified to create variations.
+ @code
+ auto builder = tweeny::from(0).to(100).during(60U);
+ auto tween1 = builder.build();          // First tween (0→100 in 60 frames)
+ builder.to(200).during(120U);           // Add another keyframe
+ auto tween2 = builder.build();          // New tween (0→100→200)
+ @endcode
+
+ Once built, a tween's **keyframes, durations, and easing functions are immutable**. However, the tween's
+ current state (frame position and value) changes as you navigate it with `step()`, `seek()`, or `jump()`.
+
+ @subsection value_types Value Types
+
+ Tweeny can interpolate single values, multiple values, or values of different types. The types you pass to tweeny::from
+ determine the tween's type signature, which affects all subsequent builder methods and the tween's return values:
 
  @code
- auto tween = tweeny::from(0, 1, 2).to(3, 4, 5).during(50, 100, 200);
+ // Single value tween
+ auto t1 = tweeny
+    ::from(0)
+    .to(100)
+    .during(60U)
+    .build();
+
+ // Multi-value tween (homogeneous)
+ auto t2 = tweeny
+    ::from(0, 0, 0)
+    .to(255, 128, 64)
+    .during(60U)
+    .build();
+
+ // Multi-value heterogeneous tween
+ auto t3 = tweeny
+    ::from(0, 'a', 1.0f)
+    .to(10, 'z', 5.0f)
+    .during(60U)
+    .build();
  @endcode
 
- The total duration from the starting point `(0, 1, 2)` to the next point `(3, 4, 5)` is 200, but each value will reach their target at different times.
+ @subsection from_to From and To
 
- To specify the same time for each value, pass a single value for tween::during:
+ Every \ref tween needs at least a starting point and an ending point. tweeny::from specifies the starting values,
+ and you must call `to()` at least once to specify target values. **This requirement is enforced at compile time** - if you
+ try to build a tween without calling `to()`, you'll get a compilation error.
 
  @code
- auto tween = tweeny::from(0, 1, 2).to(3, 4, 5).during(200);
+ // This won't compile - no to() called
+ // auto tween = tweeny::from(0).during(60U).build();  // ERROR!
+
+ // This is correct
+ auto tween = tweeny::from(0).to(100).during(60U).build();
  @endcode
 
- @section easings Changing easing functions
+ The number and types of arguments to `to()` must match those passed to `from()`:
 
- Easing functions control the interpolation values between each point. Given a percentage `p`, initial value `a` and final value `b`, a easing function will return a value between `a` and `b` corresponding to that `p`. For instance, the common implementation of a linear easing function is the following:
+ @code
+ // Single value: one argument
+ auto t1 = tweeny::from(0).to(100).during(60U).build();
+
+ // Two values: two arguments of matching types
+ auto t2 = tweeny::from(0, 'a').to(100, 'z').during(60U).build();
+
+ // Wrong number of arguments - won't compile
+ // auto t3 = tweeny::from(0, 0).to(100).build();  // ERROR!
+ @endcode
+
+ @subsection during Duration
+
+ Every interpolation segment needs a duration. The `during()` method specifies how many units (typically frames or milliseconds)
+ the interpolation should take to reach the target values. The duration is always an unsigned 32-bit integer (`uint32_t`).
+
+ @code
+ auto tween = tweeny::from(0).to(100).during(60U).build();
+ @endcode
+
+ For multi-value tweens, you can specify either:
+ - A single duration that applies to all values
+ - Individual durations for each value (must match the number of values)
+
+ @code
+ // Same duration for all values (60 frames)
+ auto t1 = tweeny::from(0, 0, 0).to(100, 200, 300).during(60U).build();
+
+ // Different durations per value
+ auto t2 = tweeny::from(0, 0, 0).to(100, 200, 300).during(30U, 60U, 90U).build();
+ @endcode
+
+ When using per-value durations, the total interpolation length is determined by the **longest** duration. In the example above,
+ the first value reaches its target at frame 30, the second at frame 60, and the third at frame 90. The interpolation is
+ complete when all values have reached their targets (at frame 90).
+
+ @subsection via Easing Functions
+
+ Easing functions control **how** values interpolate between keyframes. They take a progress value (0.0 to 1.0), a start value,
+ and an end value, then return the interpolated value at that progress. For example, a linear easing is simply:
 
  @code
  int linear(float p, int a, int b) {
-    return (b-a)*p + a;
+    return static_cast<int>((b - a) * p + a);
  }
  @endcode
 
- By default, tweens use a linear easing function to interpolate their values. You can change that, though: Tweeny has 30 easing functions that you can specify using tween::via function.
+ By default, tweens use `easing::linear`. You can change this with the `via()` method, which must be called **after** `to()`.
+ Tweeny includes \ref tweeny::easing "30+ built-in easing functions":
 
  @code
- auto tween = tweeny::from(0).to(10).during(100).via(tweeny::easing::circularInOut);
+ auto tween = tweeny::from(0).to(100).during(60U).via(tweeny::easing::quadraticInOut).build();
  @endcode
 
- The same rules of tween::during applies here: if you have multi-valued tweens, you can specify a different easing for each one or use the same for all of them:
+ Like `during()`, you can specify easings per-value or use the same for all values:
 
  @code
  using tweeny::easing;
- auto tween = tweeny::from(0, 1, 2).to(3, 4, 5).during(200).via(easing::exponentialIn, easing::exponentialInOut, easing::backOut);
+
+ // Same easing for all values
+ auto t1 = tweeny::from(0, 0, 0).to(100, 200, 300).during(60U)
+           .via(easing::bounceOut)
+           .build();
+
+ // Different easing per value
+ auto t2 = tweeny::from(0, 0, 0).to(100, 200, 300).during(60U)
+           .via(
+                easing::linear,
+                easing::quadraticOut,
+                easing::bounceOut
+            )
+           .build();
  @endcode
 
- For a list of all available easings, consult the <a href="modules.html">modules</a> page.
- http://easings.net has a nice visualization of those easing curves.
+ See tweeny::easing namespace documentation for all available easings, or visit http://easings.net for visualizations.
 
- You can specify custom easing functions if a different behavior is needed, by passing any callable type to tween::via conforming to the <code>T ease(float p, T begin, T end)</code>
- prototype and returning the corresponding value.
+ @subsubsection custom_easing Custom Easing Functions
+
+ You can provide custom easing functions as any callable matching the signature `T(float, T, T)`:
 
  @code
- auto tween = tweeny::from(0).to(100).during(100).via([](float p, int a, int b) { return (b-a)*p + a; } );
+ auto tween = tweeny::from(0).to(100).during(60U)
+              .via([](float p, int a, int b) {
+                return static_cast<int>((b - a) * p * p + a);  // Quadratic
+              })
+              .build();
  @endcode
 
- To a multi type tween, you need to make sure that easing arguments conform to their type:
+ For heterogeneous tweens, each easing must match its corresponding value type:
 
  @code
- auto tween = tweeny::from(0, 1.0f).to(100, 200.0f).during(100)
-              .via([](float p, int a, int b) { return (b-a)*p + a; }, [](float p, float a, float b) { return (b-a)*p + a; });
+ auto tween = tweeny::from(0, 1.0f).to(100, 200.0f).during(60U)
+              .via([](float p, int a, int b) { return (b - a) * p + a; },
+                   [](float p, float a, float b) { return (b - a) * p + a; })
+              .build();
  @endcode
 
- Beware that when using integral types most easing functions will not round but truncate their results. This leads to strange behaviors such as
- the tween reaching its final value only when it its 100% but staying in its initial value for a long percentage portion. You can use floating point values
- and round them to obtain smoother results. easing::linear does this by default for integral types, but other easings don't.
+ @note Most easing functions truncate (not round) when returning integral types. This can cause interpolations to appear
+ "stuck" at the start value for a while. Use floating-point types and round manually for smoother results, or use
+ `easing::linear` which handles this correctly for integers.
 
- @section multipoint Multi point tweens
+ @subsection multipoint Multi-Point Animations
 
- Tweens can have multiple points: a sequence of values that will be reached in order. For instance, you might want to start from 0, reach
- 100 during 500ms through a easing::linear easing, then reach 200 during 100ms through a easing::circularOut easing.
-
- To allow for that, each call to tween::to adds a new tweening point. Calls to tween::during and tween::via always refer to the last added
- point:
+ You can create complex interpolations by chaining multiple keyframes together. Each call to `to()` adds a new keyframe, and subsequent
+ calls to `during()` and `via()` configure that specific segment:
 
  @code
  auto tween = tweeny::from(0)
-               .to(100).during(500) // 0 to 100 during 500
-               .to(200).during(100).via(easing::circularOut); // 100 to 200 during 100 via circularOut
+               .to(100).during(500U)                           // 0 → 100 (linear, 500 frames)
+               .to(200).during(100U).via(easing::bounceOut)    // 100 → 200 (bounce, 100 frames)
+               .to(50).during(200U).via(easing::backInOut)     // 200 → 50 (back, 200 frames)
+               .build();
  @endcode
 
- Stepping and seeking works transparently for the user, regardless of how many tween points there are. This means that Tweeny will
- automatically manage switching from one point to another when using tween::step and tween::seek.
+ The resulting tween seamlessly transitions through all keyframes. Navigation methods like `step()` and `seek()` work transparently
+ across keyframe boundaries - Tweeny automatically handles transitions between segments.
 
- @section interpolating Stepping, seeking and jumping.
+ @section navigation Navigating Tweens
 
- After setting up points, durations and easings, a tween is ready to interpolate. There are three main ways to do that and we are going
- to cover them in this section.
+ Once built, a tween can be navigated in three ways: stepping, seeking, and jumping.
 
- The first one is **stepping**. It is used to move the tween forward by a delta amount, which can be either specified in duration units
- or percentage. Stepping is particularly useful when you are in a event/rendering loop and has access to the delta time between frames:
+ @subsection step Stepping
+
+ **Stepping** moves the tween by a relative amount (delta). This is the primary method for frame-by-frame interpolation in game loops:
 
  @code
- auto tween = tweeny::from(0).to(100).during(1000);
- while (!done) {
-    tween.step(dt);
-  }
+ auto tween = tweeny::from(0).to(100).during(1000U).build();
+ while (tween.progress() < 1.0f) {
+    int value = tween.step(1);  // Advance by 1 frame
+    // Use value...
+ }
  @endcode
 
- Passing a integral quantity (integers) to tween::step will step it in duration units. Passing a float value will step it by
- a percentage (ranging from 0.0f to 1.0f).
-
- You can set a tween to go backwards, so that it steps in reverse. To to that, use tween::backward: each tween::step call will decrease
- a tween time until it reaches 0. To make it go forward again, use tween::forward. Tween direction makes no difference when seeking or jumping.
-
- The second one is **seeking**. Seeking is useful if you need the tween to move to a specific point in time or percentage.
+ `step()` accepts a signed 32-bit integer (`int32_t`). Positive values move forward, negative values move backward:
 
  @code
- auto tween = tweeny::from(0).to(100).during(1000);
- tween.seek(0.5f);
+ tween.step(10);   // Move forward 10 frames
+ tween.step(-5);   // Move backward 5 frames
  @endcode
 
- The same value type rules of tween::step applies: a float value means a percentage and an integral value means duration.
+ @subsection seek Seeking
 
- The third one is **jumping**. Jumping is useful to seek to a specific tween point, when you have @ref multipoint .
+ **Seeking** jumps to an absolute frame position. Useful for scrubbing or jumping to specific points:
 
  @code
- auto tween = tweeny::from(0).to(100).during(100).to(200).during(100);
- tween.jump(1);
+ auto tween = tweeny::from(0).to(100).during(1000U).build();
+ tween.seek(500U);   // Jump to frame 500 (50% complete)
+ tween.seek(0U);     // Jump back to start
  @endcode
 
- tween::step, tween::seek and tween::jump both returns the result of their action. The return type varies according to the
- tween type according to these rules:
+ `seek()` accepts an unsigned 32-bit integer (`uint32_t`) representing the absolute frame number. Values are clamped to the
+ valid range `[0, total_duration]`.
 
- - If the tween has a single value, it will yield that value directly:
+ @subsection jump Jumping to Keyframes
+
+ **Jumping** moves directly to a keyframe by its index (0-based). This is useful for multi-point interpolations:
+
+ @code
+ auto tween = tweeny::from(0).to(100).during(100U).to(200).during(100U).build();
+ tween.jump(0);  // Jump to keyframe 0 (value: 0, frame: 0)
+ tween.jump(1);  // Jump to keyframe 1 (value: 100, frame: 100)
+ tween.jump(2);  // Jump to keyframe 2 (value: 200, frame: 200)
+ @endcode
+
+ @subsection return_values Return Values
+
+ All navigation methods (`step()`, `seek()`, `jump()`) return the current interpolated value(s):
+
+ - **Single-value tweens** return the value directly:
    @code
-   auto tween = tweeny::from(0).to(100).during(100);
+   auto tween = tweeny::from(0).to(100).during(100U).build();
    int value = tween.step(10);
    @endcode
 
- - If the tween has multiple values of the same type, it will yield an array with those values:
+ - **Multi-value tweens** return a tuple (use structured bindings):
    @code
-   auto tween = tweeny::from(0, 1).to(2, 3).during(100);
-   std::array<int, 2> v = tween.step(10);
+   auto tween = tweeny::from(0, 0).to(100, 200).during(100U).build();
+   auto [x, y] = tween.step(10);
    @endcode
 
- - If the tween has multiple types, it will return a tuple:
+ - **Heterogeneous tweens** also return a tuple:
    @code
-   auto tween = tweeny::from(0, 1.0f).to(2, 3.0f).during(100);
-   std::tuple<int, float> v = tween.step(10);
+   auto tween = tweeny::from(0, 1.0f).to(100, 5.0f).during(100U).build();
+   auto [i, f] = tween.step(10);
    @endcode
 
- @section callbacks Callbacks
+ @subsection peek Peeking Values
 
- Tweeny lets you specify seeking and stepping callbacks so that actions can executed in specific points
- (e.g, playing a sound when a tween reaches a frame). tween::onStep add a function that will be called whenever a tween
- steps whereas tween::onSeek will add a function to be called when it seeks. Although stepping is resolved
- in terms of seeking, tween::step it will not trigger seek callbacks.
-
- Callbacks can be of three different types:
-
- - Accept the tween and its current values. Useful if you want access to tween values and need to control the tween instance:
-   @code
-   bool stepped(tween<int, int> & t, int x, int y);
-   auto tween = tweeny::from(0, 0).to(100, 200).during(100).onStep(stepped);
-   @endcode
-
- - Accept only a tween, useful if the values itself are not interesting but you need to control tween behavior:
-   @code
-   bool stepped(tween<int, int> & t);
-   auto tween = tweeny::from(0, 0).to(100, 200).during(100).onStep(stepped);
-   @endcode
-
- - Accept only tween values, if you just want tween values:
-   @code
-   bool stepped(int x, int y);
-   auto tween = tweeny::from(0, 0).to(100, 200).during(100).onStep(stepped);
-   @endcode
-
- The return type of a callback is always boolean. If it returns true, it will be *dismissed* and
- removed from the callback list. Returning false keeps the callback in the queue:
+ Use `peek()` to query the current value without modifying the tween's state:
 
  @code
- bool stepped(int x, int y) {
-   printf("x: %d, y: %d\n", x, y);
-   if (x == y) return true;
-   return false;
- }
- auto tween = tweeny::from(0, 0).to(100, 200).during(100).onStep(stepped);
+ auto tween = tweeny::from(0).to(100).during(100U).build();
+ tween.step(50);
+ int current = tween.peek();      // Returns 50, doesn't change state
+ int preview = tween.peek(75U);   // Preview value at frame 75, doesn't move tween
  @endcode
 
- All callable types can be used as a callback, as long as they conform to the interface.
+ @section events Event System
+
+ Tweeny provides an event system for reacting to interpolation lifecycle events. Register callbacks using the `on()` method with
+ an event type tag.
+
+ @subsection event_types Event Types
+
+ Available event types:
+ - `event::step` - Triggered after each `step()` call
+ - `event::seek` - Triggered after each `seek()` call
+ - `event::jump` - Triggered after each `jump()` call
+ - `event::complete` - Triggered when the interpolation reaches the end (progress >= 1.0)
+ - `event::keyframeEnter` - Triggered when transitioning into a new keyframe segment
+ - `event::keyframeLeave` - Triggered when transitioning out of a keyframe segment
+
+ @subsection basic_callbacks Basic Callbacks
+
+ Most callbacks receive a reference to the tween and return an `event::response`:
 
  @code
- struct ftor {
-    bool operator()(int x, int y) { return false; }
+ auto tween = tweeny::from(0, 0).to(100, 200).during(100U).build();
+
+ tween.on(tweeny::event::step, [](auto& t) {
+   auto [x, y] = t.peek();
+   printf("Position: (%d, %d), Progress: %.2f\n", x, y, t.progress());
+   return tweeny::event::response::ok;
+ });
+
+ // Completion callback
+ tween.on(tweeny::event::complete, [](auto& t) {
+   printf("Animation finished!\n");
+   return tweeny::event::response::ok;
+ });
+ @endcode
+
+ @subsection keyframe_callbacks Keyframe Callbacks
+
+ Keyframe events receive additional data through an event struct:
+
+ @code
+ auto tween = tweeny::from(0).to(50).during(50U).to(100).during(50U).build();
+
+ tween.on(tweeny::event::keyframeEnter, [](auto& t, auto evt) {
+   printf("Entering keyframe %zu\n", evt.key_frame);
+   return tweeny::event::response::ok;
+ });
+
+ tween.on(tweeny::event::keyframeLeave, [](auto& t, auto evt) {
+   printf("Leaving keyframe %zu\n", evt.key_frame);
+   return tweeny::event::response::ok;
+ });
+ @endcode
+
+ @subsection callback_lifetime Callback Lifetime
+
+ The return value controls whether a callback stays registered:
+
+ - `event::response::ok` - Keep receiving events (default behavior)
+ - `event::response::unsubscribe` - Remove callback after this invocation (one-shot)
+
+ @code
+ int step_count = 0;
+ tween.on(tweeny::event::step, [&](auto& t) {
+   step_count++;
+   if (step_count >= 10) {
+     printf("Unsubscribing after 10 steps\n");
+     return tweeny::event::response::unsubscribe;
+   }
+   return tweeny::event::response::ok;
+ });
+ @endcode
+
+ @subsection callable_types Callable Types
+
+ Any callable matching the required signature can be used - lambdas, function pointers, functors, etc:
+
+ @code
+ // Lambda (most common)
+ tween.on(tweeny::event::step, [](auto& t) {
+   return tweeny::event::response::ok;
+ });
+
+ // Function
+ auto my_callback = [](tweeny::tween<int>& t) {
+   return tweeny::event::response::ok;
  };
- auto tween = tweeny::from(0, 0).to(100, 200).during(100);
- tween.onStep([](int, int) { return false; }); // lambdas
- tween.onStep(ftor()); // functors
+ tween.on(tweeny::event::seek, my_callback);
  @endcode
 
- The @ref loop has some nice ways of using callbacks.
+ @section summary Summary
 
- <hr>
+ This manual covered the essential aspects of using Tweeny:
+ - Creating tweens with the fluent builder API (`from()`, `to()`, `via()`, `during()`, `build()`)
+ - Navigating interpolations (`step()`, `seek()`, `jump()`, `peek()`)
+ - Responding to interpolation events with callbacks
 
- This covers all the basics steps of using Tweeny. There is more to learn though, take a look at the <a href="http://github.com/mobius3/tweey-demos">demo repository</a> to see
- more. Consult the API of the @ref tween class to see all its methods and more examples within.
+ For more examples, see the <a href="https://github.com/mobius3/tweeny-demos">demo repository</a>.
+ For complete API documentation, consult the tweeny::tween class reference.
 
- I hope you have fun using Tweeny.
+ Enjoy using Tweeny!
 */
 }

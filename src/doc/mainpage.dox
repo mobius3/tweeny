@@ -56,6 +56,8 @@ int main() {
 }
 @endcode
 
+Visit the <a href="manual.html">manual</a> for a more in-depth explanation of the library.
+
 @section api API Reference
 
 The most important parts of the API are:
@@ -66,31 +68,30 @@ The most important parts of the API are:
 - tweeny::easing namespace - Collection of easing functions
 - tweeny::event - Event types for tween lifecycle callbacks
 
-Visit the <a href="modules.html">modules page</a> for a complete list of easing functions.
 
 @section examples Common Patterns
 
 @subsection ex_basic Basic Animation
 @code
 auto tween = tweeny::from(0.0f).to(1.0f).during(60U).build();
-while (!tween.ended()) {
-  float alpha = tween.step();
+while (tween.progress() < 1.0f) {
+  float alpha = tween.step(1);
   // Render with alpha...
 }
 @endcode
 
-@subsection ex_seek Seeking and Direction
+@subsection ex_seek Seeking and Jumping
 @code
 auto tween = tweeny::from(0).to(100).during(100U).build();
 
 // Jump to specific frame
 tween.seek(50U);
 
-// Jump to percentage
-tween.seek(0.75f);  // 75% through the animation
+// Step backward (negative delta)
+tween.step(-10);
 
-// Reverse direction
-tween.backward().step(10);
+// Jump to a keyframe by index
+tween.jump(0);  // Jump back to first keyframe
 @endcode
 
 @subsection ex_events Event Listeners
@@ -98,14 +99,15 @@ tween.backward().step(10);
 auto tween = tweeny::from(0).to(100).during(60U).build();
 
 // Listen for step events
-tween.onStep([](int value, float progress) {
-  std::cout << "Value: " << value << ", Progress: " << progress << std::endl;
-  return false; // Return true to cancel the tween
+tween.on(tweeny::event::step, [](auto& tween) {
+  std::cout << "Value: " << tween.peek() << ", Progress: " << tween.progress() << std::endl;
+  return tweeny::event::response::ok;
 });
 
 // Listen for keyframe transitions
-tween.onKeyframeEnter([](int from, int to) {
-  std::cout << "Entering keyframe from " << from << " to " << to << std::endl;
+tween.on(tweeny::event::keyframeEnter, [](auto& tween, auto evt) {
+  std::cout << "Entered keyframe " << evt.key_frame << std::endl;
+  return tweeny::event::response::ok;
 });
 @endcode
 

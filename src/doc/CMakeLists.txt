@@ -29,7 +29,6 @@ configure_file(Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
 set(DOC_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/mainpage.dox"
     "${CMAKE_CURRENT_SOURCE_DIR}/manual.dox"
-    "${CMAKE_CURRENT_SOURCE_DIR}/easings.dox"
     "${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml"
     "${CMAKE_CURRENT_SOURCE_DIR}/../../README.md"
 )
