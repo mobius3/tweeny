@@ -1157,8 +1157,117 @@ namespace tweeny::easing {
   * @see quinticInOut For more dramatic motion
   */
  inline constexpr detail::quarticInOutEasing quarticInOut{};
+
+ /**
+  * @brief Quintic polynomial easing (t⁵) with very strong acceleration.
+  *
+  * The `quinticIn` easing function uses a power-5 curve, creating the strongest
+  * polynomial acceleration. It's more extreme than quartic but less than exponential.
+  *
+  * Characteristics:
+  * - Very strong acceleration
+  * - Polynomial with power of 5
+  * - Extremely slow start
+  * - Dramatic finish
+  *
+  * This easing is ideal for:
+  * - **Maximum polynomial emphasis**: Strongest polynomial option
+  * - **Dramatic effects**: Hero animations, focal transitions
+  * - **Long animations**: Over 600ms durations
+  * - **Alternative to exponential**: Slightly less extreme
+  *
+  * Mathematically: `f(t) = t⁵`
+  *
+  * @code
+  * // Dramatic hero section reveal
+  * auto scale = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::quinticIn)
+  *   .during(60U)
+  *   .build();
+  * @endcode
+  *
+  * @see quinticOut For very strong deceleration
+  * @see quinticInOut For very strong motion at both ends
+  * @see quarticIn For slightly gentler acceleration
+  * @see exponentialIn For even more extreme acceleration
+  */
  inline constexpr detail::quinticInEasing quinticIn{};
+
+ /**
+  * @brief Quintic polynomial easing (t⁵) with very strong deceleration.
+  *
+  * The `quinticOut` easing function provides the strongest polynomial deceleration,
+  * creating smooth but dramatic slowdown. Popular for animations with long durations
+  * (500ms+) requiring strong deceleration.
+  *
+  * Characteristics:
+  * - Very strong deceleration
+  * - Long, smooth tail
+  * - Very strong deceleration with extended slowdown phase
+  * - Strongest polynomial option
+  *
+  * This easing excels at:
+  * - **Applications prioritizing strong visual emphasis**: Galleries, portfolios, marketing sites
+  * - **Animations with extended durations**: Requiring maximum polynomial deceleration
+  * - **Longer animations**: 500ms+ durations
+  * - **Emphasized arrivals**: Strong focus on end state
+  *
+  * QuinticOut provides the strongest polynomial deceleration while maintaining a
+  * smooth, continuous curve.
+  *
+  * Mathematically: `f(t) = 1 - (1-t)⁵`
+  *
+  * @code
+  * // Premium modal entrance
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::quinticOut)
+  *   .during(45U)
+  *   .build();
+  * @endcode
+  *
+  * @see quinticIn For very strong acceleration
+  * @see quinticInOut For very strong motion at both ends
+  * @see quarticOut For slightly gentler deceleration
+  * @see exponentialOut For even more extreme deceleration
+  */
  inline constexpr detail::quinticOutEasing quinticOut{};
+
+ /**
+  * @brief Quintic polynomial easing with very strong acceleration and deceleration.
+  *
+  * The `quinticInOut` easing function provides the strongest polynomial S-curve,
+  * creating powerful motion with maximum polynomial emphasis.
+  *
+  * Motion profile:
+  * - First half: Very strong acceleration (t⁵)
+  * - Midpoint: Maximum velocity
+  * - Second half: Very strong deceleration
+  * - Creates dramatic S-curve
+  *
+  * This easing is appropriate for:
+  * - **Applications prioritizing strong visual emphasis**: Galleries, portfolios, marketing sites
+  * - **Animations requiring maximum polynomial emphasis**: At both acceleration and deceleration phases
+  * - **Important transitions**: Focal, memorable moments
+  * - **Longer animations**: 500ms+ durations
+  *
+  * Mathematically: Combines quinticIn for t < 0.5 and quinticOut for t >= 0.5
+  *
+  * @code
+  * // Premium screen transition
+  * auto x = tweeny::from(0.0f)
+  *   .to(1920.0f)
+  *   .via(easing::quinticInOut)
+  *   .during(50U)
+  *   .build();
+  * @endcode
+  *
+  * @see quinticIn For only very strong acceleration
+  * @see quinticOut For only very strong deceleration
+  * @see quarticInOut For gentler motion
+  * @see exponentialInOut For more extreme motion
+  */
  inline constexpr detail::quinticInOutEasing quinticInOut{};
  inline constexpr detail::sinusoidalInEasing sinusoidalIn{};
  inline constexpr detail::sinusoidalOutEasing sinusoidalOut{};
