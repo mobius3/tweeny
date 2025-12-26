@@ -43,6 +43,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "detail/tuple-utilities.h"
 
+/**
+ * @namespace tweeny
+ * @brief Contains all public API types and functions for creating and managing tweens.
+ *
+ * This namespace provides the builder pattern API (from(), tweeny_builder), the main
+ * tween class template, easing functions, and event types. All user-facing functionality
+ * is contained within this namespace to avoid naming conflicts.
+ */
 namespace tweeny {
   /**
    * @brief Primary template for the tween builder type.

@@ -25,17 +25,23 @@
 find_package(Doxygen REQUIRED)
 
 configure_file(Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-file(COPY ../../README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-file(COPY
-    DoxygenLayout.xml
-    MANUAL.dox
-     DESTINATION
-        ${CMAKE_CURRENT_BINARY_DIR}
+
+set(DOC_FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/mainpage.dox"
+    "${CMAKE_CURRENT_SOURCE_DIR}/manual.dox"
+    "${CMAKE_CURRENT_SOURCE_DIR}/easings.dox"
+    "${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../../README.md"
 )
+
 add_custom_target(doc ALL
-        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen" VERBATIM)
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../../README.md ${CMAKE_CURRENT_BINARY_DIR}/
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${DOC_FILES} ${CMAKE_CURRENT_BINARY_DIR}/
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    DEPENDS ${DOC_FILES} Doxyfile.in
+    COMMENT "Generating API documentation with Doxygen" VERBATIM
+)
 
 include(GNUInstallDirs)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html DESTINATION ${CMAKE_INSTALL_DOCDIR})

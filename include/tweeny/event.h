@@ -45,6 +45,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <cstddef>
 
 /**
+ * @namespace tweeny::event
  * @brief Event types and response codes for tween callbacks.
  *
  * This namespace contains tag types for registering event listeners and

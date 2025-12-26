@@ -1,0 +1,141 @@
+/**
+@mainpage Tweeny
+
+Tweeny is a modern C++ inbetweening library designed for creating complex animations
+for games and other interactive software. It provides a type-safe, fluent API for
+declaring interpolations (tweens) of any numeric type that supports arithmetic operations.
+
+@section features Key Features
+
+- **Type-safe and modern**: Leverages C++17 features for compile-time type checking
+- **Fluent builder API**: Intuitive method chaining for tween creation
+- **Multi-value tweens**: Animate multiple values simultaneously (e.g., RGB colors, 3D positions)
+- **Heterogeneous types**: Mix different numeric types in a single tween
+- **Rich easing library**: Includes 30+ built-in easing functions
+- **Keyframe animations**: Create complex multi-segment animations
+- **Event system**: React to tween lifecycle events (start, step, end, keyframes)
+- **Header-only**: Simple integration with no linking required
+- **Zero dependencies**: Only requires a C++17 compiler
+
+@section quickstart Quick Start
+
+@code
+#include <tweeny/tweeny.h>
+using tweeny::easing;
+
+int main() {
+  // Simple tween from 0 to 100 over 60 frames
+  auto tween = tweeny::from(0).to(100).during(60U).build();
+
+  // Step through the animation
+  for (int i = 0; i < 60; i++) {
+    int value = tween.step();
+    // Use value...
+  }
+
+  // Multi-value tween (e.g., for RGB color)
+  auto color = tweeny::from(255, 0, 0)
+    .to(0, 255, 0)
+    .during(120U)
+    .build();
+
+  // Tween with easing
+  auto smooth = tweeny::from(0.0f)
+    .to(100.0f)
+    .via(easing::quadraticInOut)
+    .during(60U)
+    .build();
+
+  // Multi-segment animation with keyframes
+  auto complex = tweeny::from(0)
+    .to(50).via(easing::linear).during(30U)
+    .to(100).via(easing::bounceOut).during(30U)
+    .build();
+
+  return 0;
+}
+@endcode
+
+@section api API Reference
+
+The most important parts of the API are:
+
+- tweeny::from() - Entry point for creating new tweens
+- tweeny::tween - Main tween class with animation control methods
+- tweeny::tweeny_builder - Fluent builder for constructing tweens
+- tweeny::easing namespace - Collection of easing functions
+- tweeny::event - Event types for tween lifecycle callbacks
+
+Visit the <a href="modules.html">modules page</a> for a complete list of easing functions.
+
+@section examples Common Patterns
+
+@subsection ex_basic Basic Animation
+@code
+auto tween = tweeny::from(0.0f).to(1.0f).during(60U).build();
+while (!tween.ended()) {
+  float alpha = tween.step();
+  // Render with alpha...
+}
+@endcode
+
+@subsection ex_seek Seeking and Direction
+@code
+auto tween = tweeny::from(0).to(100).during(100U).build();
+
+// Jump to specific frame
+tween.seek(50U);
+
+// Jump to percentage
+tween.seek(0.75f);  // 75% through the animation
+
+// Reverse direction
+tween.backward().step(10);
+@endcode
+
+@subsection ex_events Event Listeners
+@code
+auto tween = tweeny::from(0).to(100).during(60U).build();
+
+// Listen for step events
+tween.onStep([](int value, float progress) {
+  std::cout << "Value: " << value << ", Progress: " << progress << std::endl;
+  return false; // Return true to cancel the tween
+});
+
+// Listen for keyframe transitions
+tween.onKeyframeEnter([](int from, int to) {
+  std::cout << "Entering keyframe from " << from << " to " << to << std::endl;
+});
+@endcode
+
+@subsection ex_multivalue Multi-Value Tweens
+@code
+// Animate RGB color
+auto color = tweeny::from(255, 0, 0).to(0, 255, 0).during(120U).build();
+auto [r, g, b] = color.step();
+
+// Different easing per component
+auto position = tweeny::from(0.0f, 0.0f)
+  .to(100.0f, 50.0f)
+  .via(easing::linear, easing::bounceOut)
+  .during(60U)
+  .build();
+
+// Different duration per component
+auto mixed = tweeny::from(0, 0)
+  .to(100, 200)
+  .during(60U, 120U)  // X completes in 60 frames, Y in 120
+  .build();
+@endcode
+
+@section resources Resources
+
+- <a href="https://github.com/mobius3/tweeny">GitHub Repository</a>
+- <a href="https://github.com/mobius3/tweeny-demos">Demo Applications</a>
+- <a href="http://easings.net/">Easing Function Cheat Sheet</a>
+
+@section license License
+
+Tweeny is licensed under the MIT License. See the LICENSE file in the repository for details.
+*/
