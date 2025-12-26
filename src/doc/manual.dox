@@ -4,6 +4,8 @@ namespace tweeny {
 
  This document is the manual for Tweeny. It walks you through all the important steps when creating and controlling tweens.
 
+@note Coming from Tweeny 3.x? Check out the @ref v3_to_v4 "migration guide"!
+
  @section creating Creating Tweens
 
  @subsection builder_intro The Builder Pattern
@@ -372,15 +374,7 @@ namespace tweeny {
  tween.on(tweeny::event::seek, my_callback);
  @endcode
 
- @section summary Summary
-
- This manual covered the essential aspects of using Tweeny:
- - Creating tweens with the fluent builder API (`from()`, `to()`, `via()`, `during()`, `build()`)
- - Navigating interpolations (`step()`, `seek()`, `jump()`, `peek()`)
- - Responding to interpolation events with callbacks
-
- For more examples, see the <a href="https://github.com/mobius3/tweeny-demos">demo repository</a>.
- For complete API documentation, consult the tweeny::tween class reference.
+ @section done Done!
 
  Enjoy using Tweeny!
 */

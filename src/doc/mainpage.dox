@@ -19,6 +19,8 @@ declaring interpolations (tweens) of any numeric type that supports arithmetic o
 
 @section quickstart Quick Start
 
+@note Coming from Tweeny 3.x? Check out the @ref v3_to_v4 "migration guide"!
+
 @code
 #include <tweeny/tweeny.h>
 using tweeny::easing;
