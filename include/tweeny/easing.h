@@ -32,19 +32,19 @@
 #ifndef TWEENY_EASING_H
 #define TWEENY_EASING_H
 
-#include "tweeny/detail/easing/back.h"
-#include "tweeny/detail/easing/bounce.h"
-#include "tweeny/detail/easing/circular.h"
-#include "tweeny/detail/easing/cubic.h"
-#include "tweeny/detail/easing/def.h"
-#include "tweeny/detail/easing/elastic.h"
-#include "tweeny/detail/easing/exponential.h"
-#include "tweeny/detail/easing/linear.h"
-#include "tweeny/detail/easing/quadratic.h"
-#include "tweeny/detail/easing/quartic.h"
-#include "tweeny/detail/easing/quintic.h"
-#include "tweeny/detail/easing/sinusoidal.h"
-#include "tweeny/detail/easing/stepped.h"
+#include "detail/easing/back.h"
+#include "detail/easing/bounce.h"
+#include "detail/easing/circular.h"
+#include "detail/easing/cubic.h"
+#include "detail/easing/def.h"
+#include "detail/easing/elastic.h"
+#include "detail/easing/exponential.h"
+#include "detail/easing/linear.h"
+#include "detail/easing/quadratic.h"
+#include "detail/easing/quartic.h"
+#include "detail/easing/quintic.h"
+#include "detail/easing/sinusoidal.h"
+#include "detail/easing/stepped.h"
 
 namespace tweeny::easing {
  inline constexpr detail::backInEasing backIn{};
