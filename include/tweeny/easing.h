@@ -662,8 +662,167 @@ namespace tweeny::easing {
   * @see bounceOut For a similar but impact-based bouncing effect
   */
  inline constexpr detail::elasticOutEasing elasticOut{};
+
+ /**
+  * @brief Elastic easing combining spring oscillation at both start and end.
+  *
+  * The `elasticInOut` easing function creates dramatic elastic motion with oscillation
+  * during both the initial acceleration and final deceleration phases. The animation
+  * winds up with spring-like vibration, accelerates smoothly through the middle, then
+  * oscillates around the target before settling.
+  *
+  * The motion profile:
+  * - First half: Oscillates with increasing amplitude (elasticIn behavior)
+  * - Middle: Smooth transition through the midpoint
+  * - Second half: Oscillates with decreasing amplitude (elasticOut behavior)
+  * - Creates the most dramatic elastic effect available
+  *
+  * This easing is appropriate for:
+  * - **Hero animations**: Focal transitions that demand attention
+  * - **Game events**: Critical moments, boss appearances, dramatic reveals
+  * - **Cartoon physics**: Exaggerated, entertaining motion for stylized visuals
+  * - **Transitions with flair**: Scene changes that need maximum personality
+  * - **Experimental UI**: Interfaces prioritizing delight over convention
+  *
+  * ElasticInOut is the most expressive elastic variant but also the most extreme. It works
+  * best for animations that are:
+  * - Intentionally playful or whimsical
+  * - The primary focus of user attention
+  * - Part of a stylized, high-energy aesthetic
+  * - Not repeated frequently (can become tiresome)
+  *
+  * Use sparingly; the dual oscillation can feel excessive for everyday interactions.
+  * Consider elasticOut or backInOut for a more balanced alternative.
+  *
+  * @warning This easing produces extreme value overshoots in both directions throughout
+  * the animation. During the first half, values oscillate around the start; during the
+  * second half, around the target. Plan for values far outside the expected range.
+  *
+  * @code
+  * // Dramatic screen transition
+  * auto position = tweeny::from(0.0f)
+  *   .to(1920.0f)
+  *   .via(easing::elasticInOut)
+  *   .during(90U)
+  *   .build();
+  *
+  * // Position will oscillate around 0.0f at start and 1920.0f at end
+  *
+  * // Game title appearing with maximum impact
+  * auto scale = tweeny::from(0.0f)
+  *   .to(2.0f)
+  *   .via(easing::elasticInOut)
+  *   .during(75U)
+  *   .build();
+  * @endcode
+  *
+  * @see elasticIn For oscillation only at the start
+  * @see elasticOut For oscillation only at the end (more commonly useful)
+  * @see backInOut For a less extreme but still expressive alternative
+  */
  inline constexpr detail::elasticInOutEasing elasticInOut{};
+
+ /**
+  * @brief Exponential easing with very slow start and explosive acceleration.
+  *
+  * The `exponentialIn` easing function starts extremely slowly and builds to a very rapid
+  * acceleration toward the end. Based on exponential growth (2^x), this creates one of the
+  * most dramatic acceleration curves available, with velocity increasing exponentially over time.
+  *
+  * Characteristics:
+  * - Almost no visible motion for the first portion of the animation
+  * - Sudden, explosive acceleration in the final phase
+  * - Change rate doubles repeatedly as time progresses
+  * - Creates extreme contrast between start and end velocity
+  *
+  * This easing is ideal for:
+  * - **Dramatic reveals**: Elements that burst into view
+  * - **Explosive effects**: Particle systems, energy blasts, explosions
+  * - **Fade-ins with impact**: Starting invisible and suddenly appearing
+  * - **Speed-up effects**: Rockets launching, vehicles accelerating
+  * - **Tension building**: Slow build-up to sudden release
+  *
+  * The extreme acceleration curve makes this feel more dramatic than polynomial easings
+  * (quadratic, cubic, etc.). The motion appears to "explode" into existence rather than
+  * gradually accelerate.
+  *
+  * Use exponentialIn when you want maximum contrast between the patient start and the
+  * explosive finish. For most UI work, cubic or quartic easings provide sufficient
+  * acceleration with less extreme behavior.
+  *
+  * Mathematically: `f(t) = 2^(10 * (t - 1))`
+  *
+  * @code
+  * // Fade in that suddenly snaps to full visibility
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::exponentialIn)
+  *   .during(45U)
+  *   .build();
+  *
+  * // Rocket launch with explosive acceleration
+  * auto velocity = tweeny::from(0.0f)
+  *   .to(1000.0f)
+  *   .via(easing::exponentialIn)
+  *   .during(120U)
+  *   .build();
+  * @endcode
+  *
+  * @see exponentialOut For explosive deceleration at the end
+  * @see exponentialInOut For dramatic acceleration and deceleration
+  * @see quarticIn For strong but less extreme acceleration
+  */
  inline constexpr detail::exponentialInEasing exponentialIn{};
+
+ /**
+  * @brief Exponential easing with explosive start and gradual slow-down.
+  *
+  * The `exponentialOut` easing function starts with maximum velocity and decelerates
+  * exponentially, creating a smooth glide to a stop. The initial burst of speed followed
+  * by gradual settling creates a powerful, energetic feel.
+  *
+  * Characteristics:
+  * - Immediate, explosive motion at the start
+  * - Exponentially decreasing velocity
+  * - Long, smooth deceleration phase
+  * - Settles gently to final value
+  *
+  * This easing excels at:
+  * - **Quick UI responses**: Instant feedback that settles smoothly
+  * - **Impact effects**: Objects hitting and settling into place
+  * - **Momentum-based motion**: Thrown objects, swipe gestures
+  * - **Energetic entrances**: Elements that burst in with energy
+  * - **Modern UI patterns**: iOS-style animations with quick start
+  *
+  * ExponentialOut is popular in modern mobile design because it provides immediate
+  * visual feedback (the fast start) while ending smoothly. Users perceive the interface
+  * as highly responsive due to the instant motion.
+  *
+  * The long tail of deceleration gives animations a "quality feel" - nothing stops
+  * abruptly. This is gentler on the eyes than linear or even cubic deceleration.
+  *
+  * Mathematically: `f(t) = 1 - 2^(-10 * t)`
+  *
+  * @code
+  * // Responsive drawer that slides out quickly then settles
+  * auto position = tweeny::from(-300.0f)
+  *   .to(0.0f)
+  *   .via(easing::exponentialOut)
+  *   .during(35U)
+  *   .build();
+  *
+  * // Notification that pops in with energy
+  * auto scale = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::exponentialOut)
+  *   .during(25U)
+  *   .build();
+  * @endcode
+  *
+  * @see exponentialIn For explosive acceleration at the start
+  * @see exponentialInOut For explosive motion at both ends
+  * @see quarticOut For strong but less extreme deceleration
+  */
  inline constexpr detail::exponentialOutEasing exponentialOut{};
  inline constexpr detail::exponentialInOutEasing exponentialInOut{};
  inline constexpr detail::linearEasing linear{};
