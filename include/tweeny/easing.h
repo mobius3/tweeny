@@ -290,8 +290,120 @@ namespace tweeny::easing {
   * @see elasticInOut For spring-like alternative
   */
  inline constexpr detail::bounceInOutEasing bounceInOut{};
+
+ /**
+  * @brief Circular easing based on quarter-circle arc for smooth acceleration.
+  *
+  * The `circularIn` easing function accelerates following the curve of a quarter circle,
+  * creating smooth, gradual acceleration. The motion follows the equation `1 - sqrt(1 - t²)`,
+  * which traces a circular arc.
+  *
+  * Characteristics:
+  * - Smooth, continuous acceleration
+  * - More gradual than quadratic, less than cubic
+  * - No sharp transitions in velocity
+  * - Mathematically elegant curve
+  *
+  * This easing is ideal for:
+  * - **Natural motion**: Movements that need organic feel
+  * - **Camera movements**: Smooth pans and zooms
+  * - **Scroll animations**: Gentle acceleration for reading comfort
+  * - **Subtle UI transitions**: Motion with moderate acceleration
+  *
+  * Circular easings strike a balance between the gentle quadratic and the more aggressive
+  * cubic curves, making them versatile for many contexts.
+  *
+  * @code
+  * // Smooth camera pan
+  * auto cameraX = tweeny::from(0.0f)
+  *   .to(1000.0f)
+  *   .via(easing::circularIn)
+  *   .during(90U)
+  *   .build();
+  * @endcode
+  *
+  * @see circularOut For circular deceleration
+  * @see circularInOut For circular acceleration and deceleration
+  * @see quadraticIn For gentler acceleration
+  * @see cubicIn For stronger acceleration
+  */
  inline constexpr detail::circularInEasing circularIn{};
+
+ /**
+  * @brief Circular easing based on quarter-circle arc for smooth deceleration.
+  *
+  * The `circularOut` easing function decelerates following a circular curve, creating
+  * smooth, natural-looking motion that settles gently to rest. Popular for UI animations
+  * requiring moderate deceleration without dramatic emphasis.
+  *
+  * Characteristics:
+  * - Smooth, continuous deceleration
+  * - Natural feeling without being too soft or aggressive
+  * - Balanced between gentle and pronounced
+  * - Widely used in production interfaces
+  *
+  * This easing excels at:
+  * - **Modern UI animations**: Cards, panels, menus
+  * - **Material Design patterns**: Following Google's motion guidelines
+  * - **Content transitions**: Page changes, tab switches
+  * - **Professional applications**: Business and productivity software
+  * - **General-purpose motion**: Versatile for many animation types
+  *
+  * CircularOut works well in most contexts. It's less dramatic than cubic but with
+  * smoother deceleration than quadratic.
+  *
+  * @code
+  * // Menu panel sliding in
+  * auto x = tweeny::from(-300.0f)
+  *   .to(0.0f)
+  *   .via(easing::circularOut)
+  *   .during(35U)
+  *   .build();
+  * @endcode
+  *
+  * @see circularIn For circular acceleration
+  * @see circularInOut For circular motion at both ends
+  * @see quadraticOut For gentler alternative
+  * @see cubicOut For more pronounced alternative
+  */
  inline constexpr detail::circularOutEasing circularOut{};
+
+ /**
+  * @brief Circular easing with smooth acceleration and deceleration.
+  *
+  * The `circularInOut` easing function uses circular curves for both acceleration and
+  * deceleration, creating balanced motion suitable for general UI work. This is a
+  * popular all-purpose easing.
+  *
+  * Motion profile:
+  * - First half: Circular acceleration
+  * - Midpoint: Maximum velocity
+  * - Second half: Circular deceleration
+  * - Creates smooth S-curve
+  *
+  * This easing is appropriate for:
+  * - **All-purpose UI animations**: Buttons, dialogs, drawers
+  * - **Material Design**: Recommended in Google's motion guidelines
+  * - **Business applications**: Productivity tools, enterprise apps
+  * - **Default animation choice**: Safe, versatile motion curve
+  *
+  * CircularInOut is often recommended as a starting point for animations because it
+  * provides polish without being too subtle or too dramatic.
+  *
+  * @code
+  * // Modal dialog appearance
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::circularInOut)
+  *   .during(25U)
+  *   .build();
+  * @endcode
+  *
+  * @see circularIn For only acceleration
+  * @see circularOut For only deceleration
+  * @see quadraticInOut For gentler motion
+  * @see cubicInOut For more dramatic motion
+  */
  inline constexpr detail::circularInOutEasing circularInOut{};
  inline constexpr detail::cubicInEasing cubicIn{};
  inline constexpr detail::cubicOutEasing cubicOut{};
