@@ -24,11 +24,11 @@
 
 find_package(Doxygen REQUIRED)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+configure_file(Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+file(COPY ../../README.md DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 file(COPY
-        ${CMAKE_CURRENT_SOURCE_DIR}/DoxygenLayout.xml
-        ${CMAKE_CURRENT_SOURCE_DIR}/MANUAL.dox
+    DoxygenLayout.xml
+    MANUAL.dox
      DESTINATION
         ${CMAKE_CURRENT_BINARY_DIR}
 )
