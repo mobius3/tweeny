@@ -166,8 +166,129 @@ namespace tweeny::easing {
   * @see elasticInOut For a more extreme oscillating version
   */
  inline constexpr detail::backInOutEasing backInOut{};
+
+ /**
+  * @brief Bounce easing simulating a ball bouncing with increasing height at the start.
+  *
+  * The `bounceIn` easing function creates a bouncing effect before the animation begins,
+  * like a ball dropped from above that bounces progressively higher before launching into
+  * the main motion. This is the reverse of bounceOut's natural physics.
+  *
+  * Characteristics:
+  * - Multiple discrete "bounces" at the start
+  * - Each bounce is higher than the previous
+  * - Creates anticipation through impact-based motion
+  * - Less commonly used than bounceOut
+  *
+  * This easing works well for:
+  * - **Landing preparation**: Elements about to drop into place
+  * - **Impact anticipation**: Building up to a collision
+  * - **Reverse playback effects**: Bounced animations played backward
+  * - **Stylized entrances**: Cartoon-style wind-up effects
+  *
+  * BounceIn is less intuitive than bounceOut because it reverses natural physics (balls
+  * don't normally bounce higher each time). Consider backIn for more natural anticipation.
+  *
+  * @code
+  * // Element that bounces before sliding in
+  * auto position = tweeny::from(0.0f)
+  *   .to(200.0f)
+  *   .via(easing::bounceIn)
+  *   .during(50U)
+  *   .build();
+  * @endcode
+  *
+  * @see bounceOut For natural ball-drop bouncing at the end
+  * @see bounceInOut For bouncing at both start and end
+  * @see backIn For simpler anticipation without discrete impacts
+  */
  inline constexpr detail::bounceInEasing bounceIn{};
+
+ /**
+  * @brief Bounce easing simulating a ball dropping and bouncing to rest.
+  *
+  * The `bounceOut` easing function creates the classic ball-drop effect where an object
+  * bounces several times with decreasing height before coming to rest. This mimics real-world
+  * physics of an inelastic collision and is one of the most recognizable easing patterns.
+  *
+  * Characteristics:
+  * - Multiple discrete bounces with decreasing amplitude
+  * - Simulates impact and energy loss
+  * - Creates playful, physical motion
+  * - Widely recognized and understood by users
+  *
+  * This easing excels at:
+  * - **Object drops**: Items falling into place
+  * - **Landing animations**: Characters, UI elements touching down
+  * - **Playful interactions**: Buttons, icons, notifications
+  * - **Game elements**: Collectibles, power-ups, score displays
+  * - **Error/success feedback**: Visual confirmation with personality
+  * - **Cartoon physics**: Exaggerated, entertaining motion
+  *
+  * BounceOut is more popular than elasticOut when you want discrete impacts rather than
+  * smooth oscillation. It conveys weight and physicality better than spring-based easings.
+  *
+  * The bouncing creates natural emphasis on the final position, making it excellent for
+  * drawing attention to where something lands.
+  *
+  * @code
+  * // Notification dropping in from above
+  * auto y = tweeny::from(-100.0f)
+  *   .to(0.0f)
+  *   .via(easing::bounceOut)
+  *   .during(45U)
+  *   .build();
+  *
+  * // Button that bounces into place
+  * auto scale = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::bounceOut)
+  *   .during(40U)
+  *   .build();
+  * @endcode
+  *
+  * @see bounceIn For inverse bouncing at the start
+  * @see bounceInOut For bouncing at both ends
+  * @see elasticOut For smooth spring-like alternative
+  */
  inline constexpr detail::bounceOutEasing bounceOut{};
+
+ /**
+  * @brief Bounce easing with bouncing at both start and end.
+  *
+  * The `bounceInOut` easing function combines reverse bouncing at the start with natural
+  * bouncing at the end. The motion bounces with increasing height initially, accelerates
+  * through the middle, then bounces to rest at the target.
+  *
+  * Motion profile:
+  * - First half: Bounces with increasing amplitude (bounceIn)
+  * - Midpoint: Smooth transition
+  * - Second half: Bounces with decreasing amplitude (bounceOut)
+  * - Creates playful, impact-based motion at both ends
+  *
+  * This easing is appropriate for:
+  * - **Playful transitions**: Fun, energetic scene changes
+  * - **Game UI**: High-energy, cartoon-style interfaces
+  * - **Children's applications**: Whimsical, entertaining motion
+  * - **Attention-grabbing effects**: Elements that need maximum personality
+  *
+  * BounceInOut is quite dramatic and can feel excessive for business applications,
+  * productivity tools, and enterprise software where subtlety is preferred. The dual
+  * bouncing works best in contexts where playfulness is a design goal.
+  *
+  * @code
+  * // Playful modal transition
+  * auto scale = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::bounceInOut)
+  *   .during(60U)
+  *   .build();
+  * @endcode
+  *
+  * @see bounceIn For bouncing only at the start
+  * @see bounceOut For bouncing only at the end (more commonly useful)
+  * @see elasticInOut For spring-like alternative
+  */
  inline constexpr detail::bounceInOutEasing bounceInOut{};
  inline constexpr detail::circularInEasing circularIn{};
  inline constexpr detail::circularOutEasing circularOut{};
