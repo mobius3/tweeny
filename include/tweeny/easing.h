@@ -46,6 +46,13 @@
 #include "detail/easing/sinusoidal.h"
 #include "detail/easing/stepped.h"
 
+/**
+ * @namespace tweeny::easing
+ * @brief Contains all built-in easing functions for controlling animation curves.
+ *
+ * Provides 30+ easing functions in In, Out, and InOut variants for creating natural-looking
+ * animations. See the @ref easings page for detailed descriptions and usage examples.
+ */
 namespace tweeny::easing {
  inline constexpr detail::backInEasing backIn{};
  inline constexpr detail::backOutEasing backOut{};
