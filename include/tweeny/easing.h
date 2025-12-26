@@ -51,7 +51,7 @@
  * @brief Contains all built-in easing functions for controlling animation curves.
  *
  * Provides 30+ easing functions in In, Out, and InOut variants for creating natural-looking
- * animations. See the @ref easings page for detailed descriptions and usage examples.
+ * animations.
  */
 namespace tweeny::easing {
  /**
@@ -86,6 +86,7 @@ namespace tweeny::easing {
   *
   * @see backOut For overshoot at the end instead of the beginning
   * @see backInOut For anticipation at the start and overshoot at the end
+  * @see Visualize at https://easings.net/#easeInBack
   */
  inline constexpr detail::backInEasing backIn{};
 
@@ -125,6 +126,7 @@ namespace tweeny::easing {
   * @see backIn For anticipation at the start instead of overshoot at the end
   * @see backInOut For both anticipation and overshoot
   * @see elasticOut For a more pronounced oscillating overshoot effect
+  * @see Visualize at https://easings.net/#easeOutBack
   */
  inline constexpr detail::backOutEasing backOut{};
 
@@ -164,6 +166,7 @@ namespace tweeny::easing {
   * @see backIn For only anticipation without overshoot
   * @see backOut For only overshoot without anticipation
   * @see elasticInOut For a more extreme oscillating version
+  * @see Visualize at https://easings.net/#easeInOutBack
   */
  inline constexpr detail::backInOutEasing backInOut{};
 
@@ -201,6 +204,7 @@ namespace tweeny::easing {
   * @see bounceOut For natural ball-drop bouncing at the end
   * @see bounceInOut For bouncing at both start and end
   * @see backIn For simpler anticipation without discrete impacts
+  * @see Visualize at https://easings.net/#easeInBounce
   */
  inline constexpr detail::bounceInEasing bounceIn{};
 
@@ -250,6 +254,7 @@ namespace tweeny::easing {
   * @see bounceIn For inverse bouncing at the start
   * @see bounceInOut For bouncing at both ends
   * @see elasticOut For smooth spring-like alternative
+  * @see Visualize at https://easings.net/#easeOutBounce
   */
  inline constexpr detail::bounceOutEasing bounceOut{};
 
@@ -288,6 +293,7 @@ namespace tweeny::easing {
   * @see bounceIn For bouncing only at the start
   * @see bounceOut For bouncing only at the end (more commonly useful)
   * @see elasticInOut For spring-like alternative
+  * @see Visualize at https://easings.net/#easeInOutBounce
   */
  inline constexpr detail::bounceInOutEasing bounceInOut{};
 
@@ -326,6 +332,7 @@ namespace tweeny::easing {
   * @see circularInOut For circular acceleration and deceleration
   * @see quadraticIn For gentler acceleration
   * @see cubicIn For stronger acceleration
+  * @see Visualize at https://easings.net/#easeInCirc
   */
  inline constexpr detail::circularInEasing circularIn{};
 
@@ -365,6 +372,7 @@ namespace tweeny::easing {
   * @see circularInOut For circular motion at both ends
   * @see quadraticOut For gentler alternative
   * @see cubicOut For more pronounced alternative
+  * @see Visualize at https://easings.net/#easeOutCirc
   */
  inline constexpr detail::circularOutEasing circularOut{};
 
@@ -403,6 +411,7 @@ namespace tweeny::easing {
   * @see circularOut For only deceleration
   * @see quadraticInOut For gentler motion
   * @see cubicInOut For more dramatic motion
+  * @see Visualize at https://easings.net/#easeInOutCirc
   */
  inline constexpr detail::circularInOutEasing circularInOut{};
 
@@ -443,6 +452,7 @@ namespace tweeny::easing {
   * @see cubicInOut For cubic motion at both ends
   * @see quadraticIn For gentler acceleration
   * @see quarticIn For stronger acceleration
+  * @see Visualize at https://easings.net/#easeInCubic
   */
  inline constexpr detail::cubicInEasing cubicIn{};
 
@@ -490,6 +500,7 @@ namespace tweeny::easing {
   * @see cubicInOut For cubic motion at both ends
   * @see quadraticOut For gentler deceleration
   * @see quarticOut For stronger deceleration
+  * @see Visualize at https://easings.net/#easeOutCubic
   */
  inline constexpr detail::cubicOutEasing cubicOut{};
 
@@ -530,6 +541,7 @@ namespace tweeny::easing {
   * @see cubicOut For only deceleration
   * @see quadraticInOut For gentler motion
   * @see quarticInOut For more dramatic motion
+  * @see Visualize at https://easings.net/#easeInOutCubic
   */
  inline constexpr detail::cubicInOutEasing cubicInOut{};
  /**
@@ -601,6 +613,7 @@ namespace tweeny::easing {
   * @see elasticOut For spring-like oscillation at the end
   * @see elasticInOut For oscillation at both start and end
   * @see backIn For a simpler single-overshoot alternative
+  * @see Visualize at https://easings.net/#easeInElastic
   */
  inline constexpr detail::elasticInEasing elasticIn{};
 
@@ -660,6 +673,7 @@ namespace tweeny::easing {
   * @see elasticInOut For oscillation at both ends
   * @see backOut For a subtler single-overshoot alternative
   * @see bounceOut For a similar but impact-based bouncing effect
+  * @see Visualize at https://easings.net/#easeOutElastic
   */
  inline constexpr detail::elasticOutEasing elasticOut{};
 
@@ -719,6 +733,7 @@ namespace tweeny::easing {
   * @see elasticIn For oscillation only at the start
   * @see elasticOut For oscillation only at the end (more commonly useful)
   * @see backInOut For a less extreme but still expressive alternative
+  * @see Visualize at https://easings.net/#easeInOutElastic
   */
  inline constexpr detail::elasticInOutEasing elasticInOut{};
 
@@ -771,6 +786,7 @@ namespace tweeny::easing {
   * @see exponentialOut For explosive deceleration at the end
   * @see exponentialInOut For dramatic acceleration and deceleration
   * @see quarticIn For strong but less extreme acceleration
+  * @see Visualize at https://easings.net/#easeInExpo
   */
  inline constexpr detail::exponentialInEasing exponentialIn{};
 
@@ -822,6 +838,7 @@ namespace tweeny::easing {
   * @see exponentialIn For explosive acceleration at the start
   * @see exponentialInOut For explosive motion at both ends
   * @see quarticOut For strong but less extreme deceleration
+  * @see Visualize at https://easings.net/#easeOutExpo
   */
  inline constexpr detail::exponentialOutEasing exponentialOut{};
 
@@ -877,6 +894,7 @@ namespace tweeny::easing {
   * @see exponentialIn For only explosive acceleration
   * @see exponentialOut For only explosive deceleration
   * @see quinticInOut For slightly less extreme alternative
+  * @see Visualize at https://easings.net/#easeInOutExpo
   */
  inline constexpr detail::exponentialInOutEasing exponentialInOut{};
  /**
@@ -970,6 +988,7 @@ namespace tweeny::easing {
   * @see quadraticOut For gentle deceleration
   * @see quadraticInOut For gentle motion at both ends
   * @see cubicIn For more pronounced acceleration
+  * @see Visualize at https://easings.net/#easeInQuad
   */
  inline constexpr detail::quadraticInEasing quadraticIn{};
 
@@ -1009,6 +1028,7 @@ namespace tweeny::easing {
   * @see quadraticIn For gentle acceleration
   * @see quadraticInOut For gentle motion at both ends
   * @see cubicOut For more pronounced deceleration
+  * @see Visualize at https://easings.net/#easeOutQuad
   */
  inline constexpr detail::quadraticOutEasing quadraticOut{};
 
@@ -1044,6 +1064,7 @@ namespace tweeny::easing {
   * @see quadraticIn For only gentle acceleration
   * @see quadraticOut For only gentle deceleration
   * @see cubicInOut For more pronounced motion
+  * @see Visualize at https://easings.net/#easeInOutQuad
   */
  inline constexpr detail::quadraticInOutEasing quadraticInOut{};
 
@@ -1080,6 +1101,7 @@ namespace tweeny::easing {
   * @see quarticInOut For strong motion at both ends
   * @see cubicIn For gentler acceleration
   * @see quinticIn For even stronger acceleration
+  * @see Visualize at https://easings.net/#easeInQuart
   */
  inline constexpr detail::quarticInEasing quarticIn{};
 
@@ -1119,6 +1141,7 @@ namespace tweeny::easing {
   * @see quarticInOut For strong motion at both ends
   * @see cubicOut For gentler deceleration
   * @see quinticOut For even stronger deceleration
+  * @see Visualize at https://easings.net/#easeOutQuart
   */
  inline constexpr detail::quarticOutEasing quarticOut{};
 
@@ -1155,6 +1178,7 @@ namespace tweeny::easing {
   * @see quarticOut For only strong deceleration
   * @see cubicInOut For gentler motion
   * @see quinticInOut For more dramatic motion
+  * @see Visualize at https://easings.net/#easeInOutQuart
   */
  inline constexpr detail::quarticInOutEasing quarticInOut{};
 
@@ -1191,6 +1215,7 @@ namespace tweeny::easing {
   * @see quinticInOut For very strong motion at both ends
   * @see quarticIn For slightly gentler acceleration
   * @see exponentialIn For even more extreme acceleration
+  * @see Visualize at https://easings.net/#easeInQuint
   */
  inline constexpr detail::quinticInEasing quinticIn{};
 
@@ -1231,6 +1256,7 @@ namespace tweeny::easing {
   * @see quinticInOut For very strong motion at both ends
   * @see quarticOut For slightly gentler deceleration
   * @see exponentialOut For even more extreme deceleration
+  * @see Visualize at https://easings.net/#easeOutQuint
   */
  inline constexpr detail::quinticOutEasing quinticOut{};
 
@@ -1267,6 +1293,7 @@ namespace tweeny::easing {
   * @see quinticOut For only very strong deceleration
   * @see quarticInOut For gentler motion
   * @see exponentialInOut For more extreme motion
+  * @see Visualize at https://easings.net/#easeInOutQuint
   */
  inline constexpr detail::quinticInOutEasing quinticInOut{};
 
@@ -1303,6 +1330,7 @@ namespace tweeny::easing {
   * @see sinusoidalOut For smooth deceleration
   * @see sinusoidalInOut For smooth motion at both ends
   * @see quadraticIn For similar gentleness
+  * @see Visualize at https://easings.net/#easeInSine
   */
  inline constexpr detail::sinusoidalInEasing sinusoidalIn{};
 
@@ -1341,6 +1369,7 @@ namespace tweeny::easing {
   * @see sinusoidalIn For smooth acceleration
   * @see sinusoidalInOut For smooth motion at both ends
   * @see quadraticOut For similar gentleness
+  * @see Visualize at https://easings.net/#easeOutSine
   */
  inline constexpr detail::sinusoidalOutEasing sinusoidalOut{};
 
@@ -1379,6 +1408,7 @@ namespace tweeny::easing {
   * @see sinusoidalIn For only smooth acceleration
   * @see sinusoidalOut For only smooth deceleration
   * @see quadraticInOut For similar gentleness
+  * @see Visualize at https://easings.net/#easeInOutSine
   */
  inline constexpr detail::sinusoidalInOutEasing sinusoidalInOut{};
 
