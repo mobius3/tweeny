@@ -824,10 +824,227 @@ namespace tweeny::easing {
   * @see quarticOut For strong but less extreme deceleration
   */
  inline constexpr detail::exponentialOutEasing exponentialOut{};
+
+ /**
+  * @brief Exponential easing with extreme acceleration and deceleration.
+  *
+  * The `exponentialInOut` easing function combines explosive acceleration in the first
+  * half with explosive deceleration in the second half. This creates one of the most
+  * dramatic, high-energy motion curves available, with rapid changes at both ends and
+  * smooth motion through the middle.
+  *
+  * Motion profile:
+  * - First half: Exponential acceleration from near-zero velocity
+  * - Midpoint: Maximum velocity
+  * - Second half: Exponential deceleration to rest
+  * - Creates extreme S-curve shape
+  *
+  * This easing is appropriate for:
+  * - **High-impact transitions**: Scene changes, screen swipes
+  * - **Dramatic animations**: Hero elements, focal content
+  * - **Fast-paced interfaces**: Games, action-oriented apps
+  * - **Attention-grabbing motion**: Elements that need maximum visibility
+  * - **Strong transitions**: For elements moving significant distances or longer durations (500ms+)
+  *
+  * ExponentialInOut creates a powerful sense of momentum and energy. The motion feels
+  * purposeful and confident. However, the extreme acceleration can be disorienting if
+  * overused or applied to large elements.
+  *
+  * Best practices:
+  * - Use for animations under 1 second duration
+  * - Apply to elements that move short to medium distances
+  * - Reserve for important, infrequent transitions
+  * - Consider quarticInOut or quinticInOut as less extreme alternatives
+  *
+  * Mathematically: Combines exponentialIn for t < 0.5 and exponentialOut for t >= 0.5
+  *
+  * @code
+  * // Page transition with explosive motion
+  * auto position = tweeny::from(0.0f)
+  *   .to(1920.0f)
+  *   .via(easing::exponentialInOut)
+  *   .during(40U)
+  *   .build();
+  *
+  * // Modal dialog with dramatic appearance
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::exponentialInOut)
+  *   .during(30U)
+  *   .build();
+  * @endcode
+  *
+  * @see exponentialIn For only explosive acceleration
+  * @see exponentialOut For only explosive deceleration
+  * @see quinticInOut For slightly less extreme alternative
+  */
  inline constexpr detail::exponentialInOutEasing exponentialInOut{};
+ /**
+  * @brief Linear easing function with constant velocity throughout the animation.
+  *
+  * The `linear` easing function produces uniform motion with no acceleration or deceleration.
+  * The interpolation progresses at a constant rate from start to finish, creating mechanical,
+  * predictable movement.
+  *
+  * Linear easing is characterized by:
+  * - Constant velocity: the rate of change never varies
+  * - No ease-in or ease-out: motion starts and stops abruptly
+  * - Simple mathematical relationship: output = start + (end - start) * progress
+  * - Predictable timing: halfway through time means halfway through distance
+  *
+  * This easing is appropriate for:
+  * - **Mechanical objects**: Conveyor belts, pistons, automated systems
+  * - **Progress indicators**: Loading bars, timers, countdowns
+  * - **Continuous loops**: Rotating objects, scrolling backgrounds
+  * - **Data visualization**: Graph animations where consistency is important
+  * - **Debug and testing**: Predictable behavior for verification
+  *
+  * Linear easing is generally **not recommended** for most UI animations because:
+  * - Lacks the natural feel of acceleration/deceleration
+  * - Abrupt starts and stops can feel jarring
+  * - Missing visual polish that easing provides
+  * - Human perception expects objects to ease into and out of motion
+  *
+  * However, it serves as the foundation for all other easing functions and is essential
+  * when mechanical precision is more important than natural motion feel.
+  *
+  * Mathematically, this implements: `f(t) = t` where t is normalized progress [0, 1].
+  *
+  * @code
+  * // Constant velocity scrolling background
+  * auto scroll = tweeny::from(0.0f)
+  *   .to(1000.0f)
+  *   .via(easing::linear)
+  *   .during(600U)
+  *   .build();
+  *
+  * // Progress indicator that matches time exactly
+  * auto progress = tweeny::from(0)
+  *   .to(100)
+  *   .via(easing::linear)
+  *   .during(100U)
+  *   .build();
+  *
+  * // At frame 50, progress will be exactly 50
+  * @endcode
+  *
+  * @note Linear is the default easing when no via() is specified, though using def is
+  * more explicit in code.
+  *
+  * @see def Alias for linear easing
+  * @see quadraticInOut For a gentle alternative with ease-in and ease-out
+  * @see sinusoidalInOut For smooth, natural-feeling motion
+  */
  inline constexpr detail::linearEasing linear{};
+
+ /**
+  * @brief Quadratic polynomial easing (t²) with gentle acceleration.
+  *
+  * The `quadraticIn` easing function uses a squared power curve for acceleration,
+  * providing the gentlest polynomial easing. It's more subtle than cubic but still
+  * provides noticeable easing.
+  *
+  * Characteristics:
+  * - Gentle, smooth acceleration
+  * - Polynomial with power of 2
+  * - Subtle but perceptible easing
+  * - Good for beginners and subtle animations
+  *
+  * This easing is ideal for:
+  * - **Subtle UI motion**: When easing should be felt but not seen
+  * - **Quick animations**: Short durations where gentle curves work best
+  * - **Minimal designs**: Interfaces prioritizing restraint
+  * - **Learning easings**: Easy to understand and predict
+  *
+  * Mathematically: `f(t) = t²`
+  *
+  * @code
+  * // Gentle fade in
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::quadraticIn)
+  *   .during(20U)
+  *   .build();
+  * @endcode
+  *
+  * @see quadraticOut For gentle deceleration
+  * @see quadraticInOut For gentle motion at both ends
+  * @see cubicIn For more pronounced acceleration
+  */
  inline constexpr detail::quadraticInEasing quadraticIn{};
+
+ /**
+  * @brief Quadratic polynomial easing (t²) with gentle deceleration.
+  *
+  * The `quadraticOut` easing function provides subtle, smooth deceleration. It's the
+  * gentlest polynomial easing, perfect when you want polish without drama.
+  *
+  * Characteristics:
+  * - Gentle, smooth deceleration
+  * - Subtle but professional feel
+  * - Never feels too slow or too fast
+  * - Safe choice for any context
+  *
+  * This easing excels at:
+  * - **Subtle UI polish**: Adding refinement without drawing attention
+  * - **Fast animations**: 100-200ms durations
+  * - **Minimal interfaces**: Clean, understated design systems
+  * - **Accessibility-friendly**: Gentle motion reduces disorientation
+  * - **Background animations**: Motion that shouldn't distract
+  *
+  * QuadraticOut is great when you want animations to stay out of the way. It's less
+  * dramatic than cubic but smoother than linear due to gradual deceleration.
+  *
+  * Mathematically: `f(t) = 1 - (1-t)²`
+  *
+  * @code
+  * // Subtle tooltip appearance
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::quadraticOut)
+  *   .during(15U)
+  *   .build();
+  * @endcode
+  *
+  * @see quadraticIn For gentle acceleration
+  * @see quadraticInOut For gentle motion at both ends
+  * @see cubicOut For more pronounced deceleration
+  */
  inline constexpr detail::quadraticOutEasing quadraticOut{};
+
+ /**
+  * @brief Quadratic polynomial easing with gentle acceleration and deceleration.
+  *
+  * The `quadraticInOut` easing function provides the most subtle polynomial S-curve.
+  * Perfect for animations that need easing but should remain understated.
+  *
+  * Motion profile:
+  * - First half: Gentle acceleration (t²)
+  * - Midpoint: Maximum velocity
+  * - Second half: Gentle deceleration
+  * - Creates subtle S-curve
+  *
+  * This easing is appropriate for:
+  * - **Minimal design systems**: Understated, refined motion
+  * - **Fast animations**: Under 200ms where gentle curves shine
+  * - **Accessibility**: Motion-sensitive users
+  * - **Background motion**: Animations that shouldn't dominate
+  *
+  * Mathematically: Combines quadraticIn for t < 0.5 and quadraticOut for t >= 0.5
+  *
+  * @code
+  * // Subtle menu transition
+  * auto x = tweeny::from(0.0f)
+  *   .to(100.0f)
+  *   .via(easing::quadraticInOut)
+  *   .during(20U)
+  *   .build();
+  * @endcode
+  *
+  * @see quadraticIn For only gentle acceleration
+  * @see quadraticOut For only gentle deceleration
+  * @see cubicInOut For more pronounced motion
+  */
  inline constexpr detail::quadraticInOutEasing quadraticInOut{};
  inline constexpr detail::quarticInEasing quarticIn{};
  inline constexpr detail::quarticOutEasing quarticOut{};
