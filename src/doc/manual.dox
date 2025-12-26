@@ -201,7 +201,7 @@ namespace tweeny {
  @endcode
 
  The resulting tween seamlessly transitions through all keyframes. Navigation methods like `step()` and `seek()` work transparently
- across keyframe boundaries - Tweeny automatically handles transitions between segments.
+ across keyframe boundaries.
 
  @section navigation Navigating Tweens
 
@@ -209,7 +209,7 @@ namespace tweeny {
 
  @subsection step Stepping
 
- **Stepping** moves the tween by a relative amount (delta). This is the primary method for frame-by-frame interpolation in game loops:
+ @b Stepping moves the tween by a relative amount (delta). This is the primary method for frame-by-frame interpolation in game loops:
 
  @code
  auto tween = tweeny::from(0).to(100).during(1000U).build();
@@ -219,7 +219,7 @@ namespace tweeny {
  }
  @endcode
 
- `step()` accepts a signed 32-bit integer (`int32_t`). Positive values move forward, negative values move backward:
+ step() accepts a signed 32-bit integer (`int32_t`). Positive values move forward, negative values move backward:
 
  @code
  tween.step(10);   // Move forward 10 frames
@@ -228,7 +228,7 @@ namespace tweeny {
 
  @subsection seek Seeking
 
- **Seeking** jumps to an absolute frame position. Useful for scrubbing or jumping to specific points:
+ @b Seeking jumps to an absolute frame position. Useful for scrubbing or jumping to specific points:
 
  @code
  auto tween = tweeny::from(0).to(100).during(1000U).build();
@@ -236,12 +236,12 @@ namespace tweeny {
  tween.seek(0U);     // Jump back to start
  @endcode
 
- `seek()` accepts an unsigned 32-bit integer (`uint32_t`) representing the absolute frame number. Values are clamped to the
+ seek() accepts an unsigned 32-bit integer (`uint32_t`) representing the absolute frame number. Values are clamped to the
  valid range `[0, total_duration]`.
 
  @subsection jump Jumping to Keyframes
 
- **Jumping** moves directly to a keyframe by its index (0-based). This is useful for multi-point interpolations:
+ @b Jumping moves directly to a keyframe by its index (0-based). This is useful for multi-point interpolations:
 
  @code
  auto tween = tweeny::from(0).to(100).during(100U).to(200).during(100U).build();
@@ -285,7 +285,7 @@ namespace tweeny {
 
  @section events Event System
 
- Tweeny provides an event system for reacting to interpolation lifecycle events. Register callbacks using the `on()` method with
+ Tweeny provides an event system for reacting to interpolation lifecycle events. Register callbacks using the tween::on() method with
  an event type tag.
 
  @subsection event_types Event Types

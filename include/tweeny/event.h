@@ -100,6 +100,8 @@ namespace tweeny::event {
    *   return tweeny::event::response::ok;
    * });
    * @endcode
+   *
+   * @anchor step
    */
   inline struct step_t {} step;
 
