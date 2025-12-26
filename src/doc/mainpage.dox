@@ -136,8 +136,7 @@ auto mixed = tweeny::from(0, 0)
 @section resources Resources
 
 - <a href="https://github.com/mobius3/tweeny">GitHub Repository</a>
-- <a href="https://github.com/mobius3/tweeny-demos">Demo Applications</a>
-- <a href="http://easings.net/">Easing Function Cheat Sheet</a>
+- <a href="http://easings.net/">Easing visualizations, a very useful tool</a>
 
 @section license License
 
