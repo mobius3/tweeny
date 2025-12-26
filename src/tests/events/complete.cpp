@@ -1,7 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <tweeny/tweeny.h>
 
-TEST_CASE("complete event - triggered when reaching end via step", "[event][complete]") {
+TEST_CASE("event::complete - triggered when reaching end via step", "[event][complete]") {
   auto t = tweeny::from(0).to(100).during(100U).build();
 
   bool completed = false;
@@ -19,7 +19,7 @@ TEST_CASE("complete event - triggered when reaching end via step", "[event][comp
   REQUIRE(completed);
 }
 
-TEST_CASE("complete event - triggered when reaching end via seek", "[event][complete]") {
+TEST_CASE("event::complete - triggered when reaching end via seek", "[event][complete]") {
   auto t = tweeny::from(0).to(100).during(100U).build();
 
   bool completed = false;
@@ -32,7 +32,7 @@ TEST_CASE("complete event - triggered when reaching end via seek", "[event][comp
   REQUIRE(completed);
 }
 
-TEST_CASE("complete event - triggered when jumping to last keyframe", "[event][complete]") {
+TEST_CASE("event::complete - triggered when jumping to last keyframe", "[event][complete]") {
   auto t = tweeny::from(0).to(50).during(50U).to(100).during(50U).build();
 
   bool completed = false;
@@ -45,7 +45,7 @@ TEST_CASE("complete event - triggered when jumping to last keyframe", "[event][c
   REQUIRE(completed);
 }
 
-TEST_CASE("complete event - not triggered when not at end", "[event][complete]") {
+TEST_CASE("event::complete - not triggered when not at end", "[event][complete]") {
   auto t = tweeny::from(0).to(100).during(100U).build();
 
   bool completed = false;
@@ -61,7 +61,7 @@ TEST_CASE("complete event - not triggered when not at end", "[event][complete]")
   REQUIRE_FALSE(completed);
 }
 
-TEST_CASE("complete event - can unsubscribe", "[event][complete]") {
+TEST_CASE("event::complete - can unsubscribe", "[event][complete]") {
   auto t = tweeny::from(0).to(100).during(100U).build();
 
   int call_count = 0;
@@ -79,7 +79,7 @@ TEST_CASE("complete event - can unsubscribe", "[event][complete]") {
   REQUIRE(call_count == 1);  // Should still be 1
 }
 
-TEST_CASE("complete event - multiple listeners", "[event][complete]") {
+TEST_CASE("event::complete - multiple listeners", "[event][complete]") {
   auto t = tweeny::from(0).to(100).during(100U).build();
 
   int listener1_count = 0;
@@ -100,7 +100,7 @@ TEST_CASE("complete event - multiple listeners", "[event][complete]") {
   REQUIRE(listener2_count == 1);
 }
 
-TEST_CASE("complete event - triggered on exact completion", "[event][complete]") {
+TEST_CASE("event::complete - triggered on exact completion", "[event][complete]") {
   auto t = tweeny::from(0).to(100).during(100U).build();
 
   bool completed = false;

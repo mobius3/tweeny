@@ -58,6 +58,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::seek(const uint32_t 
 
   invoke_keyframe_listeners(old_keyframe_index, new_keyframe_index);
   invoke_listeners(seek_listeners);
+  invoke_listeners(update_listeners);
 
   if (progress() >= 1.0f) {
     invoke_listeners(complete_listeners);
@@ -78,6 +79,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::jump(std::size_t tar
 
   invoke_keyframe_listeners(old_keyframe_index, target_key_frame);
   invoke_listeners(jump_listeners);
+  invoke_listeners(update_listeners);
 
   if (progress() >= 1.0f) {
     invoke_listeners(complete_listeners);
@@ -107,6 +109,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t f
 
   invoke_keyframe_listeners(old_keyframe_index, new_keyframe_index);
   invoke_listeners(step_listeners);
+  invoke_listeners(update_listeners);
 
   if (progress() >= 1.0f) {
     invoke_listeners(complete_listeners);
@@ -117,7 +120,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::step(const int32_t f
 
 template <typename FirstValueType, typename ... RemainingValueTypes>
 template <typename Callback>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::step_t, Callback && cb) -> void {
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(detail::event::step_t, Callback && cb) -> void {
   using result_t = std::invoke_result_t<Callback, tween&>;
   static_assert(std::is_same_v<result_t, event::response>,
                 "step callback must return tweeny::event::response");
@@ -126,7 +129,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::step_t, Ca
 
 template <typename FirstValueType, typename ... RemainingValueTypes>
 template <typename Callback>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::seek_t, Callback && cb) -> void {
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(detail::event::seek_t, Callback && cb) -> void {
   using result_t = std::invoke_result_t<Callback, tween&>;
   static_assert(std::is_same_v<result_t, event::response>,
                 "seek callback must return tweeny::event::response");
@@ -135,7 +138,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::seek_t, Ca
 
 template <typename FirstValueType, typename ... RemainingValueTypes>
 template <typename Callback>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::jump_t, Callback && cb) -> void {
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(detail::event::jump_t, Callback && cb) -> void {
   using result_t = std::invoke_result_t<Callback, tween&>;
   static_assert(std::is_same_v<result_t, event::response>,
                 "jump callback must return tweeny::event::response");
@@ -144,7 +147,7 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::jump_t, Ca
 
 template <typename FirstValueType, typename ... RemainingValueTypes>
 template <typename Callback>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::complete_t, Callback && cb) -> void {
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(detail::event::complete_t, Callback && cb) -> void {
   using result_t = std::invoke_result_t<Callback, tween&>;
   static_assert(std::is_same_v<result_t, event::response>,
                 "complete callback must return tweeny::event::response");
@@ -153,8 +156,8 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::complete_t
 
 template <typename FirstValueType, typename ... RemainingValueTypes>
 template <typename Callback>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::keyframeEnter_t, Callback && cb) -> void {
-  using result_t = std::invoke_result_t<Callback, tween&, struct event::keyframeEnter>;
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(detail::event::keyframeEnter_t, Callback && cb) -> void {
+  using result_t = std::invoke_result_t<Callback, tween&, event::keyframeEnter>;
   static_assert(std::is_same_v<result_t, event::response>,
                 "keyframeEnter callback must return tweeny::event::response");
   keyframe_enter_listeners.emplace_back(std::forward<Callback>(cb));
@@ -162,11 +165,20 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::keyframeEn
 
 template <typename FirstValueType, typename ... RemainingValueTypes>
 template <typename Callback>
-auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(event::keyframeLeave_t, Callback && cb) -> void {
-  using result_t = std::invoke_result_t<Callback, tween&, struct event::keyframeLeave>;
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(detail::event::keyframeLeave_t, Callback && cb) -> void {
+  using result_t = std::invoke_result_t<Callback, tween&, event::keyframeLeave>;
   static_assert(std::is_same_v<result_t, event::response>,
                 "keyframeLeave callback must return tweeny::event::response");
   keyframe_leave_listeners.emplace_back(std::forward<Callback>(cb));
+}
+
+template <typename FirstValueType, typename ... RemainingValueTypes>
+template <typename Callback>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::on(detail::event::update_t, Callback && cb) -> void {
+  using result_t = std::invoke_result_t<Callback, tween&>;
+  static_assert(std::is_same_v<result_t, event::response>,
+                "update callback must return tweeny::event::response");
+  update_listeners.emplace_back(std::forward<Callback>(cb));
 }
 
 template <typename FirstValueType, typename... RemainingValueTypes>

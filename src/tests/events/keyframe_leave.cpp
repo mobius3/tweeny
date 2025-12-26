@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <catch2/catch_test_macros.hpp>
 #include "tweeny/tweeny.h"
 
-TEST_CASE("keyframeLeave event triggers when leaving a keyframe via step") {
+TEST_CASE("event::keyframeLeave - triggers when leaving a keyframe via step", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t left_keyframe = 999;
   int call_count = 0;
@@ -42,7 +42,7 @@ TEST_CASE("keyframeLeave event triggers when leaving a keyframe via step") {
   REQUIRE(left_keyframe == 0);
 }
 
-TEST_CASE("keyframeLeave event triggers when leaving a keyframe via seek") {
+TEST_CASE("event::keyframeLeave - triggers when leaving a keyframe via seek", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t left_keyframe = 999;
   int call_count = 0;
@@ -59,7 +59,7 @@ TEST_CASE("keyframeLeave event triggers when leaving a keyframe via seek") {
   REQUIRE(left_keyframe == 0);
 }
 
-TEST_CASE("keyframeLeave event triggers when leaving a keyframe via jump") {
+TEST_CASE("event::keyframeLeave - triggers when leaving a keyframe via jump", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t left_keyframe = 999;
   int call_count = 0;
@@ -76,7 +76,7 @@ TEST_CASE("keyframeLeave event triggers when leaving a keyframe via jump") {
   REQUIRE(left_keyframe == 0);
 }
 
-TEST_CASE("keyframeLeave event does not trigger when staying in the same keyframe") {
+TEST_CASE("event::keyframeLeave - does not trigger when staying in the same keyframe", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   int call_count = 0;
 
@@ -92,7 +92,7 @@ TEST_CASE("keyframeLeave event does not trigger when staying in the same keyfram
   REQUIRE(call_count == 0);
 }
 
-TEST_CASE("keyframeLeave event triggers for the correct keyframe in multi-keyframe tween") {
+TEST_CASE("event::keyframeLeave - triggers for the correct keyframe in multi-keyframe tween", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(25).during(10U).to(50).during(10U).to(75).during(10U).to(100).during(10U).build();
   std::vector<std::size_t> left_keyframes;
 
@@ -111,7 +111,7 @@ TEST_CASE("keyframeLeave event triggers for the correct keyframe in multi-keyfra
   REQUIRE(left_keyframes[2] == 2);
 }
 
-TEST_CASE("keyframeLeave event can unsubscribe") {
+TEST_CASE("event::keyframeLeave - can unsubscribe", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   int call_count = 0;
 
@@ -127,7 +127,7 @@ TEST_CASE("keyframeLeave event can unsubscribe") {
   REQUIRE(call_count == 1);
 }
 
-TEST_CASE("keyframeLeave event triggers when stepping backward into a different keyframe") {
+TEST_CASE("event::keyframeLeave - triggers when stepping backward into a different keyframe", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t left_keyframe = 999;
   int call_count = 0;
@@ -146,7 +146,7 @@ TEST_CASE("keyframeLeave event triggers when stepping backward into a different 
   REQUIRE(left_keyframe == 1);
 }
 
-TEST_CASE("keyframeLeave and keyframeEnter events trigger in correct order") {
+TEST_CASE("event::keyframeLeave - leave and enter events trigger in correct order", "[event][keyframeLeave]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::vector<std::string> event_order;
 

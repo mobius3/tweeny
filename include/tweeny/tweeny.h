@@ -42,6 +42,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <type_traits>
 
 #include "detail/tuple-utilities.h"
+#include "event.h"
+#include "easing.h"
 
 /**
  * @namespace tweeny

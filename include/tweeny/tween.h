@@ -48,7 +48,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "detail/key-frame.h"
 #include "detail/tween-value.h"
-#include "event.h"
+#include "detail/event.h"
 
 namespace tweeny {
   /**
@@ -214,7 +214,7 @@ namespace tweeny {
        * t.step(10);  // Prints: "Stepped to: 10"
        * @endcode
        */
-      template <typename Callback> auto on(event::step_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(detail::event::step_t, Callback&& cb) -> void ;
 
       /**
        * @brief Registers a callback for seek() events.
@@ -230,7 +230,7 @@ namespace tweeny {
        * });
        * @endcode
        */
-      template <typename Callback> auto on(event::seek_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(detail::event::seek_t, Callback&& cb) -> void ;
 
       /**
        * @brief Registers a callback for jump() events.
@@ -246,7 +246,7 @@ namespace tweeny {
        * });
        * @endcode
        */
-      template <typename Callback> auto on(event::jump_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(detail::event::jump_t, Callback&& cb) -> void ;
 
       /**
        * @brief Registers a callback for animation completion.
@@ -265,7 +265,7 @@ namespace tweeny {
        * t.seek(100U);  // Triggers complete event
        * @endcode
        */
-      template <typename Callback> auto on(event::complete_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(detail::event::complete_t, Callback&& cb) -> void ;
 
       /**
        * @brief Registers a callback for entering a keyframe.
@@ -284,7 +284,7 @@ namespace tweeny {
        * t.step(31);  // Triggers: "Entered keyframe 1"
        * @endcode
        */
-      template <typename Callback> auto on(event::keyframeEnter_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(detail::event::keyframeEnter_t, Callback&& cb) -> void ;
 
       /**
        * @brief Registers a callback for leaving a keyframe.
@@ -303,7 +303,27 @@ namespace tweeny {
        * t.step(31);  // Triggers: "Left keyframe 0"
        * @endcode
        */
-      template <typename Callback> auto on(event::keyframeLeave_t, Callback&& cb) -> void ;
+      template <typename Callback> auto on(detail::event::keyframeLeave_t, Callback&& cb) -> void ;
+
+      /**
+       * @brief Registers a callback for any position update (step, seek, or jump).
+       *
+       * The callback is invoked after step(), seek(), or jump() calls. This is a convenience
+       * event for monitoring all position changes from a single callback.
+       *
+       * @param cb Callback with signature: event::response(tween&)
+       *
+       * @code
+       * auto t = tweeny::from(0).to(100).during(60U).build();
+       * t.on(event::update, [](auto& tween) {
+       *   printf("Tween updated to: %d\n", tween.peek());
+       *   return event::response::ok;
+       * });
+       * t.step(10);  // Triggers update
+       * t.seek(50U); // Triggers update
+       * @endcode
+       */
+      template <typename Callback> auto on(detail::event::update_t, Callback&& cb) -> void ;
 
     private:
       using callback_t = std::function<event::response(tween&)>;
@@ -318,6 +338,7 @@ namespace tweeny {
       std::vector<callback_t> seek_listeners;
       std::vector<callback_t> jump_listeners;
       std::vector<callback_t> complete_listeners;
+      std::vector<callback_t> update_listeners;
       std::vector<keyframe_enter_callback_t> keyframe_enter_listeners;
       std::vector<keyframe_leave_callback_t> keyframe_leave_listeners;
 

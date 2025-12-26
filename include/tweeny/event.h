@@ -244,6 +244,40 @@ namespace tweeny::event {
    * @see keyframeLeave For the event data struct
    */
   inline constexpr detail::event::keyframeLeave_t keyframeLeave{};
+
+  /**
+   * @brief Event triggered whenever the tween position changes.
+   *
+   * Fires after any step(), seek(), or jump() call. This is a convenience event
+   * that consolidates all position update events into a single callback point.
+   *
+   * Common use cases:
+   * - Updating visuals regardless of how the tween changed
+   * - Monitoring all tween changes from one place
+   * - Logging every position update
+   * - Synchronizing with external systems
+   * - Implementing universal change handlers
+   *
+   * @note This event fires **after** the specific event (step, seek, or jump) and
+   * **before** the complete event if applicable.
+   *
+   * @code
+   * auto tween = tweeny::from(0).to(100).during(60U).build();
+   * tween.on(tweeny::event::update, [](auto& t) {
+   *   printf("Tween updated to: %d\n", t.peek());
+   *   return tweeny::event::response::ok;
+   * });
+   *
+   * tween.step(10);  // Triggers update
+   * tween.seek(50U); // Triggers update
+   * tween.jump(1);   // Triggers update
+   * @endcode
+   *
+   * @see step For frame-by-frame updates
+   * @see seek For arbitrary frame jumps
+   * @see jump For keyframe jumps
+   */
+  inline constexpr detail::event::update_t update{};
 }
 
 #endif //TWEENY_EVENT_H

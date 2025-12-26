@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <catch2/catch_test_macros.hpp>
 #include "tweeny/tweeny.h"
 
-TEST_CASE("keyframeEnter event triggers when entering a new keyframe via step") {
+TEST_CASE("event::keyframeEnter - triggers when entering a new keyframe via step", "[event][keyframeEnter]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t entered_keyframe = 999;
   int call_count = 0;
@@ -42,7 +42,7 @@ TEST_CASE("keyframeEnter event triggers when entering a new keyframe via step") 
   REQUIRE(entered_keyframe == 1);
 }
 
-TEST_CASE("keyframeEnter event triggers when entering a new keyframe via seek") {
+TEST_CASE("event::keyframeEnter - triggers when entering a new keyframe via seek", "[event][keyframeEnter]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t entered_keyframe = 999;
   int call_count = 0;
@@ -59,7 +59,7 @@ TEST_CASE("keyframeEnter event triggers when entering a new keyframe via seek") 
   REQUIRE(entered_keyframe == 1);
 }
 
-TEST_CASE("keyframeEnter event triggers when entering a new keyframe via jump") {
+TEST_CASE("event::keyframeEnter - triggers when entering a new keyframe via jump", "[event][keyframeEnter]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t entered_keyframe = 999;
   int call_count = 0;
@@ -76,7 +76,7 @@ TEST_CASE("keyframeEnter event triggers when entering a new keyframe via jump") 
   REQUIRE(entered_keyframe == 1);
 }
 
-TEST_CASE("keyframeEnter event does not trigger when staying in the same keyframe") {
+TEST_CASE("event::keyframeEnter - does not trigger when staying in the same keyframe", "[event][keyframeEnter]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   int call_count = 0;
 
@@ -92,7 +92,7 @@ TEST_CASE("keyframeEnter event does not trigger when staying in the same keyfram
   REQUIRE(call_count == 0);
 }
 
-TEST_CASE("keyframeEnter event triggers for the correct keyframe in multi-keyframe tween") {
+TEST_CASE("event::keyframeEnter - triggers for the correct keyframe in multi-keyframe tween", "[event][keyframeEnter]") {
   auto t = tweeny::from(0).to(25).during(10U).to(50).during(10U).to(75).during(10U).to(100).during(10U).build();
   std::vector<std::size_t> entered_keyframes;
 
@@ -111,7 +111,7 @@ TEST_CASE("keyframeEnter event triggers for the correct keyframe in multi-keyfra
   REQUIRE(entered_keyframes[2] == 3);
 }
 
-TEST_CASE("keyframeEnter event can unsubscribe") {
+TEST_CASE("event::keyframeEnter - can unsubscribe", "[event][keyframeEnter]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   int call_count = 0;
 
@@ -127,7 +127,7 @@ TEST_CASE("keyframeEnter event can unsubscribe") {
   REQUIRE(call_count == 1);
 }
 
-TEST_CASE("keyframeEnter event triggers when stepping backward into a different keyframe") {
+TEST_CASE("event::keyframeEnter - triggers when stepping backward into a different keyframe", "[event][keyframeEnter]") {
   auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
   std::size_t entered_keyframe = 999;
   int call_count = 0;
