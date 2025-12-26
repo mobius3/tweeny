@@ -12,6 +12,8 @@ add_executable(tweeny_tests
     events/seek.cpp
     events/jump.cpp
     events/complete.cpp
+    events/keyframe_enter.cpp
+    events/keyframe_leave.cpp
 )
 
 target_compile_features(tweeny_tests PRIVATE cxx_std_17)

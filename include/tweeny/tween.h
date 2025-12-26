@@ -267,18 +267,62 @@ namespace tweeny {
        */
       template <typename Callback> auto on(event::complete_t, Callback&& cb) -> void ;
 
+      /**
+       * @brief Registers a callback for entering a keyframe.
+       *
+       * The callback is invoked when the tween transitions into a new keyframe section.
+       * Receives the tween reference and event data containing the keyframe index.
+       *
+       * @param cb Callback with signature: event::response(tween&, event::keyframeEnter)
+       *
+       * @code
+       * auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
+       * t.on(event::keyframeEnter, [](auto& tween, auto evt) {
+       *   printf("Entered keyframe %zu\n", evt.key_frame);
+       *   return event::response::ok;
+       * });
+       * t.step(31);  // Triggers: "Entered keyframe 1"
+       * @endcode
+       */
+      template <typename Callback> auto on(event::keyframeEnter_t, Callback&& cb) -> void ;
+
+      /**
+       * @brief Registers a callback for leaving a keyframe.
+       *
+       * The callback is invoked when the tween transitions out of a keyframe section.
+       * Receives the tween reference and event data containing the keyframe index.
+       *
+       * @param cb Callback with signature: event::response(tween&, event::keyframeLeave)
+       *
+       * @code
+       * auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
+       * t.on(event::keyframeLeave, [](auto& tween, auto evt) {
+       *   printf("Left keyframe %zu\n", evt.key_frame);
+       *   return event::response::ok;
+       * });
+       * t.step(31);  // Triggers: "Left keyframe 0"
+       * @endcode
+       */
+      template <typename Callback> auto on(event::keyframeLeave_t, Callback&& cb) -> void ;
+
     private:
       using callback_t = std::function<event::response(tween&)>;
+      using keyframe_enter_callback_t = std::function<event::response(tween&, struct event::keyframeEnter)>;
+      using keyframe_leave_callback_t = std::function<event::response(tween&, struct event::keyframeLeave)>;
 
       key_frames_t key_frames;
       uint32_t current_frame = 0;
       tween_value_t current_value;
+      std::size_t current_keyframe_index = 0;
       std::vector<callback_t> step_listeners;
       std::vector<callback_t> seek_listeners;
       std::vector<callback_t> jump_listeners;
       std::vector<callback_t> complete_listeners;
+      std::vector<keyframe_enter_callback_t> keyframe_enter_listeners;
+      std::vector<keyframe_leave_callback_t> keyframe_leave_listeners;
 
       auto invoke_listeners(std::vector<callback_t>& listeners) -> void;
+      auto invoke_keyframe_listeners(std::size_t old_keyframe_index, std::size_t new_keyframe_index) -> void;
       auto render(uint32_t target_frame) const -> tween_value_t;
       [[nodiscard]] auto find_key_frame_index(uint32_t frame) const -> std::size_t;
   };
