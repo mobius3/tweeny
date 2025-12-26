@@ -405,11 +405,262 @@ namespace tweeny::easing {
   * @see cubicInOut For more dramatic motion
   */
  inline constexpr detail::circularInOutEasing circularInOut{};
+
+ /**
+  * @brief Cubic polynomial easing (t³) with moderate acceleration.
+  *
+  * The `cubicIn` easing function uses a cubic power curve for acceleration, providing
+  * smooth, noticeable easing that's more pronounced than quadratic but less extreme
+  * than quartic or exponential.
+  *
+  * Characteristics:
+  * - Polynomial acceleration with power of 3
+  * - Balanced between gentle and dramatic
+  * - Widely used and well-understood
+  * - Good default for many animation types
+  *
+  * This easing is ideal for:
+  * - **Standard UI animations**: Menus, panels, overlays
+  * - **Easing beginners**: Easy to understand and predict
+  * - **General-purpose acceleration**: Versatile for many contexts
+  * - **Medium-length animations**: 200-500ms durations
+  *
+  * CubicIn is a popular choice because it provides clear easing without being subtle
+  * (like quadratic) or extreme (like quartic/exponential).
+  *
+  * Mathematically: `f(t) = t³`
+  *
+  * @code
+  * // Dropdown menu opening
+  * auto height = tweeny::from(0.0f)
+  *   .to(200.0f)
+  *   .via(easing::cubicIn)
+  *   .during(30U)
+  *   .build();
+  * @endcode
+  *
+  * @see cubicOut For cubic deceleration
+  * @see cubicInOut For cubic motion at both ends
+  * @see quadraticIn For gentler acceleration
+  * @see quarticIn For stronger acceleration
+  */
  inline constexpr detail::cubicInEasing cubicIn{};
+
+ /**
+  * @brief Cubic polynomial easing (t³) with moderate deceleration.
+  *
+  * The `cubicOut` easing function provides smooth, balanced deceleration that's popular
+  * across many design systems. It's pronounced enough to be noticeable but not dramatic.
+  *
+  * Characteristics:
+  * - Smooth, natural-feeling deceleration
+  * - More pronounced than quadratic, gentler than quartic
+  * - Industry-standard motion curve
+  * - Works well for most animation types
+  *
+  * This easing excels at:
+  * - **Web interfaces**: Following CSS animation best practices
+  * - **Mobile UI**: iOS and Android design patterns
+  * - **Content animations**: Cards, lists, grids
+  * - **Default easing choice**: Safe for most situations
+  * - **User-triggered actions**: Button presses, toggles, switches
+  *
+  * CubicOut is one of the most commonly used easings in production interfaces. It
+  * provides clear polish without drawing excessive attention to the motion itself.
+  *
+  * Mathematically: `f(t) = 1 - (1-t)³`
+  *
+  * @code
+  * // Button press feedback
+  * auto scale = tweeny::from(1.0f)
+  *   .to(0.95f)
+  *   .via(easing::cubicOut)
+  *   .during(10U)
+  *   .build();
+  *
+  * // Card appearing
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::cubicOut)
+  *   .during(25U)
+  *   .build();
+  * @endcode
+  *
+  * @see cubicIn For cubic acceleration
+  * @see cubicInOut For cubic motion at both ends
+  * @see quadraticOut For gentler deceleration
+  * @see quarticOut For stronger deceleration
+  */
  inline constexpr detail::cubicOutEasing cubicOut{};
+
+ /**
+  * @brief Cubic polynomial easing with balanced acceleration and deceleration.
+  *
+  * The `cubicInOut` easing function combines cubic acceleration and deceleration for
+  * smooth, professional motion. This is one of the most popular general-purpose easings.
+  *
+  * Motion profile:
+  * - First half: Cubic acceleration (t³)
+  * - Midpoint: Maximum velocity
+  * - Second half: Cubic deceleration
+  * - Creates smooth, balanced S-curve
+  *
+  * This easing is appropriate for:
+  * - **All-purpose animations**: When in doubt, use this
+  * - **Web standards**: CSS ease-in-out equivalent
+  * - **Design system defaults**: Common in component libraries
+  * - **Cross-platform consistency**: Works well everywhere
+  * - **Medium animations**: 200-500ms sweet spot
+  *
+  * CubicInOut is frequently the default easing in design systems and animation libraries
+  * because it provides clear, professional motion that works for most scenarios.
+  *
+  * Mathematically: Combines cubicIn for t < 0.5 and cubicOut for t >= 0.5
+  *
+  * @code
+  * // Page transition
+  * auto x = tweeny::from(0.0f)
+  *   .to(1920.0f)
+  *   .via(easing::cubicInOut)
+  *   .during(40U)
+  *   .build();
+  * @endcode
+  *
+  * @see cubicIn For only acceleration
+  * @see cubicOut For only deceleration
+  * @see quadraticInOut For gentler motion
+  * @see quarticInOut For more dramatic motion
+  */
  inline constexpr detail::cubicInOutEasing cubicInOut{};
+ /**
+  * @brief Default easing function, alias for linear easing.
+  *
+  * The `def` easing is a convenience alias for `linear`, providing the same constant-velocity
+  * interpolation with no acceleration or deceleration. It exists as a semantic indicator that
+  * the default easing behavior is being explicitly chosen.
+  *
+  * Using `def` instead of `linear` can make code intent clearer in contexts where you want to
+  * explicitly state "use the default behavior" rather than specifically requesting linear motion.
+  * However, both are functionally identical.
+  *
+  * This is the easing applied when no via() call is made in the tween builder.
+  *
+  * @code
+  * // These three tweens are functionally identical:
+  * auto t1 = tweeny::from(0).to(100).during(60U).build();  // Implicit default
+  * auto t2 = tweeny::from(0).to(100).via(easing::def).during(60U).build();
+  * auto t3 = tweeny::from(0).to(100).via(easing::linear).during(60U).build();
+  * @endcode
+  *
+  * @see linear For the primary documentation of this easing behavior
+  */
  inline constexpr detail::defaultEasing def{};
+
+ /**
+  * @brief Elastic easing with oscillating spring-like motion at the start.
+  *
+  * The `elasticIn` easing function creates a spring or elastic band effect that oscillates
+  * with increasing amplitude before reaching the starting point of the animation. The motion
+  * resembles pulling back an elastic band that vibrates as tension builds.
+  *
+  * The oscillation characteristics:
+  * - Multiple back-and-forth swings before the main motion begins
+  * - Amplitude increases as the animation progresses
+  * - Creates a "winding up" or "charging" effect
+  * - More pronounced than backIn's single overshoot
+  *
+  * This easing is particularly effective for:
+  * - **Magical or fantasy effects**: Spell charging, energy gathering
+  * - **Exaggerated cartoon animations**: Extreme anticipation and wind-up
+  * - **Attention-grabbing entrances**: Elements that need dramatic introduction
+  * - **Game power-ups**: Visual feedback for charging actions
+  * - **Playful UI elements**: Whimsical, high-energy interactions
+  *
+  * The elastic effect is more dramatic than back easing, making it suitable for contexts
+  * where strong visual emphasis or entertainment value is desired. It's less appropriate
+  * for subtle or professional interfaces.
+  *
+  * Mathematically, this uses a decaying sine wave with exponential amplitude growth.
+  *
+  * @warning This easing creates significant overshoot in both directions. Values will
+  * oscillate well beyond the start value in both positive and negative directions. Ensure
+  * your rendering system can handle these extreme values gracefully.
+  *
+  * @code
+  * // Magical charging effect before an action
+  * auto glow = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::elasticIn)
+  *   .during(45U)
+  *   .build();
+  *
+  * // The glow will oscillate negative before reaching 1.0f
+  * // producing a "charging" visual effect
+  * @endcode
+  *
+  * @see elasticOut For spring-like oscillation at the end
+  * @see elasticInOut For oscillation at both start and end
+  * @see backIn For a simpler single-overshoot alternative
+  */
  inline constexpr detail::elasticInEasing elasticIn{};
+
+ /**
+  * @brief Elastic easing with spring-like oscillation at the end.
+  *
+  * The `elasticOut` easing function creates a natural spring or rubber band effect that
+  * overshoots and oscillates around the target value before settling. This is one of the
+  * most visually distinctive and playful easings, mimicking real-world elastic physics.
+  *
+  * The oscillation characteristics:
+  * - Overshoots the target value multiple times
+  * - Amplitude decreases with each oscillation (damped motion)
+  * - Settles naturally at the final value
+  * - Creates a bouncy, energetic feel without the hard impacts of bounce easing
+  *
+  * This easing excels at:
+  * - **Playful UI animations**: Buttons, toggles, modal appearances
+  * - **Game elements**: Power-up notifications, achievement popups, score displays
+  * - **Cartoon-style motion**: Exaggerated, entertaining character movements
+  * - **Attention direction**: Drawing eyes to important elements
+  * - **Spring simulation**: Rubber bands, diving boards, springy objects
+  * - **Joyful interactions**: Adding personality to standard UI patterns
+  *
+  * ElasticOut is widely used in modern mobile UI design to add energy and delight to
+  * interactions. It's more pronounced than backOut but smoother than bounceOut.
+  *
+  * The spring feel makes animations memorable and adds perceived responsiveness, making
+  * interfaces feel "alive" rather than mechanical.
+  *
+  * Mathematically, this uses a decaying sine wave with exponentially decreasing amplitude.
+  *
+  * @warning Values will oscillate beyond the target in both directions before settling.
+  * For example, animating from 0 to 100 might temporarily reach 110, then 95, then 102,
+  * before settling at 100. Ensure clipping or overflow handling is appropriate.
+  *
+  * @code
+  * // Springy button press feedback
+  * auto scale = tweeny::from(1.0f)
+  *   .to(1.2f)
+  *   .via(easing::elasticOut)
+  *   .during(40U)
+  *   .build();
+  *
+  * // Scale will overshoot 1.2f (maybe 1.3f) then oscillate
+  * // down and up before settling at exactly 1.2f
+  *
+  * // Modal dialog with playful entrance
+  * auto opacity = tweeny::from(0.0f)
+  *   .to(1.0f)
+  *   .via(easing::elasticOut)
+  *   .during(50U)
+  *   .build();
+  * @endcode
+  *
+  * @see elasticIn For spring anticipation at the start
+  * @see elasticInOut For oscillation at both ends
+  * @see backOut For a subtler single-overshoot alternative
+  * @see bounceOut For a similar but impact-based bouncing effect
+  */
  inline constexpr detail::elasticOutEasing elasticOut{};
  inline constexpr detail::elasticInOutEasing elasticInOut{};
  inline constexpr detail::exponentialInEasing exponentialIn{};
