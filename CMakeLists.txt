@@ -106,8 +106,9 @@ if (TWEENY_BUILD_SINGLE_HEADER)
   include(cmake/GenerateSingleHeader.cmake)
 endif ()
 
-if (TWEENY_BUILD_SANDBOX)
-  add_executable(sandbox src/sandbox.cc)
+# Check for sandbox file existence and build if found
+if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/sandbox.cpp")
+  add_executable(sandbox src/sandbox.cpp)
   target_link_libraries(sandbox tweeny)
 
   # Enable very strict warnings and treat warnings as errors for the sandbox target
