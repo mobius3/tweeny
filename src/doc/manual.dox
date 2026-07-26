@@ -252,7 +252,7 @@ namespace tweeny {
  tween.jump(2);  // Jump to keyframe 2 (value: 200, frame: 200)
  @endcode
 
- @subsection return_values Return Values
+ @subsection nav_return_values Return Values
 
  All navigation methods (`step()`, `seek()`, `jump()`) return the current interpolated value(s):
 
