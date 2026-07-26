@@ -1,15 +1,7 @@
 var searchData=
 [
-  ['quadratic',['Quadratic',['../group__quadratic.html',1,'']]],
-  ['quadraticineasing',['quadraticInEasing',['../structtweeny_1_1easing_1_1quadraticInEasing.html',1,'tweeny::easing']]],
-  ['quadraticinouteasing',['quadraticInOutEasing',['../structtweeny_1_1easing_1_1quadraticInOutEasing.html',1,'tweeny::easing']]],
-  ['quadraticouteasing',['quadraticOutEasing',['../structtweeny_1_1easing_1_1quadraticOutEasing.html',1,'tweeny::easing']]],
-  ['quartic',['Quartic',['../group__quartic.html',1,'']]],
-  ['quarticineasing',['quarticInEasing',['../structtweeny_1_1easing_1_1quarticInEasing.html',1,'tweeny::easing']]],
-  ['quarticinouteasing',['quarticInOutEasing',['../structtweeny_1_1easing_1_1quarticInOutEasing.html',1,'tweeny::easing']]],
-  ['quarticouteasing',['quarticOutEasing',['../structtweeny_1_1easing_1_1quarticOutEasing.html',1,'tweeny::easing']]],
-  ['quintic',['Quintic',['../group__quintic.html',1,'']]],
-  ['quinticineasing',['quinticInEasing',['../structtweeny_1_1easing_1_1quinticInEasing.html',1,'tweeny::easing']]],
-  ['quinticinouteasing',['quinticInOutEasing',['../structtweeny_1_1easing_1_1quinticInOutEasing.html',1,'tweeny::easing']]],
-  ['quinticouteasing',['quinticOutEasing',['../structtweeny_1_1easing_1_1quinticOutEasing.html',1,'tweeny::easing']]]
+  ['jump_0',['jump',['../classtweeny_1_1tween_a42fd99dffbab3fc689f03dfb5b2b9e7c.html#a42fd99dffbab3fc689f03dfb5b2b9e7c',1,'tweeny::tween::jump()'],['../namespacetweeny_1_1event_a7eef1a5f60b04f08d7438806ac859cae.html#a7eef1a5f60b04f08d7438806ac859cae',1,'tweeny::event::jump']]],
+  ['jump_5ft_1',['jump_t',['../structtweeny_1_1detail_1_1event_1_1jump__t.html',1,'tweeny::detail::event']]],
+  ['jumping_2',['Seeking and Jumping',['../index.html#ex_seek',1,'']]],
+  ['jumping_20to_20keyframes_3',['Jumping to Keyframes',['../manual.html#jump',1,'']]]
 ];

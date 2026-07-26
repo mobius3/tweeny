@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jump',['jump',['../classtweeny_1_1tween_a3b138e2c71117483d8fb7f4d4fdac10c.html#a3b138e2c71117483d8fb7f4d4fdac10c',1,'tweeny::tween::jump()'],['../classtweeny_1_1tween_3_01T_01_4_a437596339537ef3fdff5e570f63b4611.html#a437596339537ef3fdff5e570f63b4611',1,'tweeny::tween&lt; T &gt;::jump()']]]
+  ['highest_5fframe_5fcount_0',['highest_frame_count',['../structtweeny_1_1detail_1_1key__frame_ab4dcd42a92fd8f8c4b2269432d1ac4d6.html#ab4dcd42a92fd8f8c4b2269432d1ac4d6',1,'tweeny::detail::key_frame']]]
 ];
