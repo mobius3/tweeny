@@ -3,82 +3,126 @@
     <img src="https://repology.org/badge/vertical-allrepos/tweeny.svg" alt="Packaging status" align="right" style="padding-left: 20px">
 </a>
 
-Tweeny is an inbetweening library designed for the creation of complex animations for games and other beautiful interactive software. It leverages features of modern C++ to empower developers with an intuitive API for declaring tweenings of any type of value, as long as they support arithmetic operations.
+Tweeny is a modern C++ inbetweening library for creating complex animations in games and other interactive software. It provides a type-safe, fluent API for declaring interpolations of any value that supports arithmetic operations.
 
-The goal of Tweeny is to provide means to create fluid interpolations when animating position, scale, rotation, frames or other values of screen objects, by setting their values as the tween starting point and then, after each tween step, plugging back the result.
+The goal of Tweeny is to make it easy to animate position, scale, rotation, color, or any other property: set the starting values, step the tween each frame, and plug the result back into your object.
 
 **It features**:
 
-- A descriptive and (hopefully) intuitive API,
-- 30+ easing functions,
-- Allows custom easing functions,
-- Multi-point tweening,
-- Simultaneous tween of heterogeneous value sets,
-- Timeline-like usage (allows seeking to any point),
-- Header-only
-- Zero external dependencies
-- Steps forwards or backwards :)
-- Accepts lambdas, functors and functions as step and seek callbacks
+- A fluent builder API with compile-time safety
+- 30+ easing functions, plus support for custom easings
+- Multi-point keyframe animations
+- Simultaneous tweening of heterogeneous value sets
+- Timeline-like control (`seek`, `jump`, backward stepping)
+- An event system for step, seek, completion, and keyframe transitions
+- Header-only, zero external dependencies
+- C++17
 
 **Obligatory hello world example**:
 
-Linearly interpolate character by character from the word *hello* to *world* in `50` steps:
+Linearly interpolate character by character from *hello* to *world* in `50` frames:
 
 ```cpp
-auto helloworld = tweeny::from('h','e','l','l','o').to('w','o','r','l','d').during(50);
+#include <tweeny/tweeny.h>
+
+auto helloworld = tweeny::from('h', 'e', 'l', 'l', 'o')
+                    .to('w', 'o', 'r', 'l', 'd')
+                    .during(50U)
+                    .build();
+
 for (int i = 0; i < 50; i++) {
-    for (char c : helloworld.step(1)) { printf("%c", c); }
-    printf("\n");
+    auto [w, o, r, l, d] = helloworld.step(1);
+    printf("%c%c%c%c%c\n", w, o, r, l, d);
 }
 ```
 
-Relevant code:
+A few more patterns:
 
-- **1**: create the tween instance starting with characters of the `hello` word, adds a tween target with the chars of the `world` word and specify it should reach it in `50` steps.
-- **3**: move the tween forward by one step. Use the return value of it (which ill be a `std::array<char, 5>` in this case) to set up a for loop iterating in each char, printing it.
+```cpp
+using tweeny::easing;
 
-## Installation methods:
+// Easing
+auto smooth = tweeny::from(0.0f)
+                  .to(100.0f)
+                  .via(easing::quadraticInOut)
+                  .during(60U)
+                  .build();
+
+// Multi-segment keyframe animation
+auto path = tweeny::from(0)
+                .to(50).via(easing::linear).during(30U)
+                .to(100).via(easing::bounceOut).during(30U)
+                .build();
+
+// Events
+auto tween = tweeny::from(0).to(100).during(60U).build();
+tween.on(tweeny::event::complete, [](auto& t) {
+    printf("done at %d\n", t.peek());
+    return tweeny::event::response::ok;
+});
+```
+
+## Migrating from 3.x
+
+Tweeny 4.x introduces breaking API changes. The previous README for version 3.x is kept in [README-3.md](README-3.md).
+
+Key differences:
+
+- `tweeny::from(...)` returns a **builder** — call `.build()` to get a tween
+- Durations use `uint32_t` (`60U`), steps use `int32_t` (negative values step backward)
+- Callbacks use `on(event::step, ...)` instead of `onStep()` / `onSeek()`
+- Multi-value tweens return `std::tuple` (use structured bindings)
+
+Build the Doxygen documentation (`-DTWEENY_BUILD_DOCUMENTATION=ON`) for the full migration guide.
+
+## Installation
 
 **Using your package manager**
 
 There are some packages for tweeny made by some great people. Repology has a list of them and their versions [here](https://repology.org/metapackage/tweeny/versions). Thanks, great people!
 
-**Not installing it**
+**Copying the `include/` folder**
 
-You just need to adjust your include path to point to the `include/` folder after you've cloned this repository.
+Tweeny is header-only. Copy `include/` into your project and include:
 
-**Copying the `include` folder:**
+```cpp
+#include <tweeny/tweeny.h>
+```
 
-Tweeny itself is a header only library. You can copy the `include/` folder into your project folder and then include from it: `#include "tweeny/tweeny.h"`
+**Single-header file**
 
-**Copying the `tweeny-<version>.h` header**
-
-Since version 3.1.1 tweeny releases include a single-header file with all the necessary code glued together. Simply drop it on your project and/or adjust the include path and then `#include "tweeny-3.1.1.h"`.
+Tweeny releases include a single-header file with all the necessary code glued together. Simply drop it on your project and/or adjust the include path and then `#include "tweeny-<version>.h"` (eg `#include "tweeny-4.0.0.h"`).
 
 **CMake subproject**
 
-This is useful if you are using CMake already. Copy the whole tweeny project and include it in a top-level `CMakeLists.txt` file and then use `target_link_libraries` to add it to your target:
-
-```
+```cmake
 add_subdirectory(tweeny)
-target_link_libraries(yourtarget tweeny)
+target_link_libraries(yourtarget PRIVATE tweeny::tweeny)
 ```
-This will add the `include/` folder to your search path, and you can `#include "tweeny.h"`.
 
-## Doxygen documentation
+This adds the `include/` directory to your target and requires C++17.
 
-This library is documented using Doxygen. If you intend to generate docs, specify the flag `TWEENY_BUILD_DOCUMENTATION` when generating CMake build files (e.g: `cmake .. -DTWEENY_BUILD_DOCUMENTATION=1`). You will need doxygen installed.
+## Documentation
+
+The library is documented with Doxygen. Build it with:
+
+```sh
+cmake -B build -DTWEENY_BUILD_DOCUMENTATION=ON
+cmake --build build --target doc
+```
+
+Easing function visualizations: [easings.net](http://easings.net/)
 
 ## Contributing
 
-Tweeny is open-source, meaning that it is open to modifications and contrubutions from the community (you are very much encouraged to do so!). However, we'd appreciate if you follow these guidelines:
+Tweeny is open-source and welcomes contributions. Please follow these guidelines:
 
 - Don't use `PascalCase` nor `snake_case` in names
-- Use `camelCase`, but try to avoid multi word names as hard as possible
+- Use `camelCase`, but try to avoid multi-word names as hard as possible
 - Document code using Doxygen
-- Implementation details should go inside `tweeny::detail` namespace.
+- Implementation details should go inside the `tweeny::detail` namespace
 - Template implementations should go into a `.tcc` file
 
-## Examples:
+## License
 
-Demo code showcasing some of Tweeny features can be seen in the [tweeny-demo](https://github.com/mobius3/tweeny-demos) repository. This repository also has instructions on how to build them.
+Tweeny is licensed under the MIT License. See [LICENSE](LICENSE).
