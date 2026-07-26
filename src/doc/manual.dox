@@ -239,7 +239,7 @@ namespace tweeny {
  @endcode
 
  seek() accepts an unsigned 32-bit integer (`uint32_t`) representing the absolute frame number. Values are clamped to the
- valid range `[0, total_duration]`.
+ valid frame range, from the first keyframe's position to the last keyframe's position.
 
  @subsection jump Jumping to Keyframes
 

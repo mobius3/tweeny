@@ -92,10 +92,8 @@ namespace tweeny {
 
  @b <b>Tweeny 4.x:</b> seek() only accepts `uint32_t` (absolute frame position)
  @code
- tween.seek(500U);  // Seek to frame 500
-
- // For percentage, calculate manually:
- tween.seek(static_cast<uint32_t>(tween.total_duration() * 0.5f));
+ auto tween = tweeny::from(0).to(100).during(1000U).build();
+ tween.seek(500U);  // Seek to frame 500 (50% of a 1000-frame tween)
  @endcode
 
  @subsection return_values Return Values
@@ -343,7 +341,7 @@ namespace tweeny {
 
  @b <b>Tweeny 4.x:</b>
  @code
- #include "tweeny.h"
+ #include <tweeny/tweeny.h>
 
  auto tween = tweeny::from(0, 0, 255)
               .to(640, 480, 0)

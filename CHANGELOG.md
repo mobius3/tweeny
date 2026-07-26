@@ -1,4 +1,21 @@
 # Tweeny Changelog
+- Version 4.0.0
+  - **Breaking:** Requires C++17
+  - **Breaking:** `tweeny::from()` returns a builder; call `.build()` to create a tween
+  - **Breaking:** Tweens are immutable after `build()` (keyframes, durations, and easings cannot be changed)
+  - **Breaking:** Durations must be `uint32_t` (`during(60U)`); `step()` accepts `int32_t` frame deltas only (no percentage mode)
+  - **Breaking:** `seek()` accepts `uint32_t` absolute frame positions only (no percentage mode)
+  - **Breaking:** Multi-value tweens return `std::tuple` instead of `std::array`
+  - **Breaking:** Callbacks use `on(event::…)` with `event::response` return values instead of `onStep()` / `onSeek()`
+  - **Breaking:** `forward()` / `backward()` removed; use negative `step()` values to move backward
+  - **Breaking:** Headers moved to `include/tweeny/`; include as `#include <tweeny/tweeny.h>`
+  - **Breaking:** Removed `easing::enumerated` and string-based `via("linear")` easing selection
+  - New event types: `complete`, `keyframeEnter`, `keyframeLeave`, `update`
+  - New methods: `peek()`, `peek(frame)`, `progress()`, `jump(keyframe)`
+  - Restructured internals under `tweeny::detail`; easing split into per-function headers
+  - Added Catch2 test suite and Doxygen manual with v3-to-v4 migration guide
+  - CMake: C++17 enforcement, `FILE_SET HEADERS`, optional tests and single-header target (via `uvx` + quom)
+
 - Version 3.2.1
   - Adds `<string>` as dependency
 

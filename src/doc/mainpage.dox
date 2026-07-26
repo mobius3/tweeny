@@ -31,7 +31,7 @@ int main() {
 
   // Step through the animation
   for (int i = 0; i < 60; i++) {
-    int value = tween.step();
+    int value = tween.step(1);
     // Use value...
   }
 
@@ -117,7 +117,7 @@ tween.on(tweeny::event::keyframeEnter, [](auto& tween, auto evt) {
 @code
 // Animate RGB color
 auto color = tweeny::from(255, 0, 0).to(0, 255, 0).during(120U).build();
-auto [r, g, b] = color.step();
+auto [r, g, b] = color.step(1);
 
 // Different easing per component
 auto position = tweeny::from(0.0f, 0.0f)
