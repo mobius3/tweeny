@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.23)
+
+if (NOT INPUT OR NOT OUTPUT)
+  message(FATAL_ERROR "DedupeLicense.cmake requires -DINPUT= and -DOUTPUT=")
+endif()
+
+file(READ "${CMAKE_CURRENT_LIST_DIR}/LICENSE_HEADER" TWEENY_LICENSE_HEADER)
+file(READ "${INPUT}" CONTENT)
+
+string(REPLACE "${TWEENY_LICENSE_HEADER}" "" CONTENT "${CONTENT}")
+string(PREPEND CONTENT "${TWEENY_LICENSE_HEADER}")
+file(WRITE "${OUTPUT}" "${CONTENT}")
