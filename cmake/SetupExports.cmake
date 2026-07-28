@@ -30,7 +30,7 @@ include(GNUInstallDirs)
 install(
     EXPORT TweenyTargets
     NAMESPACE tweeny::
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/tweeny
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/Tweeny
 )
 
 # Macro to write config

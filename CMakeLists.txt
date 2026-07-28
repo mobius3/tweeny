@@ -59,13 +59,14 @@ target_include_directories(tweeny INTERFACE
 target_sources(tweeny INTERFACE
   FILE_SET HEADERS
   BASE_DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/tweeny
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
   FILES
     include/tweeny/event.h
     include/tweeny/tweeny.h
     include/tweeny/tween.h
     include/tweeny/tween.tcc
     include/tweeny/easing.h
+    include/tweeny/detail/event.h
     include/tweeny/detail/interpolate.h
     include/tweeny/detail/key-frame.h
     include/tweeny/detail/tuple-utilities.h
