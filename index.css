@@ -9,8 +9,7 @@
     --orange-soft: #fff4e5;
     --border: rgba(137, 89, 173, 0.14);
     --shadow: 0 18px 50px rgba(72, 42, 104, 0.08);
-    --radius: 18px;
-    --radius-sm: 10px;
+    --radius: 0;
     --max-width: 760px;
 }
 
@@ -95,30 +94,20 @@ a:hover {
 .nav a {
     display: inline-flex;
     align-items: center;
-    padding: 0.55rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(8px);
+    padding: 0.35rem 0.5rem;
     color: var(--purple-dark);
     font-size: 0.95rem;
     font-weight: 600;
     text-decoration: none;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-    transition:
-        transform 160ms ease,
-        border-color 160ms ease,
-        background-color 160ms ease,
-        color 160ms ease,
-        box-shadow 160ms ease;
+    text-underline-offset: 0.22em;
+    transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 
 .nav a:hover {
-    transform: translateY(-1px);
-    border-color: rgba(249, 161, 45, 0.35);
-    background: var(--orange-soft);
-    color: #9a5d00;
-    box-shadow: 0 10px 24px rgba(249, 161, 45, 0.12);
+    color: var(--orange);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--orange);
 }
 
 .intro {
@@ -169,7 +158,6 @@ pre {
 
 pre code.hljs {
     padding: 1.1rem 1.15rem 1.2rem;
-    border-radius: 0 0 calc(var(--radius) - 1px) calc(var(--radius) - 1px);
     background: #faf8fc;
 }
 
@@ -199,11 +187,6 @@ pre code {
 @media (max-width: 640px) {
     .page {
         padding-top: 2.25rem;
-    }
-
-    .nav a {
-        flex: 1 1 calc(50% - 0.65rem);
-        justify-content: center;
     }
 
     .intro p,
