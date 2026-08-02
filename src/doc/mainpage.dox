@@ -1,5 +1,5 @@
 /**
-@mainpage Tweeny
+@mainpage Introduction
 
 Tweeny is a modern C++ inbetweening library designed for creating complex animations
 for games and other interactive software. It provides a type-safe, fluent API for

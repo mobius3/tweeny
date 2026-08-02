@@ -1,0 +1,122 @@
+/* Tweeny Doxygen theme overrides */
+
+@font-face {
+    font-family: "Iosevka Aile";
+    font-display: swap;
+    font-weight: 600;
+    font-style: normal;
+    src: url("fonts/IosevkaAile-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Iosevka Term Curly Slab Extended";
+    font-display: swap;
+    font-weight: 600;
+    font-style: normal;
+    src: url("fonts/IosevkaTermCurlySlab-ExtendedSemiBold.woff2") format("woff2");
+}
+
+html {
+    --font-family-normal: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-title: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-nav: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-monospace: "Iosevka Term Curly Slab Extended", ui-monospace, monospace;
+    --font-family-toc: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-search: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-tooltip: "Iosevka Aile", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.dark-mode) {
+        --font-family-normal: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-title: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-nav: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-monospace: "Iosevka Term Curly Slab Extended", ui-monospace, monospace;
+        --font-family-toc: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-search: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-tooltip: "Iosevka Aile", system-ui, sans-serif;
+    }
+}
+
+body,
+table,
+p,
+dl,
+div.contents,
+div.textblock {
+    font-weight: 600;
+    line-height: 1.65;
+}
+
+div.contents li {
+    line-height: 1.65;
+}
+
+#titlearea {
+    padding: 1.5rem 10px 1.25rem; /* horizontal padding matches #main-menu.sm-dox */
+}
+
+#projectalign {
+    padding-left: 9px; /* .sm-dox li 3px + link 6px — aligns with menu text */
+}
+
+#doc-content {
+    padding: 0 2rem 3rem;
+}
+
+div.contents {
+    margin-top: 1.5rem;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+div.header {
+    background: transparent;
+    border-bottom: none;
+}
+
+div.headertitle {
+    padding: 1rem 0 0.75rem;
+}
+
+div.headertitle > .title {
+    font-family: var(--font-family-normal);
+    font-size: 2em;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0 15px 0 0;
+    transition: text-shadow 0.5s linear;
+}
+
+pre,
+pre.fragment,
+.fragment,
+div.line,
+div.line *,
+span.tt,
+.memname,
+.memproto,
+.memtitle,
+.memtemplate,
+.permalink,
+code,
+code *,
+tt,
+tt * {
+    font-family: "Iosevka Term Curly Slab Extended", ui-monospace, monospace;
+    font-weight: 600;
+}
+
+pre,
+pre.fragment,
+div.line {
+    line-height: 1.6;
+}
+
+.memname,
+.memproto,
+.memtitle,
+.memtemplate,
+.permalink {
+    line-height: 1.5;
+}
