@@ -23,6 +23,7 @@ html {
     --tweeny-border: rgba(137, 89, 173, 0.14);
     --tweeny-shadow: 0 18px 50px rgba(72, 42, 104, 0.08);
     --tweeny-header-pad-x: 2rem;
+    --tweeny-text-muted: #5f5968;
 
     --font-family-normal: "Iosevka Aile", system-ui, sans-serif;
     --font-family-title: "Iosevka Aile", system-ui, sans-serif;
@@ -161,6 +162,7 @@ html {
         --tweeny-surface: #211c28;
         --tweeny-border: rgba(184, 143, 212, 0.2);
         --tweeny-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+        --tweeny-text-muted: #a89fb8;
 
         --font-family-normal: "Iosevka Aile", system-ui, sans-serif;
         --font-family-title: "Iosevka Aile", system-ui, sans-serif;
@@ -297,12 +299,18 @@ html {
 
 body,
 table,
+div,
 p,
 dl,
 div.contents,
 div.textblock {
     font-weight: 600;
+    font-size: 1.05rem;
     line-height: 1.65;
+}
+
+body {
+    color: var(--tweeny-text-muted);
 }
 
 div.contents li {
@@ -354,6 +362,11 @@ div.contents li {
 
     #main-menu.sm-dox > li > a {
         padding: 0 0.75rem 0 0;
+    }
+
+    /* Keep room for the absolutely positioned .sub-arrow (tabs.css: right:10px) */
+    #main-menu.sm-dox > li > a.has-submenu {
+        padding-right: 1.5rem;
     }
 
     #main-menu.sm-dox > li:first-child > a {
@@ -489,7 +502,9 @@ tt * {
 
 pre,
 pre.fragment,
-div.line {
+div.line,
+.fragment {
+    font-size: 0.92rem;
     line-height: 1.7;
 }
 
