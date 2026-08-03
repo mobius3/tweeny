@@ -106,6 +106,27 @@ target_link_libraries(yourtarget PRIVATE tweeny::tweeny)
 
 This adds the `include/` directory to your target and requires C++17.
 
+**CMake install + `find_package`**
+
+Install the headers and CMake package config, then consume Tweeny from another project:
+
+```sh
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build
+cmake --install build --prefix /path/to/prefix
+```
+
+```cmake
+find_package(Tweeny 4 CONFIG REQUIRED)
+target_link_libraries(yourtarget PRIVATE tweeny::tweeny)
+```
+
+Point CMake at the install prefix if needed (`CMAKE_PREFIX_PATH`). After linking `tweeny::tweeny`, include as usual:
+
+```cpp
+#include <tweeny/tweeny.h>
+```
+
 ## Documentation
 
 The library is documented with Doxygen. Build it with:

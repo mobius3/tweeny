@@ -51,7 +51,7 @@ add_library(tweeny::tweeny ALIAS tweeny)
 # Set up include directories
 target_include_directories(tweeny INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include/tweeny>
+  $<INSTALL_INTERFACE:include>
 )
 
 # Attach headers to the interface target for IDEs and installation
