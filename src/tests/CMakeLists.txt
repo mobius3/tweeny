@@ -24,6 +24,8 @@ add_executable(tweeny_tests
     easings/exponential.cpp
     easings/circular.cpp
     easings/elastic.cpp
+    easings/back.cpp
+    easings/bounce.cpp
 )
 
 target_compile_features(tweeny_tests PRIVATE cxx_std_17)
