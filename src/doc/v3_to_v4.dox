@@ -228,6 +228,12 @@ namespace tweeny {
    return tweeny::event::response::ok;
  });
 
+ // Triggered after any step(), seek(), or jump() (after the specific event, before complete)
+ tween.on(tweeny::event::update, [](auto& t) {
+   printf("Tween updated to: %d\n", t.peek());
+   return tweeny::event::response::ok;
+ });
+
  // Triggered when entering a new keyframe segment
  tween.on(tweeny::event::keyframeEnter, [](auto& t, auto evt) {
    printf("Entering keyframe %zu\n", evt.key_frame);
@@ -302,6 +308,7 @@ namespace tweeny {
 
  9. **Consider new event types**
     - Add `event::complete` callbacks for animation completion
+    - Add `event::update` for a single handler on any position change (`step`/`seek`/`jump`)
     - Add `event::keyframeEnter`/`event::keyframeLeave` for multi-point tweens
 
  @section example_migration Complete Migration Example
