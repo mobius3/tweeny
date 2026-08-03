@@ -24,7 +24,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Tweeny<span id="projectnumber">&#160;4.0.0</span>
+   <div id="projectname">Tweeny<span id="projectnumber">&#160;4.1.0</span>
    </div>
    <div id="projectbrief">A Tweening library for modern C++</div>
   </td>
@@ -188,7 +188,10 @@ $(function() {
 <div class="line"><a id="l01465" name="l01465"></a><span class="lineno"><a class="line" href="namespacetweeny_1_1easing_acb2fec3f04aac0a18ba1e7ea65096b82.html#acb2fec3f04aac0a18ba1e7ea65096b82"> 1465</a></span> <span class="keyword">inline</span> <span class="keyword">constexpr</span> detail::steppedEasing <a class="code hl_variable" href="namespacetweeny_1_1easing_acb2fec3f04aac0a18ba1e7ea65096b82.html#acb2fec3f04aac0a18ba1e7ea65096b82">stepped</a>{};</div>
 <div class="line"><a id="l01466" name="l01466"></a><span class="lineno"> 1466</span>}</div>
 <div class="line"><a id="l01467" name="l01467"></a><span class="lineno"> 1467</span> </div>
-<div class="line"><a id="l01468" name="l01468"></a><span class="lineno"> 1468</span><span class="preprocessor">#endif </span><span class="comment">//TWEENY_EASING_H</span></div>
+<div class="line"><a id="l01468" name="l01468"></a><span class="lineno"> 1468</span><span class="preprocessor">#include &quot;detail/easing/by-name.h&quot;</span></div>
+<div class="line"><a id="l01469" name="l01469"></a><span class="lineno"> 1469</span> </div>
+<div class="line"><a id="l01470" name="l01470"></a><span class="lineno"> 1470</span><span class="preprocessor">#endif </span><span class="comment">//TWEENY_EASING_H</span></div>
+<div class="line"><a id="l01471" name="l01471"></a><span class="lineno"> 1471</span> </div>
 <div class="ttc" id="anamespacetweeny_1_1easing_a0bccf927d4b5144ee5db50045ac7b603_html_a0bccf927d4b5144ee5db50045ac7b603"><div class="ttname"><a href="namespacetweeny_1_1easing_a0bccf927d4b5144ee5db50045ac7b603.html#a0bccf927d4b5144ee5db50045ac7b603">tweeny::easing::elasticIn</a></div><div class="ttdeci">constexpr detail::elasticInEasing elasticIn</div><div class="ttdoc">Elastic easing with oscillating spring-like motion at the start.</div><div class="ttdef"><b>Definition</b> easing.h:618</div></div>
 <div class="ttc" id="anamespacetweeny_1_1easing_a0e31f153f793594bd725453b534c6086_html_a0e31f153f793594bd725453b534c6086"><div class="ttname"><a href="namespacetweeny_1_1easing_a0e31f153f793594bd725453b534c6086.html#a0e31f153f793594bd725453b534c6086">tweeny::easing::quadraticIn</a></div><div class="ttdeci">constexpr detail::quadraticInEasing quadraticIn</div><div class="ttdoc">Quadratic polynomial easing (t²) with gentle acceleration.</div><div class="ttdef"><b>Definition</b> easing.h:993</div></div>
 <div class="ttc" id="anamespacetweeny_1_1easing_a2af3daefde149afcf2b84cc3d150f0b1_html_a2af3daefde149afcf2b84cc3d150f0b1"><div class="ttname"><a href="namespacetweeny_1_1easing_a2af3daefde149afcf2b84cc3d150f0b1.html#a2af3daefde149afcf2b84cc3d150f0b1">tweeny::easing::quinticIn</a></div><div class="ttdeci">constexpr detail::quinticInEasing quinticIn</div><div class="ttdoc">Quintic polynomial easing (t⁵) with very strong acceleration.</div><div class="ttdef"><b>Definition</b> easing.h:1220</div></div>
@@ -222,7 +225,7 @@ $(function() {
 <div class="ttc" id="anamespacetweeny_1_1easing_af8e5b01d48eeee97e1314e92589fe20c_html_af8e5b01d48eeee97e1314e92589fe20c"><div class="ttname"><a href="namespacetweeny_1_1easing_af8e5b01d48eeee97e1314e92589fe20c.html#af8e5b01d48eeee97e1314e92589fe20c">tweeny::easing::bounceInOut</a></div><div class="ttdeci">constexpr detail::bounceInOutEasing bounceInOut</div><div class="ttdoc">Bounce easing with bouncing at both start and end.</div><div class="ttdef"><b>Definition</b> easing.h:298</div></div>
 <div class="ttc" id="anamespacetweeny_1_1easing_af9fec1c2e2fffbdededa660d49332c08_html_af9fec1c2e2fffbdededa660d49332c08"><div class="ttname"><a href="namespacetweeny_1_1easing_af9fec1c2e2fffbdededa660d49332c08.html#af9fec1c2e2fffbdededa660d49332c08">tweeny::easing::bounceIn</a></div><div class="ttdeci">constexpr detail::bounceInEasing bounceIn</div><div class="ttdoc">Bounce easing simulating a ball bouncing with increasing height at the start.</div><div class="ttdef"><b>Definition</b> easing.h:209</div></div>
 <div class="ttc" id="anamespacetweeny_1_1easing_aff390cc17ea042e63f033d04f6dc56d2_html_aff390cc17ea042e63f033d04f6dc56d2"><div class="ttname"><a href="namespacetweeny_1_1easing_aff390cc17ea042e63f033d04f6dc56d2.html#aff390cc17ea042e63f033d04f6dc56d2">tweeny::easing::circularInOut</a></div><div class="ttdeci">constexpr detail::circularInOutEasing circularInOut</div><div class="ttdoc">Circular easing with smooth acceleration and deceleration.</div><div class="ttdef"><b>Definition</b> easing.h:416</div></div>
-<div class="ttc" id="anamespacetweeny_1_1easing_html"><div class="ttname"><a href="namespacetweeny_1_1easing.html">tweeny::easing</a></div><div class="ttdoc">Contains all built-in easing functions for controlling animation curves.</div></div>
+<div class="ttc" id="anamespacetweeny_1_1easing_html"><div class="ttname"><a href="namespacetweeny_1_1easing.html">tweeny::easing</a></div><div class="ttdoc">Contains all built-in easing functions for controlling animation curves.</div><div class="ttdef"><b>Definition</b> by-name.h:32</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

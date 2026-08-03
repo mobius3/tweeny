@@ -10,5 +10,7 @@ var searchData=
   ['bounceinout_7',['bounceInOut',['../namespacetweeny_1_1easing_af8e5b01d48eeee97e1314e92589fe20c.html#af8e5b01d48eeee97e1314e92589fe20c',1,'tweeny::easing']]],
   ['bounceout_8',['bounceOut',['../namespacetweeny_1_1easing_ad71b6a603f4ef1cf66bdced9e159890c.html#ad71b6a603f4ef1cf66bdced9e159890c',1,'tweeny::easing']]],
   ['build_9',['build',['../classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_ad2629ebb0af929e83ba7156425679897.html#ad2629ebb0af929e83ba7156425679897',1,'tweeny::tweeny_builder&lt; true, FirstValue, RemainingValues... &gt;::build() const &amp;'],['../classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4.html#ab31571334c3471a145660cf5a5922145',1,'tweeny::tweeny_builder&lt; true, FirstValue, RemainingValues... &gt;::build() &amp;&amp;']]],
-  ['builder_20pattern_10',['Builder Pattern',['../manual.html#builder_intro',1,'The Builder Pattern'],['../v3_to_v4.html#builder_pattern',1,'The Builder Pattern']]]
+  ['builder_20pattern_10',['Builder Pattern',['../manual.html#builder_intro',1,'The Builder Pattern'],['../v3_to_v4.html#builder_pattern',1,'The Builder Pattern']]],
+  ['byname_11',['byName',['../structtweeny_1_1easing_1_1byNameEasing_a2a829c960ac1d870f59204745c72db18.html#a2a829c960ac1d870f59204745c72db18',1,'tweeny::easing::byNameEasing::byName()'],['../namespacetweeny_1_1easing_a2a829c960ac1d870f59204745c72db18.html#a2a829c960ac1d870f59204745c72db18',1,'tweeny::easing::byName(std::string_view name)']]],
+  ['bynameeasing_12',['byNameEasing',['../structtweeny_1_1easing_1_1byNameEasing.html',1,'tweeny::easing']]]
 ];
