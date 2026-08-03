@@ -1,22 +1,21 @@
 # This cmake script is used to generate a single header file with all of tweeny
-find_package(Python 3.6 QUIET)
+find_program(UVX_EXECUTABLE NAMES uvx REQUIRED)
 
-if (NOT PYTHON_FOUND)
-  message(STATUS "Python 3.6 not found. Single-header include file will NOT be created")
-  return()
-endif()
+set(_single_header_dir "${CMAKE_CURRENT_BINARY_DIR}/single-header")
+set(_single_header_file "${_single_header_dir}/tweeny-${Tweeny_VERSION}.h")
+set(_single_header_tmp "${_single_header_file}.tmp")
 
-find_program(QUOM_EXECUTABLE NAMES quom)
-if (QUOM_EXECUTABLE-NOTFOUND)
-  message(STATUS "quom program not found. Install it with pip or easy_install")
-  return()
-endif()
-
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/single-header)
+file(MAKE_DIRECTORY "${_single_header_dir}")
 
 add_custom_target(single-header
-  COMMAND
-  ${QUOM_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/include/tweeny.h ${CMAKE_CURRENT_BINARY_DIR}/single-header/tweeny-${Tweeny_VERSION}.h
+  COMMAND ${UVX_EXECUTABLE} quom
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/tweeny/tweeny.h
+    ${_single_header_tmp}
+  COMMAND ${CMAKE_COMMAND}
+    -DINPUT=${_single_header_tmp}
+    -DOUTPUT=${_single_header_file}
+    -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/DedupeLicense.cmake
+  COMMAND ${CMAKE_COMMAND} -E remove ${_single_header_tmp}
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Generating single header file"
 )

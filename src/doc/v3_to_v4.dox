@@ -1,0 +1,394 @@
+namespace tweeny {
+/**
+ @page v3_to_v4 Migrating from Tweeny 3.x to 4.x
+
+ This guide helps you migrate code from Tweeny 3.x to 4.x. While the core concepts remain the same,
+ version 4 introduces significant API changes centered around a builder pattern and a new event system.
+
+ @section overview_changes Overview of Changes
+
+ The main changes in Tweeny 4.x are:
+ - **Builder Pattern:** tweeny::from now returns a builder; you must call `build()` to create a tween
+ - **Immutable Tweens:** Once built, keyframes, durations, and easings cannot be changed
+ - **New Event System:** Callbacks are now registered via `on()` with event types instead of `onStep()`/`onSeek()`
+ - **Type System Changes:** Duration and step parameters are now strongly typed (`uint32_t` and `int32_t`)
+ - **Return Value Changes:** Multi-value tweens now return tuples instead of arrays
+ - **New peek() Method:** Query values without changing tween state
+ - **Direction API Removed:** `forward()`/`backward()` removed; use negative steps instead
+
+ @section builder_pattern The Builder Pattern
+
+ @subsection builder_basic Basic Usage
+
+ @b <b>Tweeny 3.x:</b>
+ @code
+ auto tween = tweeny::from(0).to(100).during(100);
+ @endcode
+
+ @b <b>Tweeny 4.x:</b>
+ @code
+ auto tween = tweeny::from(0).to(100).during(100U).build();
+ @endcode
+
+ The key difference: you must explicitly call `build()` to create the tween. The builder is reusable:
+
+ @code
+ auto builder = tweeny::from(0).to(100).during(60U);
+ auto tween1 = builder.build();          // First tween
+ builder.to(200).during(120U);           // Add keyframe
+ auto tween2 = builder.build();          // Different tween (0→100→200)
+ @endcode
+
+ @subsection builder_compile_time Compile-Time Safety
+
+ Tweeny 4.x enforces that you call `to()` at least once before building:
+
+ @b <b>Tweeny 3.x:</b> (would create invalid tween)
+ @code
+ auto tween = tweeny::from(0).during(100);  // Creates tween with no target
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> (compilation error)
+ @code
+ // auto tween = tweeny::from(0).during(100U).build();  // ERROR: no to() called
+ auto tween = tweeny::from(0).to(100).during(100U).build();  // OK
+ @endcode
+
+ @section type_changes Type System Changes
+
+ @subsection duration_types Duration Types
+
+ @b <b>Tweeny 3.x:</b> Durations could be any unsigned integer type
+ @code
+ auto tween = tweeny::from(0).to(100).during(100);  // int literal
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> Durations must be `uint32_t` (use the `U` suffix)
+ @code
+ auto tween = tweeny::from(0).to(100).during(100U).build();  // uint32_t
+ @endcode
+
+ @subsection step_types Step Types
+
+ @b <b>Tweeny 3.x:</b> step() accepted floats (percentage) or integers (duration)
+ @code
+ tween.step(0.5f);  // Step by 50%
+ tween.step(10);    // Step by 10 units
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> step() only accepts `int32_t` (duration), no percentage mode
+ @code
+ tween.step(10);    // Step forward by 10 frames
+ tween.step(-5);    // Step backward by 5 frames
+ @endcode
+
+ @subsection seek_types Seek Types
+
+ @b <b>Tweeny 3.x:</b> seek() accepted floats (percentage) or integers (absolute position)
+ @code
+ tween.seek(0.5f);  // Seek to 50%
+ tween.seek(500);   // Seek to frame 500
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> seek() only accepts `uint32_t` (absolute frame position)
+ @code
+ auto tween = tweeny::from(0).to(100).during(1000U).build();
+ tween.seek(500U);  // Seek to frame 500 (50% of a 1000-frame tween)
+ @endcode
+
+ @subsection return_values Return Values
+
+ @b <b>Tweeny 3.x:</b> Multi-value tweens returned `std::array`
+ @code
+ auto tween = tweeny::from(0, 0).to(100, 200).during(100);
+ std::array<int, 2> values = tween.step(10);
+ int x = values[0];
+ int y = values[1];
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> Multi-value tweens return tuples (use structured bindings)
+ @code
+ auto tween = tweeny::from(0, 0).to(100, 200).during(100U).build();
+ auto [x, y] = tween.step(10);
+ @endcode
+
+ @section direction_changes Direction Changes
+
+ @b <b>Tweeny 3.x:</b> Used `forward()` and `backward()` to control direction
+ @code
+ tween.backward();
+ tween.step(10);  // Steps backward
+ tween.forward();
+ tween.step(10);  // Steps forward
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> Use signed integers with step()
+ @code
+ tween.step(-10);  // Steps backward by 10
+ tween.step(10);   // Steps forward by 10
+ @endcode
+
+ @section peek_method The peek() Method
+
+ Tweeny 4.x introduces `peek()` to query values without mutating state.
+
+ @b <b>Tweeny 3.x:</b> No direct equivalent; you had to step and track state manually
+ @code
+ auto tween = tweeny::from(0).to(100).during(100);
+ tween.seek(50);
+ // Get current value by stepping 0 (awkward)
+ int value = tween.step(0);
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> Use peek() for non-mutating queries
+ @code
+ auto tween = tweeny::from(0).to(100).during(100U).build();
+ tween.seek(50U);
+
+ int current = tween.peek();      // Get current value without changing state
+ int preview = tween.peek(75U);   // Preview value at frame 75 without seeking
+ @endcode
+
+ @section event_system Event System Changes
+
+ The callback system has been completely redesigned around an event-based architecture.
+
+ @subsection callback_registration Registration
+
+ @b <b>Tweeny 3.x:</b> Used `onStep()` and `onSeek()` methods
+ @code
+ auto tween = tweeny::from(0, 0).to(100, 200).during(100);
+
+ // Step callback accepting values
+ tween.onStep([](int x, int y) {
+   printf("Position: (%d, %d)\n", x, y);
+   return false;  // false = keep callback
+ });
+
+ // Step callback accepting tween reference
+ tween.onStep([](auto& t) {
+   return false;
+ });
+
+ // Step callback accepting both
+ tween.onStep([](auto& t, int x, int y) {
+   return false;
+ });
+
+ // Seek callback
+ tween.onSeek([](int x, int y) {
+   return false;
+ });
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> Use `on()` with event type tags
+ @code
+ auto tween = tweeny::from(0, 0).to(100, 200).during(100U).build();
+
+ // Step callback (receives tween reference)
+ tween.on(tweeny::event::step, [](auto& t) {
+   auto [x, y] = t.peek();
+   printf("Position: (%d, %d)\n", x, y);
+   return tweeny::event::response::ok;  // Keep callback
+ });
+
+ // Seek callback
+ tween.on(tweeny::event::seek, [](auto& t) {
+   return tweeny::event::response::ok;
+ });
+
+ // Jump callback (new in v4)
+ tween.on(tweeny::event::jump, [](auto& t) {
+   return tweeny::event::response::ok;
+ });
+ @endcode
+
+ @subsection callback_return_values Callback Return Values
+
+ @b <b>Tweeny 3.x:</b> Returned `bool`
+ @code
+ return true;   // Remove callback (one-shot)
+ return false;  // Keep callback
+ @endcode
+
+ @b <b>Tweeny 4.x:</b> Returns `event::response` enum
+ @code
+ return tweeny::event::response::unsubscribe;  // Remove callback
+ return tweeny::event::response::ok;            // Keep callback
+ @endcode
+
+ @subsection new_events New Event Types
+
+ Tweeny 4.x introduces several new event types:
+
+ @code
+ // Triggered when interpolation completes (reaches 100%)
+ tween.on(tweeny::event::complete, [](auto& t) {
+   printf("Animation finished!\n");
+   return tweeny::event::response::ok;
+ });
+
+ // Triggered after any step(), seek(), or jump() (after the specific event, before complete)
+ tween.on(tweeny::event::update, [](auto& t) {
+   printf("Tween updated to: %d\n", t.peek());
+   return tweeny::event::response::ok;
+ });
+
+ // Triggered when entering a new keyframe segment
+ tween.on(tweeny::event::keyframeEnter, [](auto& t, auto evt) {
+   printf("Entering keyframe %zu\n", evt.key_frame);
+   return tweeny::event::response::ok;
+ });
+
+ // Triggered when leaving a keyframe segment
+ tween.on(tweeny::event::keyframeLeave, [](auto& t, auto evt) {
+   printf("Leaving keyframe %zu\n", evt.key_frame);
+   return tweeny::event::response::ok;
+ });
+ @endcode
+
+ @subsection callback_signatures Callback Signature Changes
+
+ Tweeny 3.x callbacks could receive interpolated values directly. Tweeny 4.x callbacks always receive
+ a tween reference; use `peek()` to get values:
+
+ @b <b>Tweeny 3.x:</b>
+ @code
+ tween.onStep([](int x, int y) {  // Values passed directly
+   printf("x=%d, y=%d\n", x, y);
+   return false;
+ });
+ @endcode
+
+ @b <b>Tweeny 4.x:</b>
+ @code
+ tween.on(tweeny::event::step, [](auto& t) {  // Tween reference only
+   auto [x, y] = t.peek();  // Explicitly peek values
+   printf("x=%d, y=%d\n", x, y);
+   return tweeny::event::response::ok;
+ });
+ @endcode
+
+ @section migration_checklist Migration Checklist
+
+ Use this checklist to migrate your code:
+
+ 1. **Add `.build()` calls**
+    - Find all `tweeny::from(...)` chains
+    - Add `.build()` at the end to create the tween
+
+ 2. **Update duration literals**
+    - Change `during(100)` to `during(100U)`
+    - Ensure all duration values use `uint32_t`
+
+ 3. **Update step() calls**
+    - Remove percentage-based stepping (convert to frame counts)
+    - Use negative values for backward stepping instead of `backward()`
+
+ 4. **Update seek() calls**
+    - Remove percentage-based seeking (calculate frame from percentage manually)
+    - Add `U` suffix to all seek values: `seek(500)` → `seek(500U)`
+
+ 5. **Replace array destructuring with tuple destructuring**
+    - Change `std::array<T, N> v = tween.step(...)` to `auto [v1, v2, ...] = tween.step(...)`
+
+ 6. **Update callbacks**
+    - Replace `onStep(callback)` with `on(event::step, callback)`
+    - Replace `onSeek(callback)` with `on(event::seek, callback)`
+    - Change callback signatures to accept `auto& t` parameter
+    - Use `t.peek()` to get values inside callbacks
+    - Change `return true/false` to `return event::response::unsubscribe/ok`
+
+ 7. **Remove forward()/backward() calls**
+    - Replace with signed step values
+
+ 8. **Use peek() for non-mutating queries**
+    - Replace `step(0)` patterns with `peek()`
+    - Use `peek(frame)` to preview values at different positions
+
+ 9. **Consider new event types**
+    - Add `event::complete` callbacks for animation completion
+    - Add `event::update` for a single handler on any position change (`step`/`seek`/`jump`)
+    - Add `event::keyframeEnter`/`event::keyframeLeave` for multi-point tweens
+
+ @section example_migration Complete Migration Example
+
+ @b <b>Tweeny 3.x:</b>
+ @code
+ #include "tweeny.h"
+
+ auto tween = tweeny::from(0, 0, 255)
+              .to(640, 480, 0)
+              .during(2000)
+              .via(tweeny::easing::backOut);
+
+ tween.onStep([](int x, int y, int alpha) {
+   draw_sprite(x, y, alpha);
+   return false;
+ });
+
+ tween.onSeek([](int x, int y, int alpha) {
+   printf("Seeked to: %d, %d, %d\n", x, y, alpha);
+   return false;
+ });
+
+ // Animation loop
+ while (tween.progress() < 1.0f) {
+   tween.step(delta_time);
+   render();
+ }
+
+ // Reverse
+ tween.backward();
+ while (tween.progress() > 0.0f) {
+   tween.step(delta_time);
+   render();
+ }
+ @endcode
+
+ @b <b>Tweeny 4.x:</b>
+ @code
+ #include <tweeny/tweeny.h>
+
+ auto tween = tweeny::from(0, 0, 255)
+              .to(640, 480, 0)
+              .during(2000U)
+              .via(tweeny::easing::backOut)
+              .build();  // <-- Must call build()
+
+ tween.on(tweeny::event::step, [](auto& t) {
+   auto [x, y, alpha] = t.peek();  // <-- Use peek() to get values
+   draw_sprite(x, y, alpha);
+   return tweeny::event::response::ok;  // <-- New return type
+ });
+
+ tween.on(tweeny::event::seek, [](auto& t) {
+   auto [x, y, alpha] = t.peek();
+   printf("Seeked to: %d, %d, %d\n", x, y, alpha);
+   return tweeny::event::response::ok;
+ });
+
+ // Completion event (new in v4)
+ tween.on(tweeny::event::complete, [](auto& t) {
+   printf("Animation complete!\n");
+   return tweeny::event::response::ok;
+ });
+
+ // Animation loop
+ while (tween.progress() < 1.0f) {
+   tween.step(delta_time);  // delta_time is int32_t
+   render();
+ }
+
+ // Reverse (use negative steps instead of backward())
+ while (tween.progress() > 0.0f) {
+   tween.step(-delta_time);  // <-- Negative value steps backward
+   render();
+ }
+ @endcode
+
+ @section migration_done Done!
+
+ For detailed information on the new API, see the @ref manual.
+*/
+}
