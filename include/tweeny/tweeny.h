@@ -85,8 +85,8 @@ namespace tweeny {
     static size_t constexpr value_count = 1 + sizeof...(RemainingValues);
 
     public:
-      explicit tweeny_builder(FirstValue firstValue, RemainingValues... remainingValues) {
-        key_frames.emplace_back(firstValue, remainingValues...);
+      explicit tweeny_builder(FirstValue firstComponent, RemainingValues... remainingComponents) {
+        key_frames.emplace_back(firstComponent, remainingComponents...);
       }
 
       explicit tweeny_builder(key_frames_t && frames) : key_frames(std::move(frames)) {}
@@ -98,22 +98,22 @@ namespace tweeny {
        * Specifies the destination value(s) for the animation. After calling this,
        * you can configure easing and duration with via() and during().
        *
-       * @param firstValue Target value for the first component
-       * @param remainingValues Target values for remaining components (if multi-value tween)
+       * @param firstComponent Target value for the first component
+       * @param remainingComponents Target values for remaining components (if multi-value tween)
        * @return Builder in a configurable state (can call via(), during(), to(), or build())
        *
        * @code
        * auto t = tweeny::from(0).to(100).during(60U).build();
        * @endcode
        */
-      tweeny_builder<true, FirstValue, RemainingValues...> to(const FirstValue & firstValue, const RemainingValues &... remainingValues) & {
-        key_frames.emplace_back(firstValue, remainingValues...);
+      tweeny_builder<true, FirstValue, RemainingValues...> to(const FirstValue & firstComponent, const RemainingValues &... remainingComponents) & {
+        key_frames.emplace_back(firstComponent, remainingComponents...);
         return tweeny_builder<true, FirstValue, RemainingValues...>(key_frames);
       }
 
       /// @overload
-      tweeny_builder<true, FirstValue, RemainingValues...> to(const FirstValue & firstValue, const RemainingValues &... remainingValues) && {
-        key_frames.emplace_back(firstValue, remainingValues...);
+      tweeny_builder<true, FirstValue, RemainingValues...> to(const FirstValue & firstComponent, const RemainingValues &... remainingComponents) && {
+        key_frames.emplace_back(firstComponent, remainingComponents...);
         return tweeny_builder<true, FirstValue, RemainingValues...>(std::move(key_frames));
       }
 
@@ -138,8 +138,8 @@ namespace tweeny {
     static size_t constexpr value_count = 1 + sizeof...(RemainingValues);
 
     public:
-      explicit tweeny_builder(FirstValue firstValue, RemainingValues... remainingValues) {
-        key_frames.emplace_back(firstValue, remainingValues...);
+      explicit tweeny_builder(FirstValue firstComponent, RemainingValues... remainingComponents) {
+        key_frames.emplace_back(firstComponent, remainingComponents...);
       }
 
       explicit tweeny_builder(key_frames_t && frames) : key_frames(std::move(frames)) {}
@@ -151,8 +151,8 @@ namespace tweeny {
        * Call `to()` multiple times to create complex animations with multiple segments,
        * each with its own easing and duration.
        *
-       * @param firstValue Target value for the first component
-       * @param remainingValues Target values for remaining components
+       * @param firstComponent Target value for the first component
+       * @param remainingComponents Target values for remaining components
        * @return Reference to this builder for method chaining
        *
        * @code
@@ -165,14 +165,14 @@ namespace tweeny {
        *
        * @anchor builder_to
        */
-      tweeny_builder to(const FirstValue & firstValue, const RemainingValues &... remainingValues) & {
-        key_frames.emplace_back(firstValue, remainingValues...);
+      tweeny_builder to(const FirstValue & firstComponent, const RemainingValues &... remainingComponents) & {
+        key_frames.emplace_back(firstComponent, remainingComponents...);
         return tweeny_builder(key_frames);
       }
 
       /// @overload
-      tweeny_builder to(const FirstValue & firstValue, const RemainingValues &... remainingValues) && {
-        key_frames.emplace_back(firstValue, remainingValues...);
+      tweeny_builder to(const FirstValue & firstComponent, const RemainingValues &... remainingComponents) && {
+        key_frames.emplace_back(firstComponent, remainingComponents...);
         return tweeny_builder(std::move(key_frames));
       }
 
@@ -328,8 +328,8 @@ namespace tweeny {
    * This is the entry point for creating all tweens. It deduces types automatically
    * and supports single values, multiple values, and heterogeneous types.
    *
-   * @param first_value Initial value for the first component
-   * @param remaining_values Initial values for additional components (optional)
+   * @param firstComponent Initial value for the first component
+   * @param remainingComponents Initial values for additional components (optional)
    * @return A builder in the initial state (must call to() next)
    *
    * @code
@@ -344,8 +344,8 @@ namespace tweeny {
    * @endcode
    */
   template <typename FirstValue, typename... RemainingValues>
-  tweeny_builder<false, FirstValue, RemainingValues...> from(FirstValue first_value, RemainingValues... remaining_values) {
-    return tweeny_builder<false, FirstValue, RemainingValues...>(first_value, remaining_values...);
+  tweeny_builder<false, FirstValue, RemainingValues...> from(FirstValue firstComponent, RemainingValues... remainingComponents) {
+    return tweeny_builder<false, FirstValue, RemainingValues...>(firstComponent, remainingComponents...);
   }
 }
 
