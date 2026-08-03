@@ -29,6 +29,7 @@ add_executable(tweeny_tests
     easings/bounce.cpp
     easings/def.cpp
     easings/stepped.cpp
+    easings/by-name.cpp
 )
 
 target_compile_features(tweeny_tests PRIVATE cxx_std_17)
