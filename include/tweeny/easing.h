@@ -1465,4 +1465,7 @@ namespace tweeny::easing {
  inline constexpr detail::steppedEasing stepped{};
 }
 
+#include "detail/easing/by-name.h"
+
 #endif //TWEENY_EASING_H
+

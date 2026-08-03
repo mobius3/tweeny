@@ -27,7 +27,7 @@
 
 cmake_minimum_required(VERSION 3.23...3.28)
 cmake_policy(SET CMP0063 NEW)
-project(Tweeny LANGUAGES CXX VERSION 4.0.0)
+project(Tweeny LANGUAGES CXX VERSION 4.1.0)
 
 # Enforce C++17 for targets built in this project
 set(CMAKE_CXX_STANDARD 17)
@@ -73,6 +73,7 @@ target_sources(tweeny INTERFACE
     include/tweeny/detail/value-container.h
     include/tweeny/detail/easing/back.h
     include/tweeny/detail/easing/bounce.h
+    include/tweeny/detail/easing/by-name.h
     include/tweeny/detail/easing/circular.h
     include/tweeny/detail/easing/cubic.h
     include/tweeny/detail/easing/def.h

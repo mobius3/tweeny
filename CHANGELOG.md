@@ -1,4 +1,7 @@
 # Tweeny Changelog
+- Version 4.1.0
+  - Added `easing::byName` for runtime easing selection by identifier name
+
 - Version 4.0.0
   - **Breaking:** Requires C++17
   - **Breaking:** `tweeny::from()` returns a builder; call `.build()` to create a tween
