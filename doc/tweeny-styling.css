@@ -1,0 +1,541 @@
+/* Tweeny Doxygen theme — matches tweeny-gh-pages/index.css */
+
+@font-face {
+    font-family: "Iosevka Aile";
+    font-display: swap;
+    font-weight: 600;
+    font-style: normal;
+    src: url("fonts/IosevkaAile-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Iosevka Term Curly Slab Extended";
+    font-display: swap;
+    font-weight: 600;
+    font-style: normal;
+    src: url("fonts/IosevkaTermCurlySlab-ExtendedSemiBold.woff2") format("woff2");
+}
+
+html {
+    color-scheme: light dark;
+
+    --tweeny-surface: #ffffff;
+    --tweeny-border: rgba(137, 89, 173, 0.14);
+    --tweeny-shadow: 0 18px 50px rgba(72, 42, 104, 0.08);
+    --tweeny-header-pad-x: 2rem;
+    --tweeny-text-muted: #5f5968;
+
+    --font-family-normal: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-title: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-nav: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-monospace: "Iosevka Term Curly Slab Extended", ui-monospace, monospace;
+    --font-family-toc: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-search: "Iosevka Aile", system-ui, sans-serif;
+    --font-family-tooltip: "Iosevka Aile", system-ui, sans-serif;
+
+    --page-background-color: #f7f5fb;
+    --page-foreground-color: #2d2a32;
+    --page-link-color: #8959ad;
+    --page-visited-link-color: #8959ad;
+    --page-external-link-color: #6f4591;
+
+    --index-odd-item-bg-color: #ffffff;
+    --index-even-item-bg-color: #f7f5fb;
+    --index-header-color: #6f4591;
+    --index-separator-color: rgba(137, 89, 173, 0.2);
+
+    --header-background-color: #f7f5fb;
+    --header-separator-color: rgba(137, 89, 173, 0.14);
+    --group-header-separator-color: rgba(137, 89, 173, 0.14);
+    --group-header-color: #6f4591;
+
+    --footer-foreground-color: #5f5968;
+    --citation-label-color: #6f4591;
+
+    --title-background-color: #f7f5fb;
+    --title-separator-color: rgba(137, 89, 173, 0.14);
+
+    --blockquote-background-color: #ffffff;
+    --blockquote-border-color: rgba(137, 89, 173, 0.25);
+
+    --scrollbar-thumb-color: rgba(137, 89, 173, 0.35);
+    --scrollbar-background-color: #f7f5fb;
+
+    --icon-background-color: #8959ad;
+    --icon-foreground-color: #ffffff;
+    --icon-folder-open-fill-color: rgba(137, 89, 173, 0.2);
+    --icon-folder-fill-color: rgba(137, 89, 173, 0.12);
+    --icon-folder-border-color: #8959ad;
+    --icon-doc-fill-color: rgba(137, 89, 173, 0.12);
+    --icon-doc-border-color: #8959ad;
+
+    --memdecl-background-color: #ffffff;
+    --memdecl-foreground-color: #5f5968;
+    --memdecl-template-color: #8959ad;
+    --memdecl-border-color: rgba(137, 89, 173, 0.14);
+
+    --memdef-border-color: rgba(137, 89, 173, 0.2);
+    --memdef-title-background-color: #ffffff;
+    --memdef-proto-background-color: #faf8fc;
+    --memdef-proto-text-color: #2d2a32;
+    --memdef-param-name-color: #c82829;
+    --memdef-template-color: #8959ad;
+
+    --table-cell-border-color: rgba(137, 89, 173, 0.2);
+    --table-header-background-color: #6f4591;
+    --table-header-foreground-color: #ffffff;
+
+    --label-background-color: #8959ad;
+    --label-left-top-border-color: #6f4591;
+    --label-right-bottom-border-color: rgba(137, 89, 173, 0.2);
+    --label-foreground-color: #ffffff;
+
+    --nav-background-color: #f7f5fb;
+    --nav-foreground-color: #6f4591;
+    --nav-border-color: rgba(137, 89, 173, 0.14);
+    --nav-breadcrumb-separator-color: rgba(137, 89, 173, 0.14);
+    --nav-breadcrumb-active-bg: rgba(137, 89, 173, 0.08);
+    --nav-breadcrumb-color: #6f4591;
+    --nav-splitbar-bg-color: rgba(137, 89, 173, 0.1);
+    --nav-splitbar-handle-color: rgba(137, 89, 173, 0.35);
+    --nav-text-normal-color: #6f4591;
+    --nav-menu-button-color: #6f4591;
+    --nav-menu-background-color: #f7f5fb;
+    --nav-menu-foreground-color: #5f5968;
+    --nav-menu-active-bg: rgba(137, 89, 173, 0.1);
+    --nav-menu-active-color: #8959ad;
+    --nav-arrow-color: rgba(137, 89, 173, 0.45);
+    --nav-arrow-selected-color: #8959ad;
+
+    --sync-icon-border-color: rgba(137, 89, 173, 0.14);
+    --sync-icon-background-color: #f7f5fb;
+    --sync-icon-selected-background-color: rgba(137, 89, 173, 0.08);
+    --sync-icon-color: rgba(137, 89, 173, 0.35);
+    --sync-icon-selected-color: #8959ad;
+
+    --toc-background-color: #ffffff;
+    --toc-border-color: rgba(137, 89, 173, 0.14);
+    --toc-header-color: #6f4591;
+
+    --search-background-color: #ffffff;
+    --search-foreground-color: #5f5968;
+    --search-active-color: #2d2a32;
+    --search-filter-background-color: rgba(255, 255, 255, 0.92);
+    --search-filter-foreground-color: #2d2a32;
+    --search-filter-border-color: rgba(137, 89, 173, 0.2);
+    --search-filter-highlight-text-color: #ffffff;
+    --search-filter-highlight-bg-color: #8959ad;
+    --search-results-foreground-color: #6f4591;
+    --search-results-background-color: rgba(255, 255, 255, 0.95);
+    --search-results-border-color: rgba(137, 89, 173, 0.2);
+    --search-box-border-color: rgba(137, 89, 173, 0.25);
+
+    --code-keyword-color: #8959a8;
+    --code-type-keyword-color: #4271ae;
+    --code-flow-keyword-color: #f5871f;
+    --code-comment-color: #8e908c;
+    --code-preprocessor-color: #f5871f;
+    --code-string-literal-color: #718c00;
+    --code-char-literal-color: #008080;
+    --code-xml-cdata-color: #4d4d4c;
+    --fragment-foreground-color: #4d4d4c;
+    --fragment-background-color: #faf8fc;
+    --fragment-border-color: rgba(137, 89, 173, 0.14);
+    --fragment-lineno-background-color: #f0edf5;
+    --fragment-lineno-foreground-color: #5f5968;
+    --fragment-lineno-link-fg-color: #8959ad;
+    --fragment-lineno-link-bg-color: #e8e4ef;
+    --fragment-lineno-link-hover-fg-color: #f9a12d;
+    --fragment-lineno-link-hover-bg-color: #e8e4ef;
+
+    --tooltip-foreground-color: #2d2a32;
+    --tooltip-background-color: #ffffff;
+    --tooltip-arrow-background-color: #ffffff;
+    --tooltip-border-color: rgba(137, 89, 173, 0.2);
+    --tooltip-doc-color: #5f5968;
+    --tooltip-declaration-color: #718c00;
+    --tooltip-link-color: #8959ad;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.dark-mode) {
+        --tweeny-surface: #211c28;
+        --tweeny-border: rgba(184, 143, 212, 0.2);
+        --tweeny-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+        --tweeny-text-muted: #a89fb8;
+
+        --font-family-normal: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-title: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-nav: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-monospace: "Iosevka Term Curly Slab Extended", ui-monospace, monospace;
+        --font-family-toc: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-search: "Iosevka Aile", system-ui, sans-serif;
+        --font-family-tooltip: "Iosevka Aile", system-ui, sans-serif;
+
+        --page-background-color: #141118;
+        --page-foreground-color: #e8e4ef;
+        --page-link-color: #b88fd4;
+        --page-visited-link-color: #b88fd4;
+        --page-external-link-color: #d4b8e8;
+
+        --index-odd-item-bg-color: #211c28;
+        --index-even-item-bg-color: #141118;
+        --index-header-color: #d4b8e8;
+        --index-separator-color: rgba(184, 143, 212, 0.2);
+
+        --header-background-color: #141118;
+        --header-separator-color: rgba(184, 143, 212, 0.2);
+        --group-header-separator-color: rgba(184, 143, 212, 0.2);
+        --group-header-color: #d4b8e8;
+
+        --footer-foreground-color: #a89fb8;
+        --citation-label-color: #d4b8e8;
+
+        --title-background-color: #141118;
+        --title-separator-color: rgba(184, 143, 212, 0.2);
+
+        --blockquote-background-color: #211c28;
+        --blockquote-border-color: rgba(184, 143, 212, 0.25);
+
+        --scrollbar-thumb-color: rgba(184, 143, 212, 0.35);
+        --scrollbar-background-color: #141118;
+
+        --icon-background-color: #b88fd4;
+        --icon-foreground-color: #141118;
+        --icon-folder-open-fill-color: rgba(184, 143, 212, 0.2);
+        --icon-folder-fill-color: rgba(184, 143, 212, 0.12);
+        --icon-folder-border-color: #b88fd4;
+        --icon-doc-fill-color: rgba(184, 143, 212, 0.12);
+        --icon-doc-border-color: #b88fd4;
+
+        --memdecl-background-color: #211c28;
+        --memdecl-foreground-color: #a89fb8;
+        --memdecl-template-color: #b88fd4;
+        --memdecl-border-color: rgba(184, 143, 212, 0.2);
+
+        --memdef-border-color: rgba(184, 143, 212, 0.2);
+        --memdef-title-background-color: #211c28;
+        --memdef-proto-background-color: #1a1620;
+        --memdef-proto-text-color: #e8e4ef;
+        --memdef-param-name-color: #cc6666;
+        --memdef-template-color: #b88fd4;
+
+        --table-cell-border-color: rgba(184, 143, 212, 0.2);
+        --table-header-background-color: #6f4591;
+        --table-header-foreground-color: #e8e4ef;
+
+        --label-background-color: #8959ad;
+        --label-left-top-border-color: #b88fd4;
+        --label-right-bottom-border-color: rgba(184, 143, 212, 0.2);
+        --label-foreground-color: #e8e4ef;
+
+        --nav-background-color: #141118;
+        --nav-foreground-color: #d4b8e8;
+        --nav-border-color: rgba(184, 143, 212, 0.2);
+        --nav-breadcrumb-separator-color: rgba(184, 143, 212, 0.2);
+        --nav-breadcrumb-active-bg: rgba(184, 143, 212, 0.1);
+        --nav-breadcrumb-color: #d4b8e8;
+        --nav-splitbar-bg-color: rgba(184, 143, 212, 0.12);
+        --nav-splitbar-handle-color: rgba(184, 143, 212, 0.35);
+        --nav-text-normal-color: #d4b8e8;
+        --nav-menu-button-color: #d4b8e8;
+        --nav-menu-background-color: #141118;
+        --nav-menu-foreground-color: #a89fb8;
+        --nav-menu-active-bg: rgba(184, 143, 212, 0.12);
+        --nav-menu-active-color: #b88fd4;
+        --nav-arrow-color: rgba(184, 143, 212, 0.45);
+        --nav-arrow-selected-color: #b88fd4;
+
+        --sync-icon-border-color: rgba(184, 143, 212, 0.2);
+        --sync-icon-background-color: #141118;
+        --sync-icon-selected-background-color: rgba(184, 143, 212, 0.1);
+        --sync-icon-color: rgba(184, 143, 212, 0.35);
+        --sync-icon-selected-color: #b88fd4;
+
+        --toc-background-color: #211c28;
+        --toc-border-color: rgba(184, 143, 212, 0.2);
+        --toc-header-color: #d4b8e8;
+
+        --search-background-color: #211c28;
+        --search-foreground-color: #a89fb8;
+        --search-active-color: #e8e4ef;
+        --search-filter-background-color: #211c28;
+        --search-filter-foreground-color: #e8e4ef;
+        --search-filter-border-color: rgba(184, 143, 212, 0.2);
+        --search-filter-highlight-text-color: #141118;
+        --search-filter-highlight-bg-color: #b88fd4;
+        --search-results-background-color: #211c28;
+        --search-results-foreground-color: #d4b8e8;
+        --search-results-border-color: rgba(184, 143, 212, 0.2);
+        --search-box-border-color: rgba(184, 143, 212, 0.25);
+
+        --code-keyword-color: #b294bb;
+        --code-type-keyword-color: #81a2be;
+        --code-flow-keyword-color: #de935f;
+        --code-comment-color: #969896;
+        --code-preprocessor-color: #de935f;
+        --code-string-literal-color: #b5bd68;
+        --code-char-literal-color: #00e0f0;
+        --code-xml-cdata-color: #c5c8c6;
+        --fragment-foreground-color: #c5c8c6;
+        --fragment-background-color: #1a1620;
+        --fragment-border-color: rgba(184, 143, 212, 0.2);
+        --fragment-lineno-background-color: #141118;
+        --fragment-lineno-foreground-color: #a89fb8;
+        --fragment-lineno-link-fg-color: #b88fd4;
+        --fragment-lineno-link-bg-color: #211c28;
+        --fragment-lineno-link-hover-fg-color: #f9a12d;
+        --fragment-lineno-link-hover-bg-color: #211c28;
+
+        --tooltip-foreground-color: #e8e4ef;
+        --tooltip-background-color: #211c28;
+        --tooltip-arrow-background-color: #211c28;
+        --tooltip-border-color: rgba(184, 143, 212, 0.2);
+        --tooltip-doc-color: #a89fb8;
+        --tooltip-declaration-color: #b5bd68;
+        --tooltip-link-color: #b88fd4;
+    }
+}
+
+body,
+table,
+div,
+p,
+dl,
+div.contents,
+div.textblock {
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+
+body {
+    color: var(--tweeny-text-muted);
+}
+
+div.contents li {
+    line-height: 1.65;
+}
+
+#top {
+    margin: 0;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--tweeny-border);
+    background: var(--tweeny-surface);
+    box-shadow: none;
+    overflow: visible;
+    position: relative;
+    z-index: 200;
+}
+
+#titlearea {
+    padding: 1rem var(--tweeny-header-pad-x) 0.85rem;
+    margin: 0;
+    border-bottom: 1px solid var(--tweeny-border);
+    background: var(--tweeny-surface);
+}
+
+#projectalign {
+    padding-left: 0 !important;
+}
+
+#main-nav {
+    border-bottom: none;
+    background: var(--tweeny-surface);
+    overflow: visible;
+    position: relative;
+    z-index: 201;
+}
+
+#main-menu.sm-dox {
+    background: var(--tweeny-surface) !important;
+    padding: 0 var(--tweeny-header-pad-x) !important;
+    line-height: 36px;
+    overflow: visible;
+}
+
+@media (min-width: 768px) {
+    #main-menu.sm-dox > li {
+        padding: 0;
+    }
+
+    #main-menu.sm-dox > li > a {
+        padding: 0 0.75rem 0 0;
+    }
+
+    /* Keep room for the absolutely positioned .sub-arrow (tabs.css: right:10px) */
+    #main-menu.sm-dox > li > a.has-submenu {
+        padding-right: 1.5rem;
+    }
+
+    #main-menu.sm-dox > li:first-child > a {
+        padding-left: 0;
+    }
+}
+
+#main-menu.sm-dox ul {
+    z-index: 202;
+}
+
+.sm-dox {
+    background-color: var(--tweeny-surface);
+}
+
+#projectname {
+    color: #6f4591;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+#projectbrief {
+    color: #5f5968;
+    font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.dark-mode) #projectname {
+        color: #d4b8e8;
+    }
+
+    html:not(.dark-mode) #projectbrief {
+        color: #a89fb8;
+    }
+}
+
+#doc-content {
+    padding: 0 2rem 3rem;
+}
+
+div.contents {
+    margin-top: 1.5rem;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+div.header {
+    background: transparent;
+    border-bottom: none;
+}
+
+div.headertitle {
+    padding: 1rem 0 0.75rem;
+}
+
+div.headertitle > .title {
+    font-family: var(--font-family-normal);
+    font-size: 2em;
+    font-weight: 600;
+    line-height: normal;
+    margin: 0 15px 0 0;
+    color: #6f4591;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.dark-mode) div.headertitle > .title {
+        color: #d4b8e8;
+    }
+}
+
+a.el,
+a.el:visited,
+a.code,
+a.code:visited,
+a.line,
+a.line:visited,
+.contents a:not([class]),
+#nav-tree a,
+.sm-dox a {
+    transition: color 160ms ease;
+}
+
+a.el:hover,
+a.elRef:hover,
+a.code:hover,
+a.line:hover,
+.contents a:not([class]):hover,
+#nav-tree a:hover,
+.sm-dox a:hover {
+    color: #f9a12d !important;
+}
+
+.sm-dox a.current {
+    color: #f9a12d;
+}
+
+.sm-dox a,
+.sm-dox a:hover,
+.sm-dox ul a,
+.sm-dox ul a:hover,
+.sm-dox > li:first-child > a,
+.sm-dox > li:last-child > a,
+.sm-dox ul,
+#main-menu.sm-dox {
+    border-radius: 0 !important;
+}
+
+.sm-dox a:hover {
+    background-color: transparent !important;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: #f9a12d;
+}
+
+pre,
+pre.fragment,
+.fragment,
+div.line,
+div.line *,
+span.tt,
+.memname,
+.memproto,
+.memtitle,
+.memtemplate,
+.permalink,
+code,
+code *,
+tt,
+tt * {
+    font-family: "Iosevka Term Curly Slab Extended", ui-monospace, monospace;
+    font-weight: 600;
+}
+
+pre,
+pre.fragment,
+div.line,
+.fragment {
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+
+.memname,
+.memproto,
+.memtitle,
+.memtemplate,
+.permalink {
+    line-height: 1.5;
+}
+
+.fragment,
+pre.fragment,
+div.fragment {
+    border-radius: 0;
+    box-shadow: 0 18px 50px rgba(72, 42, 104, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.dark-mode) .fragment,
+    html:not(.dark-mode) pre.fragment,
+    html:not(.dark-mode) div.fragment {
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+}
+
+.memitem,
+.memproto,
+.memtitle,
+.fieldtable,
+.directory tr.even,
+.directory tr.odd {
+    border-radius: 0;
+}

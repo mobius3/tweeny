@@ -1,21 +1,8 @@
 var searchData=
 [
-  ['safety_0',['Compile-Time Safety',['../v3_to_v4.html#builder_compile_time',1,'']]],
-  ['seek_1',['seek',['../classtweeny_1_1tween_a1d0633606afdeaa64024b80318b5dcae.html#a1d0633606afdeaa64024b80318b5dcae',1,'tweeny::tween::seek()'],['../namespacetweeny_1_1event_a7d7ac673a17fb4e20eb598e1f92ff25f.html#a7d7ac673a17fb4e20eb598e1f92ff25f',1,'tweeny::event::seek']]],
-  ['seek_20types_2',['Seek Types',['../v3_to_v4.html#seek_types',1,'']]],
-  ['seek_5ft_3',['seek_t',['../structtweeny_1_1detail_1_1event_1_1seek__t.html',1,'tweeny::detail::event']]],
-  ['seeking_4',['Seeking',['../manual.html#seek',1,'']]],
-  ['seeking_20and_20jumping_5',['Seeking and Jumping',['../index.html#ex_seek',1,'']]],
-  ['signature_20changes_6',['Callback Signature Changes',['../v3_to_v4.html#callback_signatures',1,'']]],
-  ['sinusoidalin_7',['sinusoidalIn',['../namespacetweeny_1_1easing_abf545eaa90a6fa28224d93b9cb1616f0.html#abf545eaa90a6fa28224d93b9cb1616f0',1,'tweeny::easing']]],
-  ['sinusoidalinout_8',['sinusoidalInOut',['../namespacetweeny_1_1easing_a469c2ba8003f7fca2f521ff7e4c8378d.html#a469c2ba8003f7fca2f521ff7e4c8378d',1,'tweeny::easing']]],
-  ['sinusoidalout_9',['sinusoidalOut',['../namespacetweeny_1_1easing_a96f19b6ffa5de8cfd5547db91c132a0f.html#a96f19b6ffa5de8cfd5547db91c132a0f',1,'tweeny::easing']]],
-  ['start_10',['Quick Start',['../index.html#quickstart',1,'']]],
-  ['step_11',['step',['../classtweeny_1_1tween_a12f8eee754f60bd7caad854704f30da4.html#a12f8eee754f60bd7caad854704f30da4',1,'tweeny::tween::step()'],['../namespacetweeny_1_1event_afbdc993a41362432465908c76da7da4f.html#afbdc993a41362432465908c76da7da4f',1,'tweeny::event::step']]],
-  ['step_20types_12',['Step Types',['../v3_to_v4.html#step_types',1,'']]],
-  ['step_5ft_13',['step_t',['../structtweeny_1_1detail_1_1event_1_1step__t.html',1,'tweeny::detail::event']]],
-  ['stepped_14',['stepped',['../namespacetweeny_1_1easing_acb2fec3f04aac0a18ba1e7ea65096b82.html#acb2fec3f04aac0a18ba1e7ea65096b82',1,'tweeny::easing']]],
-  ['stepping_15',['Stepping',['../manual.html#step',1,'']]],
-  ['system_16',['Event System',['../manual.html#events',1,'']]],
-  ['system_20changes_17',['System Changes',['../v3_to_v4.html#event_system',1,'Event System Changes'],['../v3_to_v4.html#type_changes',1,'Type System Changes']]]
+  ['reference_0',['API Reference',['../index.html#api',1,'']]],
+  ['registration_1',['Registration',['../v3_to_v4.html#callback_registration',1,'']]],
+  ['resources_2',['Resources',['../index.html#resources',1,'']]],
+  ['response_3',['response',['../namespacetweeny_1_1event_a8ab7bcb35ce5bba05608c72da6b4a0d3.html#a8ab7bcb35ce5bba05608c72da6b4a0d3',1,'tweeny::event']]],
+  ['return_20values_4',['Return Values',['../v3_to_v4.html#callback_return_values',1,'Callback Return Values'],['../manual.html#nav_return_values',1,'Return Values'],['../v3_to_v4.html#return_values',1,'Return Values']]]
 ];

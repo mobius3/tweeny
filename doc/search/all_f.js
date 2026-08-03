@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['pattern_0',['Pattern',['../manual.html#builder_intro',1,'The Builder Pattern'],['../v3_to_v4.html#builder_pattern',1,'The Builder Pattern']]],
-  ['patterns_1',['Common Patterns',['../index.html#examples',1,'']]],
-  ['peek_2',['peek',['../classtweeny_1_1tween_aed90b15c46597ca90cc6d16bdbb5f992.html#aed90b15c46597ca90cc6d16bdbb5f992',1,'tweeny::tween::peek() const -&gt; tween_value_t'],['../classtweeny_1_1tween_ad363d5b77da07997c0fbd581d0874396.html#ad363d5b77da07997c0fbd581d0874396',1,'tweeny::tween::peek(uint32_t target_frame) const -&gt; tween_value_t']]],
-  ['peek_20method_3',['The peek() Method',['../v3_to_v4.html#peek_method',1,'']]],
-  ['peeking_20values_4',['Peeking Values',['../manual.html#peek',1,'']]],
-  ['point_20animations_5',['Multi-Point Animations',['../manual.html#multipoint',1,'']]],
-  ['position_6',['position',['../structtweeny_1_1detail_1_1key__frame_ac66edcab862b65e1d49ce97f9c74690c.html#ac66edcab862b65e1d49ce97f9c74690c',1,'tweeny::detail::key_frame']]],
-  ['progress_7',['progress',['../classtweeny_1_1tween_aea3afd448d4e9de87f3766f07d592782.html#aea3afd448d4e9de87f3766f07d592782',1,'tweeny::tween']]]
+  ['of_20changes_0',['Overview of Changes',['../v3_to_v4.html#overview_changes',1,'']]],
+  ['ok_1',['ok',['../namespacetweeny_1_1event_a8ab7bcb35ce5bba05608c72da6b4a0d3.html#a8ab7bcb35ce5bba05608c72da6b4a0d3a444bcb3a3fcf8389296c49467f27e1d6',1,'tweeny::event']]],
+  ['on_2',['on',['../classtweeny_1_1tween_ae73e1c0411fd83953eff62966662821c.html#ae73e1c0411fd83953eff62966662821c',1,'tweeny::tween::on(detail::event::step_t, Callback &amp;&amp;cb) -&gt; void'],['../classtweeny_1_1tween_ac16ea2c7fc6f14fbfd36b33f7c3efdfd.html#ac16ea2c7fc6f14fbfd36b33f7c3efdfd',1,'tweeny::tween::on(detail::event::seek_t, Callback &amp;&amp;cb) -&gt; void'],['../classtweeny_1_1tween_a248fe154447e200cc54a3f1fc3d72afc.html#a248fe154447e200cc54a3f1fc3d72afc',1,'tweeny::tween::on(detail::event::jump_t, Callback &amp;&amp;cb) -&gt; void'],['../classtweeny_1_1tween_a6292f8ee215980528784c1b295846a09.html#a6292f8ee215980528784c1b295846a09',1,'tweeny::tween::on(detail::event::complete_t, Callback &amp;&amp;cb) -&gt; void'],['../classtweeny_1_1tween_a4abbeafad09ea1f9f21ee622f3240374.html#a4abbeafad09ea1f9f21ee622f3240374',1,'tweeny::tween::on(detail::event::keyframeEnter_t, Callback &amp;&amp;cb) -&gt; void'],['../classtweeny_1_1tween_a6603a18536d3f86d11b380dfe2a29e37.html#a6603a18536d3f86d11b380dfe2a29e37',1,'tweeny::tween::on(detail::event::keyframeLeave_t, Callback &amp;&amp;cb) -&gt; void'],['../classtweeny_1_1tween_a9292f07c7d3a7e1e504c6977b0a7655d.html#a9292f07c7d3a7e1e504c6977b0a7655d',1,'tweeny::tween::on(detail::event::update_t, Callback &amp;&amp;cb) -&gt; void']]],
+  ['overview_20of_20changes_3',['Overview of Changes',['../v3_to_v4.html#overview_changes',1,'']]]
 ];

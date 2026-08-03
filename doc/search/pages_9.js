@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['key_20features_0',['Key Features',['../index.html#features',1,'']]],
-  ['keyframe_20callbacks_1',['Keyframe Callbacks',['../manual.html#keyframe_callbacks',1,'']]],
-  ['keyframes_2',['Jumping to Keyframes',['../manual.html#jump',1,'']]]
+  ['jumping_0',['Seeking and Jumping',['../index.html#ex_seek',1,'']]],
+  ['jumping_20to_20keyframes_1',['Jumping to Keyframes',['../manual.html#jump',1,'']]]
 ];

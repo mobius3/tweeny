@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['license_0',['License',['../index.html#license',1,'']]],
-  ['lifetime_1',['Callback Lifetime',['../manual.html#callback_lifetime',1,'']]],
-  ['listeners_2',['Event Listeners',['../index.html#ex_events',1,'']]]
+  ['key_20features_0',['Key Features',['../index.html#features',1,'']]],
+  ['keyframe_20callbacks_1',['Keyframe Callbacks',['../manual.html#keyframe_callbacks',1,'']]],
+  ['keyframes_2',['Jumping to Keyframes',['../manual.html#jump',1,'']]]
 ];
