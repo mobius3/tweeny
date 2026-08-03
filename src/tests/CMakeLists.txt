@@ -16,6 +16,12 @@ add_executable(tweeny_tests
     events/keyframe_leave.cpp
     events/update.cpp
     easings/linear.cpp
+    easings/quadratic.cpp
+    easings/cubic.cpp
+    easings/quartic.cpp
+    easings/quintic.cpp
+    easings/sinusoidal.cpp
+    easings/exponential.cpp
 )
 
 target_compile_features(tweeny_tests PRIVATE cxx_std_17)
