@@ -37,7 +37,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Setup variables and options
 option(TWEENY_BUILD_DOCUMENTATION "Attempts to build the documentation. You'll need doxygen and graphviz installed" OFF)
 option(TWEENY_BUILD_SINGLE_HEADER "Joins together all header files in a single one. Needs uv (https://docs.astral.sh/uv/) to run quom via uvx" OFF)
-option(TWEENY_BUILD_SANDBOX "Adds a 'sandbox' target that links to tweeny. Useful when exploring tweeny" OFF)
 option(TWEENY_BUILD_TESTS "Build Tweeny tests (requires Catch2 v3 to be findable via CMake)" OFF)
 
 # The library target
@@ -105,17 +104,4 @@ endif ()
 
 if (TWEENY_BUILD_SINGLE_HEADER)
   include(cmake/GenerateSingleHeader.cmake)
-endif ()
-
-# Check for sandbox file existence and build if found
-if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/src/sandbox.cpp")
-  add_executable(sandbox src/sandbox.cpp)
-  target_link_libraries(sandbox tweeny)
-
-  # Enable very strict warnings and treat warnings as errors for the sandbox target
-  target_compile_options(sandbox PRIVATE
-    $<$<CXX_COMPILER_ID:GNU,Clang>:-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast -Wcast-align -Woverloaded-virtual -Wnull-dereference -Wdouble-promotion -Wformat=2 -Wimplicit-fallthrough -Wswitch-enum -Wzero-as-null-pointer-constant -Wuseless-cast -Werror>
-    $<$<CXX_COMPILER_ID:AppleClang>:-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wold-style-cast -Wcast-align -Woverloaded-virtual -Wnull-dereference -Wformat=2 -Wimplicit-fallthrough -Wswitch-enum -Wzero-as-null-pointer-constant -Wuseless-cast -Werror>
-    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /permissive->
-  )
 endif ()
