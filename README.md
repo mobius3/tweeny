@@ -14,7 +14,7 @@ The goal of Tweeny is to make it easy to animate position, scale, rotation, colo
 - Multi-point keyframe animations
 - Simultaneous tweening of heterogeneous value sets
 - Timeline-like control (`seek`, `jump`, backward stepping)
-- An event system for step, seek, completion, and keyframe transitions
+- An event system for step, seek, jump, update, completion, and keyframe enter/leave
 - Header-only, zero external dependencies
 - C++17
 
@@ -56,6 +56,10 @@ auto path = tweeny::from(0)
 
 // Events
 auto tween = tweeny::from(0).to(100).during(60U).build();
+tween.on(tweeny::event::update, [](auto& t) {
+    printf("now at %d\n", t.peek());
+    return tweeny::event::response::ok;
+});
 tween.on(tweeny::event::complete, [](auto& t) {
     printf("done at %d\n", t.peek());
     return tweeny::event::response::ok;
