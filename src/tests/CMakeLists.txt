@@ -22,6 +22,7 @@ add_executable(tweeny_tests
     easings/quintic.cpp
     easings/sinusoidal.cpp
     easings/exponential.cpp
+    easings/circular.cpp
 )
 
 target_compile_features(tweeny_tests PRIVATE cxx_std_17)
