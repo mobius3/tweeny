@@ -8,6 +8,7 @@ add_executable(tweeny_tests
     tween/step.cpp
     tween/seek.cpp
     tween/jump.cpp
+    tween/navigation_consistency.cpp
     events/step.cpp
     events/seek.cpp
     events/jump.cpp
