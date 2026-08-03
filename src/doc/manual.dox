@@ -168,6 +168,20 @@ namespace tweeny {
 
  See tweeny::easing namespace documentation for all available easings, or visit http://easings.net for visualizations.
 
+ @subsubsection by_name Runtime Easing Selection
+
+ When the easing must be chosen at runtime (for example from configuration or user input),
+ use `easing::byName()`. It returns a callable usable with `via()`:
+
+ @code
+ auto tween = tweeny::from(0).to(100).during(60U)
+              .via(tweeny::easing::byName("cubicInOut"))
+              .build();
+ @endcode
+
+ Names match the identifier names exactly (`linear`, `cubicInOut`, `bounceOut`, …).
+ Unknown names throw `std::invalid_argument` at the call to `byName()`.
+
  @subsubsection custom_easing Custom Easing Functions
 
  You can provide custom easing functions as any callable matching the signature `T(float, T, T)`:
