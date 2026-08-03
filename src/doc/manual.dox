@@ -104,6 +104,10 @@ namespace tweeny {
  Every interpolation segment needs a duration. The `during()` method specifies how many units (typically frames or milliseconds)
  the interpolation should take to reach the target values. The duration is always an unsigned 32-bit integer (`uint32_t`).
 
+ Unlike a missing `to()`, omitting `during()` is **not** a compile-time error. The segment’s duration defaults to `0`, so both
+ keyframes sit at the same frame: `progress()` is always `1.0`, and `peek()` / `step()` / `seek()` / `jump()` keep returning the
+ **starting** values (never the target). Calling `during(0U)` is the same. Always call `during()` with a positive duration for
+ each segment you intend to animate.
  @code
  auto tween = tweeny::from(0).to(100).during(60U).build();
  @endcode
@@ -135,7 +139,7 @@ namespace tweeny {
  }
  @endcode
 
- By default, tweens use `easing::linear`. You can change this with the `via()` method, which must be called **after** `to()`.
+ By default, tweens use `easing::def` (an alias of `easing::linear`). You can change this with the `via()` method, which must be called **after** `to()`.
  Tweeny includes \ref tweeny::easing "30+ built-in easing functions":
 
  @code
@@ -285,6 +289,17 @@ namespace tweeny {
  int preview = tween.peek(75U);   // Preview value at frame 75, doesn't move tween
  @endcode
 
+ @subsection progress Progress
+
+ Use `progress()` to query how far the tween has advanced as a normalized `float` in `[0, 1]`.
+ Like `peek()`, it does not mutate the tween: `peek()` answers “what value?”, `progress()` answers “how far in time?”.
+
+ @code
+ auto tween = tweeny::from(0).to(100).during(100U).build();
+ tween.step(50);
+ float p = tween.progress();  // 0.5f
+ @endcode
+
  @section events Event System
 
  Tweeny provides an event system for reacting to interpolation lifecycle events. Register callbacks using the tween::on() method with
@@ -296,9 +311,13 @@ namespace tweeny {
  - `event::step` - Triggered after each `step()` call
  - `event::seek` - Triggered after each `seek()` call
  - `event::jump` - Triggered after each `jump()` call
+ - `event::update` - Triggered after any position change (`step`, `seek`, or `jump`)
  - `event::complete` - Triggered when the interpolation reaches the end (progress >= 1.0)
  - `event::keyframeEnter` - Triggered when transitioning into a new keyframe segment
  - `event::keyframeLeave` - Triggered when transitioning out of a keyframe segment
+
+ When several apply to the same call, they fire in this order:
+ `specific (step|seek|jump)` → `update` → `complete` (when complete applies).
 
  @subsection basic_callbacks Basic Callbacks
 
@@ -310,6 +329,12 @@ namespace tweeny {
  tween.on(tweeny::event::step, [](auto& t) {
    auto [x, y] = t.peek();
    printf("Position: (%d, %d), Progress: %.2f\n", x, y, t.progress());
+   return tweeny::event::response::ok;
+ });
+
+ // Fires after step/seek/jump, before complete when applicable
+ tween.on(tweeny::event::update, [](auto& t) {
+   printf("Tween updated to: %d\n", t.peek());
    return tweeny::event::response::ok;
  });
 
