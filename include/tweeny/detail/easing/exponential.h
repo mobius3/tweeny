@@ -31,6 +31,7 @@ namespace tweeny::detail {
   struct exponentialInEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
+      if (position == 0) return start;
       return static_cast<T>((end - start) * powf(2, 10 * (position - 1)) + start);
     }
 
@@ -43,6 +44,7 @@ namespace tweeny::detail {
   struct exponentialOutEasing {
     template <typename T>
     static T run(const float position, T start, T end) {
+      if (position == 1) return end;
       return static_cast<T>((end - start) * (-powf(2, -10 * position) + 1) + start);
     }
 
@@ -55,6 +57,8 @@ namespace tweeny::detail {
   struct exponentialInOutEasing {
     template <typename T>
     static T run(float position, T start, T end) {
+      if (position == 0) return start;
+      if (position == 1) return end;
       position *= 2;
       if (position < 1) {
         return static_cast<T>((end - start) / 2 * powf(2, 10 * (position - 1)) + start);
