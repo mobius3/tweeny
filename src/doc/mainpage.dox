@@ -3,7 +3,7 @@
 
 Tweeny is a modern C++ inbetweening library designed for creating complex animations
 for games and other interactive software. It provides a type-safe, fluent API for
-declaring interpolations (tweens) of any numeric type that supports arithmetic operations.
+declaring interpolations (tweens) of any type that supports arithmetic operations.
 
 @section features Key Features
 
@@ -13,7 +13,7 @@ declaring interpolations (tweens) of any numeric type that supports arithmetic o
 - **Heterogeneous types**: Mix different numeric types in a single tween
 - **Rich easing library**: Includes 30+ built-in easing functions
 - **Keyframe animations**: Create complex multi-segment animations
-- **Event system**: React to tween lifecycle events (start, step, end, keyframes)
+- **Event system**: React to tween lifecycle events (step, seek, jump, update, complete, keyframeEnter, keyframeLeave)
 - **Header-only**: Simple integration with no linking required
 - **Zero dependencies**: Only requires a C++17 compiler
 
