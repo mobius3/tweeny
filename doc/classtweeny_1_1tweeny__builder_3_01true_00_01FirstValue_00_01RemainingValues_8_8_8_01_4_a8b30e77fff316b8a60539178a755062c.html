@@ -86,16 +86,16 @@ $(function() {
           <tr><td class="navtab"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4.html#ab31571334c3471a145660cf5a5922145">build</a></span></td></tr>
           <tr><td class="navtab"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a4803e5559559bb7cc0819edd9af620a9.html#a4803e5559559bb7cc0819edd9af620a9">during</a></span></td></tr>
           <tr><td class="navtab"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_acc8fcac6df9d984955e4ff341b2608a8.html#acc8fcac6df9d984955e4ff341b2608a8">during</a></span></td></tr>
-          <tr><td class="navtabHL"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a38be687177a1d3b1548dc9f944e855e6.html#a38be687177a1d3b1548dc9f944e855e6">to</a></span></td></tr>
-          <tr><td class="navtab"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4.html#a296accb758e2f4e580a5c9468199eb72">to</a></span></td></tr>
+          <tr><td class="navtabHL"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a8b30e77fff316b8a60539178a755062c.html#a8b30e77fff316b8a60539178a755062c">to</a></span></td></tr>
+          <tr><td class="navtab"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4.html#a97775ee79dc4fef7a6737073e54a4758">to</a></span></td></tr>
           <tr><td class="navtab"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_afa6cab5d363c711c21b475582b999a55.html#afa6cab5d363c711c21b475582b999a55">via</a></span></td></tr>
           <tr><td class="navtab"><span class="label"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a61e13b5f54b6480bde14ef7c07329287.html#a61e13b5f54b6480bde14ef7c07329287">via</a></span></td></tr>
         </table>
       </div>
    </td>
    <td valign="top" class="mempage">
-<a id="a38be687177a1d3b1548dc9f944e855e6" name="a38be687177a1d3b1548dc9f944e855e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a38be687177a1d3b1548dc9f944e855e6">&#9670;&#160;</a></span>to()</h2>
+<a id="a8b30e77fff316b8a60539178a755062c" name="a8b30e77fff316b8a60539178a755062c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b30e77fff316b8a60539178a755062c">&#9670;&#160;</a></span>to()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -108,12 +108,12 @@ template&lt;typename FirstValue, typename... RemainingValues&gt; </div>
         <tr>
           <td class="memname">tweeny_builder to </td>
           <td>(</td>
-          <td class="paramtype">const FirstValue &amp;</td>          <td class="paramname"><span class="paramname"><em>firstValue</em></span>, </td>
+          <td class="paramtype">const FirstValue &amp;</td>          <td class="paramname"><span class="paramname"><em>firstComponent</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const RemainingValues &amp;...</td>          <td class="paramname"><span class="paramname"><em>remainingValues</em></span>&#160;) &amp;</td>
+          <td class="paramtype">const RemainingValues &amp;...</td>          <td class="paramname"><span class="paramname"><em>remainingComponents</em></span>&#160;) &amp;</td>
         </tr>
       </table>
   </td>
@@ -124,25 +124,25 @@ template&lt;typename FirstValue, typename... RemainingValues&gt; </div>
 </div><div class="memdoc">
 
 <p>Adds another keyframe to create multipoint animations. </p>
-<p>Call <span class="tt"><a class="el" href="#a38be687177a1d3b1548dc9f944e855e6" title="Adds another keyframe to create multipoint animations.">to()</a></span> multiple times to create complex animations with multiple segments, each with its own easing and duration.</p>
+<p>Call <span class="tt"><a class="el" href="#a8b30e77fff316b8a60539178a755062c" title="Adds another keyframe to create multipoint animations.">to()</a></span> multiple times to create complex animations with multiple segments, each with its own easing and duration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">firstValue</td><td>Target value for the first component </td></tr>
-    <tr><td class="paramname">remainingValues</td><td>Target values for remaining components </td></tr>
+    <tr><td class="paramname">firstComponent</td><td>Target value for the first component </td></tr>
+    <tr><td class="paramname">remainingComponents</td><td>Target values for remaining components </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Reference to this builder for method chaining</dd></dl>
 <div class="fragment"><div class="line"><span class="comment">// Three-point animation: 0 → 50 → 100</span></div>
-<div class="line"><span class="keyword">auto</span> t = <a class="code hl_function" href="namespacetweeny_a93587bac6446cd917e4a5a3e62631473.html#a93587bac6446cd917e4a5a3e62631473">tweeny::from</a>(0)</div>
-<div class="line">  .<a class="code hl_function" href="classtweeny_1_1tweeny__builder_3_01false_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a4b1a8b905da7d9fdc93bce157bf82347.html#a4b1a8b905da7d9fdc93bce157bf82347">to</a>(50).<a class="code hl_function" href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_afa6cab5d363c711c21b475582b999a55.html#afa6cab5d363c711c21b475582b999a55">via</a>(<a class="code hl_variable" href="namespacetweeny_1_1easing_ae693ea0d8d4a3d393f296ed19bcaf466.html#ae693ea0d8d4a3d393f296ed19bcaf466">easing::quadraticOut</a>).during(30U)</div>
+<div class="line"><span class="keyword">auto</span> t = <a class="code hl_function" href="namespacetweeny_a61687ad3a99c6f78085ca42c7f20fbcf.html#a61687ad3a99c6f78085ca42c7f20fbcf">tweeny::from</a>(0)</div>
+<div class="line">  .<a class="code hl_function" href="classtweeny_1_1tweeny__builder_3_01false_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a5e5390e16757a1f3a25286ba56c45606.html#a5e5390e16757a1f3a25286ba56c45606">to</a>(50).<a class="code hl_function" href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_afa6cab5d363c711c21b475582b999a55.html#afa6cab5d363c711c21b475582b999a55">via</a>(<a class="code hl_variable" href="namespacetweeny_1_1easing_ae693ea0d8d4a3d393f296ed19bcaf466.html#ae693ea0d8d4a3d393f296ed19bcaf466">easing::quadraticOut</a>).during(30U)</div>
 <div class="line">  .to(100).via(<a class="code hl_variable" href="namespacetweeny_1_1easing_ad71b6a603f4ef1cf66bdced9e159890c.html#ad71b6a603f4ef1cf66bdced9e159890c">easing::bounceOut</a>).during(30U)</div>
 <div class="line">  .build();</div>
-<div class="ttc" id="aclasstweeny_1_1tweeny__builder_3_01false_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a4b1a8b905da7d9fdc93bce157bf82347_html_a4b1a8b905da7d9fdc93bce157bf82347"><div class="ttname"><a href="classtweeny_1_1tweeny__builder_3_01false_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a4b1a8b905da7d9fdc93bce157bf82347.html#a4b1a8b905da7d9fdc93bce157bf82347">tweeny::tweeny_builder&lt; false, FirstValue, RemainingValues... &gt;::to</a></div><div class="ttdeci">tweeny_builder&lt; true, FirstValue, RemainingValues... &gt; to(const FirstValue &amp;firstValue, const RemainingValues &amp;... remainingValues) &amp;</div><div class="ttdoc">Adds a target keyframe to the tween.</div><div class="ttdef"><b>Definition</b> tweeny.h:109</div></div>
+<div class="ttc" id="aclasstweeny_1_1tweeny__builder_3_01false_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a5e5390e16757a1f3a25286ba56c45606_html_a5e5390e16757a1f3a25286ba56c45606"><div class="ttname"><a href="classtweeny_1_1tweeny__builder_3_01false_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_a5e5390e16757a1f3a25286ba56c45606.html#a5e5390e16757a1f3a25286ba56c45606">tweeny::tweeny_builder&lt; false, FirstValue, RemainingValues... &gt;::to</a></div><div class="ttdeci">tweeny_builder&lt; true, FirstValue, RemainingValues... &gt; to(const FirstValue &amp;firstComponent, const RemainingValues &amp;... remainingComponents) &amp;</div><div class="ttdoc">Adds a target keyframe to the tween.</div><div class="ttdef"><b>Definition</b> tweeny.h:109</div></div>
 <div class="ttc" id="aclasstweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_afa6cab5d363c711c21b475582b999a55_html_afa6cab5d363c711c21b475582b999a55"><div class="ttname"><a href="classtweeny_1_1tweeny__builder_3_01true_00_01FirstValue_00_01RemainingValues_8_8_8_01_4_afa6cab5d363c711c21b475582b999a55.html#afa6cab5d363c711c21b475582b999a55">tweeny::tweeny_builder&lt; true, FirstValue, RemainingValues... &gt;::via</a></div><div class="ttdeci">tweeny_builder &amp; via(EasingFunctionTypes... easing_functions)</div><div class="ttdoc">Specifies per-component easing functions for the last keyframe segment.</div><div class="ttdef"><b>Definition</b> tweeny.h:198</div></div>
 <div class="ttc" id="anamespacetweeny_1_1easing_ad71b6a603f4ef1cf66bdced9e159890c_html_ad71b6a603f4ef1cf66bdced9e159890c"><div class="ttname"><a href="namespacetweeny_1_1easing_ad71b6a603f4ef1cf66bdced9e159890c.html#ad71b6a603f4ef1cf66bdced9e159890c">tweeny::easing::bounceOut</a></div><div class="ttdeci">constexpr detail::bounceOutEasing bounceOut</div><div class="ttdoc">Bounce easing simulating a ball dropping and bouncing to rest.</div><div class="ttdef"><b>Definition</b> easing.h:259</div></div>
 <div class="ttc" id="anamespacetweeny_1_1easing_ae693ea0d8d4a3d393f296ed19bcaf466_html_ae693ea0d8d4a3d393f296ed19bcaf466"><div class="ttname"><a href="namespacetweeny_1_1easing_ae693ea0d8d4a3d393f296ed19bcaf466.html#ae693ea0d8d4a3d393f296ed19bcaf466">tweeny::easing::quadraticOut</a></div><div class="ttdeci">constexpr detail::quadraticOutEasing quadraticOut</div><div class="ttdoc">Quadratic polynomial easing (t²) with gentle deceleration.</div><div class="ttdef"><b>Definition</b> easing.h:1033</div></div>
-<div class="ttc" id="anamespacetweeny_a93587bac6446cd917e4a5a3e62631473_html_a93587bac6446cd917e4a5a3e62631473"><div class="ttname"><a href="namespacetweeny_a93587bac6446cd917e4a5a3e62631473.html#a93587bac6446cd917e4a5a3e62631473">tweeny::from</a></div><div class="ttdeci">tweeny_builder&lt; false, FirstValue, RemainingValues... &gt; from(FirstValue first_value, RemainingValues... remaining_values)</div><div class="ttdoc">Creates a new tween builder starting from the specified value(s).</div><div class="ttdef"><b>Definition</b> tweeny.h:347</div></div>
+<div class="ttc" id="anamespacetweeny_a61687ad3a99c6f78085ca42c7f20fbcf_html_a61687ad3a99c6f78085ca42c7f20fbcf"><div class="ttname"><a href="namespacetweeny_a61687ad3a99c6f78085ca42c7f20fbcf.html#a61687ad3a99c6f78085ca42c7f20fbcf">tweeny::from</a></div><div class="ttdeci">tweeny_builder&lt; false, FirstValue, RemainingValues... &gt; from(FirstValue firstComponent, RemainingValues... remainingComponents)</div><div class="ttdoc">Creates a new tween builder starting from the specified value(s).</div><div class="ttdef"><b>Definition</b> tweeny.h:347</div></div>
 </div><!-- fragment --><p><a class="anchor" id="builder_to"></a></p>
 
 </div>

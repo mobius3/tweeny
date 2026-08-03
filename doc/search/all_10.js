@@ -7,5 +7,6 @@ var searchData=
   ['peeking_20values_4',['Peeking Values',['../manual.html#peek',1,'']]],
   ['point_20animations_5',['Multi-Point Animations',['../manual.html#multipoint',1,'']]],
   ['position_6',['position',['../structtweeny_1_1detail_1_1key__frame_ac66edcab862b65e1d49ce97f9c74690c.html#ac66edcab862b65e1d49ce97f9c74690c',1,'tweeny::detail::key_frame']]],
-  ['progress_7',['progress',['../classtweeny_1_1tween_aea3afd448d4e9de87f3766f07d592782.html#aea3afd448d4e9de87f3766f07d592782',1,'tweeny::tween']]]
+  ['progress_7',['Progress',['../manual.html#progress',1,'']]],
+  ['progress_8',['progress',['../classtweeny_1_1tween_aea3afd448d4e9de87f3766f07d592782.html#aea3afd448d4e9de87f3766f07d592782',1,'tweeny::tween']]]
 ];
