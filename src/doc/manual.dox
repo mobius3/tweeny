@@ -314,6 +314,20 @@ namespace tweeny {
  float p = tween.progress();  // 0.5f
  @endcode
 
+ @subsection keyframe Current Keyframe
+
+ Use `keyframe()` to query which keyframe segment the tween is in, as a zero-based index. It is already updated when listeners
+ run, so it can be read from inside a step callback, which is handy when segment durations vary and `progress()` alone is not
+ enough to tell segments apart.
+
+ @code
+ auto tween = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
+ tween.step(10);
+ std::size_t k = tween.keyframe();  // 0
+ tween.step(25);
+ k = tween.keyframe();              // 1
+ @endcode
+
  @section events Event System
 
  Tweeny provides an event system for reacting to interpolation lifecycle events. Register callbacks using the tween::on() method with

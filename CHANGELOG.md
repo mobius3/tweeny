@@ -1,4 +1,7 @@
 # Tweeny Changelog
+- Version 4.2.0
+  - Added `tween::keyframe()` to query the current keyframe index (#52)
+
 - Version 4.1.0
   - Added `easing::byName` for runtime easing selection by identifier name
 

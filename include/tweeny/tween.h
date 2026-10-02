@@ -197,6 +197,29 @@ namespace tweeny {
       [[nodiscard]] auto progress() const -> float;
 
       /**
+       * @brief Returns the index of the keyframe segment the tween is currently in.
+       *
+       * The index identifies the keyframe the current frame has most recently reached or
+       * passed: `0` while between the first and second keyframes, `1` between the second
+       * and third, and so on. At the very end of the tween it is the index of the last
+       * keyframe, matching jump(). It is updated before any listener runs, so it is safe
+       * to read from inside step, seek, jump, update, and complete callbacks.
+       *
+       * @return Zero-based index of the current keyframe
+       *
+       * @code
+       * auto t = tweeny::from(0).to(50).during(30U).to(100).during(30U).build();
+       * t.on(event::step, [](auto& tween) {
+       *   printf("In keyframe %zu\n", tween.keyframe());
+       *   return event::response::ok;
+       * });
+       * t.step(10);  // Prints: "In keyframe 0"
+       * t.step(25);  // Prints: "In keyframe 1"
+       * @endcode
+       */
+      [[nodiscard]] auto keyframe() const -> std::size_t;
+
+      /**
        * @brief Registers a callback for step() events.
        *
        * The callback is invoked after each step() call. It receives a reference to
