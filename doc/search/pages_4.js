@@ -11,5 +11,6 @@ var searchData=
   ['compile_20time_20safety_8',['Compile-Time Safety',['../v3_to_v4.html#builder_compile_time',1,'']]],
   ['complete_20migration_20example_9',['Complete Migration Example',['../v3_to_v4.html#example_migration',1,'']]],
   ['creating_20tweens_10',['Creating Tweens',['../manual.html#creating',1,'']]],
-  ['custom_20easing_20functions_11',['Custom Easing Functions',['../manual.html#custom_easing',1,'']]]
+  ['current_20keyframe_11',['Current Keyframe',['../manual.html#keyframe',1,'']]],
+  ['custom_20easing_20functions_12',['Custom Easing Functions',['../manual.html#custom_easing',1,'']]]
 ];

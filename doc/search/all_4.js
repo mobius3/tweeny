@@ -19,5 +19,6 @@ var searchData=
   ['cubicin_16',['cubicIn',['../namespacetweeny_1_1easing_a7b397c447a49911273e5983a893436c7.html#a7b397c447a49911273e5983a893436c7',1,'tweeny::easing']]],
   ['cubicinout_17',['cubicInOut',['../namespacetweeny_1_1easing_a99fa867efc6ae4914038ed50ea926642.html#a99fa867efc6ae4914038ed50ea926642',1,'tweeny::easing']]],
   ['cubicout_18',['cubicOut',['../namespacetweeny_1_1easing_ac2254fbe98e315fc45a6fe2595006623.html#ac2254fbe98e315fc45a6fe2595006623',1,'tweeny::easing']]],
-  ['custom_20easing_20functions_19',['Custom Easing Functions',['../manual.html#custom_easing',1,'']]]
+  ['current_20keyframe_19',['Current Keyframe',['../manual.html#keyframe',1,'']]],
+  ['custom_20easing_20functions_20',['Custom Easing Functions',['../manual.html#custom_easing',1,'']]]
 ];
