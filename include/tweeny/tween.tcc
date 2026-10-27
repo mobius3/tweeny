@@ -323,4 +323,9 @@ auto tweeny::tween<FirstValueType, RemainingValueTypes...>::progress() const -> 
   return std::clamp(static_cast<float>(current_offset) / static_cast<float>(total_frames), 0.0f, 1.0f);
 }
 
+template <typename FirstValueType, typename... RemainingValueTypes>
+auto tweeny::tween<FirstValueType, RemainingValueTypes...>::keyframe() const -> std::size_t {
+  return current_keyframe_index;
+}
+
 #endif //TWEENY_TWEEN_TCC

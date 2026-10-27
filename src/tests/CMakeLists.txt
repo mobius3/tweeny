@@ -5,6 +5,7 @@ add_executable(tweeny_tests
     sanity.cpp
     tween/peek.cpp
     tween/progress.cpp
+    tween/keyframe.cpp
     tween/step.cpp
     tween/seek.cpp
     tween/jump.cpp
